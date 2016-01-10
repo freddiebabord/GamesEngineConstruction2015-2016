@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<level id="1">
+	<Background graphic="Resources/background.jpg"/>
+	<Player graphic="Resources/Galaxy.png" positionX="550" positionY="60" positionZ="5" name="Player" Type="Player"/>
+	
+	<Sprite graphic="Resources/borg cube.jpg" positionX="550" positionY="520" positionZ="4" name="AI" Type="AI"/>
+	
+	<Sprite graphic="Resources/asteroid.png" positionX="10" positionY="20" positionZ="2" Type="World"/>
+	<Sprite graphic="Resources/asteroid.png" positionX="50" positionY="90" positionZ="4" Type="World"/>
+	<Sprite graphic="Resources/asteroid.png" positionX="1050" positionY="720" positionZ="4" Type="World"/>
+	<Sprite graphic="Resources/asteroid.png" positionX="1050" positionY="720" positionZ="4" Type="World"/>
+	<Sprite graphic="Resources/asteroid.png" positionX="1050" positionY="720" positionZ="4" Type="World"/>
+	
+	<ParticleSystem spawnCount="500" lifetime="5">
+		<Component Type="Emission" EmissionRate="500" ColourR="255" ColourG="255" ColourB="255" spawnBoundsX="200" spawnBoundsY="200" spawnBoundsZ="200" randomSpawn="True" startSize="2"/>
+		<Component Type="Velocity" velocityX="-10.00" velocityY="0.00" velocityZ="0.00"/>
+		<Component Type="Renderer"/>
+	</ParticleSystem>
+</level>

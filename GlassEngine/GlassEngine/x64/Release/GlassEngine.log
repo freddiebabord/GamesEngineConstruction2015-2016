@@ -1,0 +1,52 @@
+﻿Build started 07/12/2015 14:52:08.
+     1>Project "F:\University\Year 2\Mem\Glass Engine v4\GlassEngine\GlassEngine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IHAPI /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt SpriteSheet.cpp
+         SpriteSheet.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IHAPI /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"precomp.h" /Fp"x64\Release\GlassEngine.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt Engine.cpp RenderManager.cpp main.cpp
+         Engine.cpp
+     1>f:\university\year 2\mem\glass engine v4\glassengine\SpriteSheet.h(9): warning C4099: 'GlassEngine::Animation' : type name first seen using 'class' now seen using 'struct'
+                 f:\university\year 2\mem\glass engine v4\glassengine\Engine.h(11) : see declaration of 'GlassEngine::Animation'
+     1>Engine.cpp(106): warning C4267: 'argument' : conversion from 'size_t' to 'const int', possible loss of data
+         RenderManager.cpp
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\University\Year 2\Mem\Glass Engine v4\x64\Release\GlassEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:HAPI HAPI64.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\University\Year 2\Mem\Glass Engine v4\x64\Release\GlassEngine.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\University\Year 2\Mem\Glass Engine v4\x64\Release\GlassEngine.lib" /MACHINE:X64 x64\Release\GlassEngine.res
+         x64\Release\Component.obj
+         x64\Release\Engine.obj
+         x64\Release\Game.obj
+         x64\Release\GameObject.obj
+         x64\Release\GPlayer.obj
+         x64\Release\InputManager.obj
+         x64\Release\Level.obj
+         x64\Release\main.obj
+         x64\Release\PhysicsManager.obj
+         x64\Release\precomp.obj
+         x64\Release\RenderManager.obj
+         x64\Release\Sprite.obj
+         x64\Release\SpriteSheet.obj
+         x64\Release\Transform.obj
+         x64\Release\pugixml.obj
+         Generating code
+         Finished generating code
+     1>HAPI64.lib(HapiMain.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiMain.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(stdafx.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(stdafx.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(Error.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(Error.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiCore.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiCore.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(PerfCounters.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(PerfCounters.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiRendererSDL.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiRendererSDL.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiSoundSDLMixer.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiSoundSDLMixer.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiInputOs.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiInputOs.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(ImageLoader.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(ImageLoader.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(FTFontManager.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(FTFontManager.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(FTFont.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(FTFont.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiOsSDL.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiOsSDL.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(SDL2GameController.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(SDL2GameController.obj)' or at 'F:\University\Year 2\Mem\Glass Engine v4\x64\Release\vc120.pdb'; linking object as if no debug info
+         GlassEngine.vcxproj -> F:\University\Year 2\Mem\Glass Engine v4\x64\Release\GlassEngine.exe
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"F:\University\Year 2\Mem\Glass Engine v4\x64\Release\GlassEngine.bsc" /n x64\Release\Component.sbr x64\Release\Engine.sbr x64\Release\Game.sbr x64\Release\GameObject.sbr x64\Release\GPlayer.sbr x64\Release\InputManager.sbr x64\Release\Level.sbr x64\Release\main.sbr x64\Release\PhysicsManager.sbr x64\Release\precomp.sbr x64\Release\RenderManager.sbr x64\Release\Sprite.sbr x64\Release\SpriteSheet.sbr x64\Release\Transform.sbr x64\Release\pugixml.sbr
+     1>Done Building Project "F:\University\Year 2\Mem\Glass Engine v4\GlassEngine\GlassEngine.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:53.36

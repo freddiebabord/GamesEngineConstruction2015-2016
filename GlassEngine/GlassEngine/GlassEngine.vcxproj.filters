@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Precomp">
+      <UniqueIdentifier>{ab424bb9-1ef9-4edf-92fd-427c6ab43791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{87cba2f0-75fa-40db-8abc-9143c87b2eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{d54bbe08-45d0-4179-b3a5-9bbc1153852d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Maths">
+      <UniqueIdentifier>{890c58e9-f0d5-4fde-830a-e0323ddf2601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Managers">
+      <UniqueIdentifier>{3a58d893-5aaa-461d-b332-c69ee3388425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Managers">
+      <UniqueIdentifier>{cc52172c-af45-4993-b8c2-e071951e307b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Physics">
+      <UniqueIdentifier>{d7eb6cbb-f036-4014-8423-e656c1327535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Physics">
+      <UniqueIdentifier>{abc2044b-5502-4e2e-b924-6a6a41d59953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\XML">
+      <UniqueIdentifier>{6a397355-ba9e-47ff-a0b9-3b6fa3939e96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\XML">
+      <UniqueIdentifier>{6cfe2404-4e62-48f0-bd33-990f4afaaad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Components">
+      <UniqueIdentifier>{a33c7325-2446-45ad-aa7b-8a856f9cc492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Components">
+      <UniqueIdentifier>{131a13ac-34d2-464a-8ebd-a89bfe9be6de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Maths">
+      <UniqueIdentifier>{68fcc88b-f36c-4e73-884c-3578e9d2d8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Game">
+      <UniqueIdentifier>{08bc036a-7bcc-4983-831c-c2a6b10d79d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Game">
+      <UniqueIdentifier>{52ee9cb9-e8d3-46ba-ae88-da2bdda43167}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp.cpp">
+      <Filter>Precomp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="XML\pugixml.cpp">
+      <Filter>Source Files\Core\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheet.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>Source Files\Core\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Core\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Core\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h">
+      <Filter>Precomp</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files\Core\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="MathConsts.h">
+      <Filter>Header Files\Core\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Core\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Files\Core\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="XML\pugiconfig.hpp">
+      <Filter>Header Files\Core\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="XML\pugixml.hpp">
+      <Filter>Header Files\Core\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheet.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Header Files\Core\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Core\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\background.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\borg cube.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\explosion.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Galaxy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Shield.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\GlassEngineEditor\Resources\borg cube.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\GlassEngineEditor\Resources\borg sphere.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\GlassEngineEditor\Resources\Galaxy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GlassEngine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

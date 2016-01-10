@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<level>
+  <Background graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\background.jpg" />
+  <Players>
+    <Player graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\Galaxy.png" positionX="297" positionY="765" positionZ="0" name="Player" health="100" type="Player" />
+    <Player graphic="F:\University\Year 2\Multimodal Interfaces for Games\Release\Resources\Galaxy.png" positionX="555" positionY="208" positionZ="0" name="Player" health="100" type="Player" />
+    <Player graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\Galaxy.png" positionX="533" positionY="1176" positionZ="0" name="Player" health="100" type="Player" />
+    <Player graphic="-" positionX="0" positionY="0" positionZ="0" name="Player" health="100" type="Player" />
+  </Players>
+  <AIs>
+    <AI graphic="-" positionX="0" positionY="0" positionZ="0" name="AI" health="100" type="AI" />
+  </AIs>
+  <Sprites>
+    <Sprite graphic="F:\University\Year 2\Multimodal Interfaces for Games\Release\Resources\planet.png" positionX="747" positionY="809" positionZ="0" name="Sprite" health="100" type="World" />
+    <Sprite graphic="F:\University\Year 2\Multimodal Interfaces for Games\Release\Resources\Shield.png" positionX="734" positionY="806" positionZ="0" name="Sprite" health="200" type="World" />
+    <Sprite graphic="F:\University\Year 2\Multimodal Interfaces for Games\Release\Resources\planet.png" positionX="1018" positionY="273" positionZ="0" name="Sprite" health="100" type="World" />
+    <Sprite graphic="F:\University\Year 2\Multimodal Interfaces for Games\Release\Resources\Shield.png" positionX="1010" positionY="284" positionZ="0" name="Sprite" health="200" type="World" />
+    <Sprite graphic="F:\University\Year 2\Multimodal Interfaces for Games\Release\Resources\borg cube.jpg" positionX="963" positionY="510" positionZ="0" name="Sprite" health="100" type="World" />
+  </Sprites>
+</level>

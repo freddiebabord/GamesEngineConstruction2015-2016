@@ -1,0 +1,55 @@
+﻿Build started 10/16/2015 9:46:27 PM.
+     1>Project "F:\GlassEngine\GlassEngine\GlassEngine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IHAPI /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
+         Main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\GlassEngine\Debug\GlassEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:HAPI HAPI_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\GlassEngine\Debug\GlassEngine.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\GlassEngine\Debug\GlassEngine.lib" /MACHINE:X86 /PROFILE Debug\GlassIncludes.obj
+         Debug\GlassObject.obj
+         Debug\GlassParticles.obj
+         Debug\GlassSprite.obj
+         Debug\Main.obj
+     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
+     1>GlassIncludes.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+     1>HAPI_debug.lib(Error.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(Error.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(FTFont.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(FTFont.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(FTFontManager.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(FTFontManager.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(HapiCore.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(HapiCore.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(HapiInputOs.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(HapiInputOs.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(HapiMain.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(HapiMain.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(HapiOsSDL.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(HapiOsSDL.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(HapiRendererSDL.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(HapiRendererSDL.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(HapiSoundSDLMixer.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(HapiSoundSDLMixer.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ImageLoader.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(ImageLoader.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(PerfCounters.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(PerfCounters.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(SDL2GameController.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(SDL2GameController.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(stdafx.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI_debug.lib(stdafx.obj)' or at 'F:\GlassEngine\Debug\vc120.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(winfnt.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(winfnt.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(type42.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(type42.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(type1cid.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(type1cid.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(type1.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(type1.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(truetype.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(truetype.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(sfnt.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(sfnt.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(raster.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(raster.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(psmodule.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(psmodule.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(pshinter.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(pshinter.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(psaux.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(psaux.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(pfr.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(pfr.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(pcf.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(pcf.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(smooth.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(smooth.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftsystem.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftsystem.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftlzw.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftlzw.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftinit.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftinit.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftgzip.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftgzip.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftdebug.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftdebug.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftbitmap.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftbitmap.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(ftbase.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(ftbase.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(cff.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(cff.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(bdf.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(bdf.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+     1>HAPI_debug.lib(autofit.obj) : warning LNK4099: PDB 'freetype26d.pdb' was not found with 'HAPI_debug.lib(autofit.obj)' or at 'F:\GlassEngine\Debug\freetype26d.pdb'; linking object as if no debug info
+         GlassEngine.vcxproj -> F:\GlassEngine\Debug\GlassEngine.exe
+     1>Done Building Project "F:\GlassEngine\GlassEngine\GlassEngine.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.75

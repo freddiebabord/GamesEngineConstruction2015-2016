@@ -14,8 +14,37 @@ namespace GlassEngine
 		Vector3<T>(Vector2<T> ixy, T iz) : x(ixy.x), y(ixy.y), z(iz){};
 		Vector3<T>(T ix, T iy, T iz) : x(ix), y(iy), z(iz){};
 
+		inline float Length()
+		{
+			return sqrt(x * x + y * y + z * z);
+		}
+
+		inline Vector3<T> Normalize()
+		{
+			Vector3<T> vector;
+			float length = this->Length();
+
+			if (length != 0)
+			{
+				vector.x = this->x / length;
+				vector.y = this->y / length;
+				vector.z = this->z / length;
+			}
+
+			return vector;
+		}
+
+		inline Vector3<T> Distance(const Vector3<T>& p2)
+		{
+			float dx = p2.x - this->x;
+			float dy = p2.y - this->y;
+			float dz = p2.z - this->z;
+
+			return sqrt((float)(dx * dx + dy * dy + dz * dz));
+		}
+
 		//Operator overloads
-		inline Vec3<T> operator=(const Vec3<T>& rhs)
+		inline Vector3<T> operator=(const Vector3<T>& rhs)
 		{
 			this->x = rhs.x;
 			this->y = rhs.y;
@@ -23,7 +52,7 @@ namespace GlassEngine
 			return *this;
 		}
 
-		inline Vec3<T> operator+=(const Vec3<T>& rhs)
+		inline Vector3<T> operator+=(const Vector3<T>& rhs)
 		{
 			this->x += rhs.x;
 			this->y += rhs.y;
@@ -31,7 +60,7 @@ namespace GlassEngine
 			return *this;
 		}
 
-		inline Vec3<T> operator-=(const Vec3<T>& rhs)
+		inline Vector3<T> operator-=(const Vector3<T>& rhs)
 		{
 			this->x -= rhs.x;
 			this->y -= rhs.y;
@@ -39,7 +68,7 @@ namespace GlassEngine
 			return *this;
 		}
 
-		inline Vec3<T> operator*=(const Vec3<T>& rhs)
+		inline Vector3<T> operator*=(const Vector3<T>& rhs)
 		{
 			this->x *= rhs.x;
 			this->y *= rhs.y;
@@ -47,7 +76,7 @@ namespace GlassEngine
 			return *this;
 		}
 
-		inline Vec3<T> operator/=(const Vec3<T>& rhs)
+		inline Vector3<T> operator/=(const Vector3<T>& rhs)
 		{
 			this->x /= rhs.x;
 			this->y /= rhs.y;
@@ -55,29 +84,29 @@ namespace GlassEngine
 			return *this;
 		}
 
-		inline Vec3<T> operator-(const Vec3<T>& rhs)
+		inline Vector3<T> operator-(const Vector3<T>& rhs)
 		{
-			return Vec3<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
+			return Vector3<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
 		}
 
-		inline Vec3<T> operator+(const Vec3<T>& rhs)
+		inline Vector3<T> operator+(const Vector3<T>& rhs)
 		{
-			return Vec3<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
+			return Vector3<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
 		}
 
-		inline Vec3<T> operator*(const Vec3<T>& rhs)
+		inline Vector3<T> operator*(const Vector3<T>& rhs)
 		{
-			return Vec3<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z);
+			return Vector3<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z);
 		}
 
-		inline Vec3<T> operator*(const T& rhs)
+		inline Vector3<T> operator*(const T& rhs)
 		{
-			return Vec3<T>(this->x * rhs, this->y * rhs, this->z * rhs);
+			return Vector3<T>(this->x * rhs, this->y * rhs, this->z * rhs);
 		}
 
-		inline Vec3<T> operator/(const Vec3<T>& rhs)
+		inline Vector3<T> operator/(const Vector3<T>& rhs)
 		{
-			return Vec3<T>(this->x / rhs.x, this->y / rhs.y, this->z * rhs.z);
+			return Vector3<T>(this->x / rhs.x, this->y / rhs.y, this->z * rhs.z);
 		}
 
 		// versions of vec3 variables

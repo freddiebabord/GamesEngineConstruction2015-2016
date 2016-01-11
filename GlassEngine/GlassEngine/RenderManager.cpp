@@ -1,6 +1,8 @@
 #include "precomp.h"
 #include "RenderManager.h"
+#include "Sprite.h"
 #include "SpriteSheet.h"
+
 namespace GlassEngine{
 
 	RenderManager *RenderManager::instance{ nullptr };

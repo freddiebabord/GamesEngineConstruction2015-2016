@@ -5,6 +5,7 @@
 
 namespace GlassEngine{
 
+
 	struct Animation
 	{
 		Animation(Vec2i newBoundary)
@@ -26,13 +27,20 @@ namespace GlassEngine{
 			LoadSprite(path);
 			individualSpriteSize = idvSpriteSize;
 		};
-		SpriteSheet(const std::string& path, Vec2i idvSpriteSize) : Component(path){
+		SpriteSheet(const std::string& path, Vec2i idvSpriteSize) : Component(){
+			id = SpriteSheetC;
 			LoadSprite(path);
 			individualSpriteSize = idvSpriteSize;
 		};
+
 		virtual ~SpriteSheet();
 
 		void Update() override final;
+
+		BYTE* GetImage();
+		bool LoadSprite(std::string path);
+		//Gets the Sprites dimentions in a Vec2 (width, height)
+		Vec2i GetSpriteDims();
 
 		const int GetRowCount(){ return rowCount; };
 		const Vec2i GetIdvSpriteDims();
@@ -47,6 +55,9 @@ namespace GlassEngine{
 		void Animate();
 
 	private:
+		BYTE* imageData = nullptr;
+		Vec2i spriteDims;
+
 		Vec2i individualSpriteSize = Vec2i(0);
 		int currentSprite = 0;
 		int rowCount = 1;

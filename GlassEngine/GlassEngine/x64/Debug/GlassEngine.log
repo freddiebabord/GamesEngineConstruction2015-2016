@@ -1,9 +1,33 @@
-﻿Build started 09/01/2016 16:11:10.
-     1>Project "U:\GitHub\GEC\ICA\GlassEngine\GlassEngine\GlassEngine.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         GlassEngine.vcxproj -> U:\GitHub\GEC\ICA\GlassEngine\x64\Debug\GlassEngine.exe
-     1>Done Building Project "U:\GitHub\GEC\ICA\GlassEngine\GlassEngine\GlassEngine.vcxproj" (Build target(s)).
+﻿Build started 11/01/2016 01:21:55.
+     1>Project "D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\GlassEngine\GlassEngine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IHAPI /IParticleSystem /ICore /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"precomp.h" /Fp"x64\Debug\GlassEngine.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /FR"x64\Debug\\" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Debug\GlassEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:HAPI HAPI_Debug64.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Debug\GlassEngine.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Debug\GlassEngine.lib" /MACHINE:X64 x64\Debug\GlassEngine.res
+         x64\Debug\Component.obj
+         x64\Debug\Engine.obj
+         x64\Debug\Game.obj
+         x64\Debug\GameObject.obj
+         x64\Debug\InputManager.obj
+         x64\Debug\Level.obj
+         x64\Debug\main.obj
+         x64\Debug\PhysicsManager.obj
+         x64\Debug\precomp.obj
+         x64\Debug\Rect.obj
+         x64\Debug\RenderManager.obj
+         x64\Debug\Rigidbody.obj
+         x64\Debug\Sprite.obj
+         x64\Debug\SpriteSheet.obj
+         x64\Debug\Time.obj
+         x64\Debug\Transform.obj
+         x64\Debug\Utility.obj
+         x64\Debug\pugixml.obj
+         GlassEngine.vcxproj -> D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Debug\GlassEngine.exe
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Debug\GlassEngine.bsc" /n x64\Debug\Component.sbr x64\Debug\Engine.sbr x64\Debug\Game.sbr x64\Debug\GameObject.sbr x64\Debug\InputManager.sbr x64\Debug\Level.sbr x64\Debug\main.sbr x64\Debug\PhysicsManager.sbr x64\Debug\precomp.sbr x64\Debug\Rect.sbr x64\Debug\RenderManager.sbr x64\Debug\Rigidbody.sbr x64\Debug\Sprite.sbr x64\Debug\SpriteSheet.sbr x64\Debug\Time.sbr x64\Debug\Transform.sbr x64\Debug\Utility.sbr x64\Debug\pugixml.sbr
+     1>Done Building Project "D:\Documents\GitHub\GamesEngineConstruction2015-2016\GlassEngine\GlassEngine\GlassEngine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.62
+Time Elapsed 00:00:03.75

@@ -6,6 +6,8 @@ namespace GlassEngine{
 
 	SpriteSheet::~SpriteSheet()
 	{
+		if (imageData != nullptr)
+			delete[] imageData;
 		animations.clear();
 	}
 
@@ -25,7 +27,6 @@ namespace GlassEngine{
 		Animate();
 	}
 
-
 	void SpriteSheet::Animate()
 	{
 		if (currentSprite < animations[currentAnimation].boundaries.start)
@@ -38,5 +39,25 @@ namespace GlassEngine{
 			animationTime = (float)HAPI->GetTime();
 			currentSprite++;
 		}
+	}
+
+	BYTE* SpriteSheet::GetImage()
+	{
+		return imageData;
+	}
+
+	bool SpriteSheet::LoadSprite(std::string path)
+	{
+		if (!HAPI->LoadTexture(path, &imageData, &spriteDims.width, &spriteDims.height))
+		{
+			HAPI->UserMessage("Error! Unable to load sprite!" + path, "Glass Engine");
+			return false;
+		}
+		return true;
+	}
+
+	Vec2i SpriteSheet::GetSpriteDims()
+	{
+		return spriteDims;
 	}
 }

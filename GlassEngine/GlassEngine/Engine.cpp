@@ -1,9 +1,9 @@
 #include "precomp.h"
 #include "Engine.h"
+#include "GameObject.h"
+#include "Sprite.h"
 #include "SpriteSheet.h"
 #include "Transform.h"
-
-//TO DO: TEST SPRITESHEET
 
 namespace GlassEngine{
 
@@ -92,7 +92,7 @@ namespace GlassEngine{
 				gos->isActive(true);
 				if (gos->GetSprite())
 					Renderer.Render(Player, gos->GetTransform()->GetPosition());
-				else if (gos->GetComponent(SpriteSheetC))
+				else if (gos->GetSpritesheet())
 					Renderer.Render(0, gos->GetTransform()->GetPosition(), gos->GetSpritesheet()->GetCurrentSprite());
 			}
 			else if (Input.WasControllerDisconnectedLastUpdate(gos->GetID()))

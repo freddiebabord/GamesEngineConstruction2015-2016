@@ -16,6 +16,25 @@ namespace GlassEngine
 		Vector2<T>(T ix) : x(ix), y(ix){};
 		Vector2<T>(T ix, T iy) : x(ix), y(iy){};
 
+		inline float Length()
+		{
+			return sqrt(x * x + y * y);
+		}
+
+		inline Vec2<T> Normalize()
+		{
+			Vec2<T> vector;
+			float length = this->Length();
+
+			if (length != 0)
+			{
+				vector.x = this->x / length;
+				vector.y = this->y / length;
+			}
+
+			return vector;
+		}
+
 		//Operator overloads
 		inline Vec2<T> operator=(const Vec2<T>& rhs)
 		{

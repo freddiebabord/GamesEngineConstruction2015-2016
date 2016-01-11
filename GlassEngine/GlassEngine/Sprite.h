@@ -25,7 +25,7 @@ namespace GlassEngine{
 		//Gets the Sprites dimentions in a Vec2 (width, height)
 		Vec2i GetSpriteDims();
 
-	protected:
+	private:
 		BYTE* imageData = nullptr;
 		Vec2i spriteDims;
 	};

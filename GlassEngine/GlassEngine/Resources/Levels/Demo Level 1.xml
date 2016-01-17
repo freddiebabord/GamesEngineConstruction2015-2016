@@ -2,32 +2,78 @@
 <level id="0">
   <Background graphic="Resources\background.jpg" />
   <Players>
-		<Player name="Player" health="50" type="Player">
+		<Player name="Player1" health="50" type="Player">
 			<Transform positionX="50" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="250"/> 
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200">
+				<Animation name="idle" start="0" end="4"/>
+				<Animation name="moveFwd" start="5" end="12"/>
+				<Animation name="moveRight" start="13" end="14"/>
+				<Animation name="moveLeft" start="15" end="16"/>
+				<Animation name="moveBack" start="17" end="21"/>
+			</SpriteSheet>
+			<GameObject name="Shield" type="GameObject">
+				<Transform positionX="50" positionY="50" positionZ="0"/>
+				<Sprite graphic="Resources\Shield.png"/>
+			</GameObject>
 		</Player>
-		<Player name="Player" health="50" type="Player">
+		<Player name="Player2" health="50" type="Player">
 			<Transform positionX="150" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="250"/> 
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200"> 
+				<Animation name="idle" start="0" end="4"/>
+				<Animation name="moveFwd" start="5" end="12"/>
+				<Animation name="moveRight" start="13" end="14"/>
+				<Animation name="moveLeft" start="15" end="16"/>
+				<Animation name="moveBack" start="17" end="21"/>
+			</SpriteSheet>
+			<GameObject name="Shield" type="GameObject">
+				<Transform positionX="50" positionY="50" positionZ="0"/>
+				<Sprite graphic="Resources\Shield.png"/>
+			</GameObject>
 		</Player>
-		<Player name="Player" health="50" type="Player">
+		<Player name="Player3" health="50" type="Player">
 			<Transform positionX="200" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="250"/> 
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200"> 
+				<Animation name="idle" start="0" end="4"/>
+				<Animation name="moveFwd" start="5" end="12"/>
+				<Animation name="moveRight" start="13" end="14"/>
+				<Animation name="moveLeft" start="15" end="16"/>
+				<Animation name="moveBack" start="17" end="21"/>
+			</SpriteSheet>
+			<GameObject name="Shield" type="GameObject">
+				<Transform positionX="50" positionY="50" positionZ="0"/>
+				<Sprite graphic="Resources\Shield.png"/>
+			</GameObject>
 		</Player>
-		<Player name="Player" health="50" type="Player">
+		<Player name="Player4" health="50" type="Player">
 			<Transform positionX="250" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<!-- <Sprite graphic="Resources\Galaxy.png"/> -->
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="250"/> 
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200"> 
+				<Animation name="idle" start="0" end="4"/>
+				<Animation name="moveFwd" start="5" end="12"/>
+				<Animation name="moveRight" start="13" end="14"/>
+				<Animation name="moveLeft" start="15" end="16"/>
+				<Animation name="moveBack" start="17" end="21"/>
+			</SpriteSheet>
+			<GameObject name="Shield" type="GameObject">
+				<Transform positionX="50" positionY="50" positionZ="0"/>
+				<Sprite graphic="Resources\Shield.png"/>
+			</GameObject>
 		</Player>
-  </Players>
+	</Players>
+	<World>
+		<GameObject name="Planet" type="World">
+			<Transform positionX="250" positionY="450" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\planet.png"/>
+			<Gravity type="Point" strength="1"/>
+		</GameObject>
+	</World>
   <!-- <Players graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\Galaxy_alt.png">
 		<Player  name="Player" health="180" type="Player">
 			<Transform positionX="808" positionY="937" positionZ="0"/>

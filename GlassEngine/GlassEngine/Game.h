@@ -23,6 +23,7 @@ namespace GlassEngine{
 		void Update() override;
 		void Stop() override;
 		
+		void DeleteLevels();
 		
 		std::shared_ptr<Level> loadLevel(char* name);
 		std::shared_ptr<Level> CurrentLevel();

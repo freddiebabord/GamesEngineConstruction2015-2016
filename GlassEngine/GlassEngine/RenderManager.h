@@ -44,7 +44,7 @@ namespace GlassEngine{
 		//Overide the base class' start stop and update functions
 		void Start() override{};
 		void Start(int Width = 0, int Height = 0, bool fullscreen = true);
-		void Update() override{};
+		void Update() override;
 		void Stop() override;
 
 		// Clear the screen to a blanket colour by copying all of the pixels that were already set and then pasting them into the next set of the array. Fills the screen exponentially.
@@ -60,6 +60,9 @@ namespace GlassEngine{
 		//int idvSpriteIndex: The index of the sprite frame for the spritesheet 
 		//Vec3 renderPos: The position in 3D space the image should be rendered at
 		void Render(const int& spriteIndex, const Vec3i& renderPos, const int& idvSpriteIndex);
+
+		void Render(const std::shared_ptr<Sprite> spriteIndex, const Vec3i& renderPos);
+		void Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3i& renderPos, const int& idvSpriteIndex);
 
 		//Dirty Recatngles - clears a portion of the screen, based off of the screen position and size of the rectangle to render from
 		void RenderDR(const Vec2i& pos, const Vec2i& size);

@@ -34,4 +34,5 @@ namespace GlassEngine{
 	{
 		return spriteDims;
 	}
+
 }

@@ -6,15 +6,17 @@
 
 
 namespace GlassEngine{
+	
 	class CPlayer;
-class GameManager;
+
+	class GameManager;
 
 	class Level
 	{
 	public:
 		Level(){};
 		Level(GameManager* game_, char* levelName_) :game(game_), levelName(levelName_){};
-		~Level(){ gameObjects.clear(); };
+		~Level(){ gameObjects.clear(); players.clear(); };
 
 		void SetID(int newID){ id = newID; };
 		const int GetID() { return id; };
@@ -23,6 +25,7 @@ class GameManager;
 		void AddGameObject(std::shared_ptr<GameObject> newGameObject){ gameObjects.push_back(newGameObject); };
 		void AddPlayer(std::shared_ptr<CPlayer> newGameObject){ players.push_back(newGameObject); };
 		char* GetLevelName() { return levelName; };
+		void DeleteLevel();
 
 	private:
 		GameManager* game = nullptr;

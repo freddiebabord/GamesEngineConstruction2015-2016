@@ -21,7 +21,7 @@ namespace GlassEngine{
 
 	void PhysicsManager::Update()
 	{
-		for (int i = 0; i < colliders.size(); i++)
+		/*for (int i = 0; i < colliders.size(); i++)
 		{
 			for (int j = 0; j < colliders.size(); j++)
 			{
@@ -29,7 +29,8 @@ namespace GlassEngine{
 				{
 					if (colliders[i]->GetColliderRect().CheckState(colliders[j]->GetColliderRect()) != RectStates::Separated)
 					{
-						rigidbodies[i]->hasCollided(false);
+						if (i < rigidbodies.size())
+							rigidbodies[i]->hasCollided(true);
 					}
 				}
 			}
@@ -39,11 +40,17 @@ namespace GlassEngine{
 		{
 			if (r->IsEnabled())
 				r->Update();
-		}
+		}*/
 	}
 
 	void PhysicsManager::Stop()
 	{
+		for (auto c : colliders)
+			c = nullptr;
+		for (auto r : rigidbodies)
+			r = nullptr;
+
+		colliders.clear();
 		rigidbodies.clear();
 
 		//Delete the instance of the rendering manager

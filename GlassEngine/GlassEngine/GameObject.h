@@ -15,7 +15,7 @@ namespace GlassEngine{
 	public:
 		GameObject();
 		GameObject(int id_);
-		~GameObject();
+		virtual ~GameObject();
 
 		virtual void Start();
 		virtual void Update();
@@ -36,11 +36,16 @@ namespace GlassEngine{
 		void AddComponent(std::shared_ptr<Component> comp);
 		bool HasComponent(int id);
 
+		void AddChild(std::shared_ptr<GameObject> child){ children.push_back(child); };
+		std::vector<std::shared_ptr<GameObject>>& GetChildren(){ return children; };
+
 		void SetName(const std::string& newName){ name = newName; };
 
 		std::shared_ptr<Sprite>& GetSprite() { return sprite; };
 		std::shared_ptr<SpriteSheet>& GetSpritesheet() { return spritesheet; };
 		std::shared_ptr<Transform>& GetTransform() { return transform; };
+
+		void DeleteObject();
 
 		const int GetID() { return id; };
 		const bool isActive(){ return active; };

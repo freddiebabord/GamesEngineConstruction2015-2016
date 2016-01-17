@@ -8,15 +8,19 @@ namespace GlassEngine{
 
 	struct Animation
 	{
+		Animation(std::string name, Vec2i newBoundary)
+		{
+			boundaries = newBoundary;
+			animationName = name;
+		};
 		Animation(Vec2i newBoundary)
 		{
 			boundaries = newBoundary;
 		};
-
+		std::string animationName = "";
 		Vec2i boundaries;
 	};
 
-	//FINISH ME
 	class SpriteSheet : public Component
 	{
 	public:

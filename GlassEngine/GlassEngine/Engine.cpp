@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "SpriteSheet.h"
 #include "Transform.h"
+#include "UIObject.h"
 
 namespace GlassEngine{
 
@@ -21,6 +22,7 @@ namespace GlassEngine{
 	{
 		Time.Start();
 		Renderer.Start(width,height,fullscreen);
+		//UI.Start();
 		Physics.Start();
 		Input.Start();
 		Game.Start();
@@ -35,6 +37,7 @@ namespace GlassEngine{
 		Physics.Update();
 		Game.Update();
 		Renderer.Update();
+		
 
 #if defined(_DEBUG)
 		Renderer.RenderDR(Vec2i(5, 5), Vec2i(150, 80));
@@ -107,7 +110,14 @@ namespace GlassEngine{
 				}
 			}
 		}
-
+		/*if (UI.GetUIObjects().size() > 0)
+		{
+			for (auto uio : UI.GetUIObjects())
+			{
+				Renderer.Render(uio->currentSprite, Vec3i(uio->rect.GetRectDims().left, uio->rect.GetRectDims().top, 0));
+			}
+		}*/
+		//UI.Update();
 		if (Input.GetKeyUp(HK_ESCAPE))
 		{
 			HAPI->Close();
@@ -119,6 +129,7 @@ namespace GlassEngine{
 		Game.Stop();
 		Input.Stop();
 		Physics.Stop();
+		//UI.Stop();
 		Renderer.Stop();
 		Time.Stop();
 		delete instance;

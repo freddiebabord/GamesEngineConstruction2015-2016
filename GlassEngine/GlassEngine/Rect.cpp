@@ -1,5 +1,6 @@
 #include "Rect.h"
 
+
 namespace GlassEngine
 {
 	
@@ -28,5 +29,13 @@ namespace GlassEngine
 		}
 		else
 			return RectStates::Overlaps;
+	}
+
+	RectStates Rect::CheckState(const Vec2i& pos)
+	{
+		if (right > pos.x && left < pos.x && top > pos.y && bottom < pos.y)
+			return RectStates::Encapsulated;
+		else
+			return RectStates::Separated;
 	}
 }

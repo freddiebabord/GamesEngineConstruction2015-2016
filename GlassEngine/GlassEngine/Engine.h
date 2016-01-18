@@ -5,6 +5,7 @@
 #include "RenderManager.h"
 #include "InputManager.h"
 #include "PhysicsManager.h"
+#include "UIManager.h"
 #include "Time.h"
 #include "Game.h"
 

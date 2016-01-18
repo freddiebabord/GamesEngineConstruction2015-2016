@@ -1,6 +1,9 @@
 #if !defined(GLASS_MATHS_RECT)
 #define GLASS_MATHS_RECT
 
+#include "Vector2.h"
+#include "Vector4.h"
+
 namespace GlassEngine
 {
 	enum RectStates
@@ -15,15 +18,16 @@ namespace GlassEngine
 	{
 	public:
 		Rect(){};
-		Rect(double top_, double bottom_, double left_, double right_) :
+		Rect(int top_, int bottom_, int left_, int right_) :
 			top(top_), bottom(bottom_), left(left_), right(right_){};
 		~Rect(){};
 
 		Rect* GetRect() { return this; };
 		RectStates CheckState(const Rect& other);
-
+		RectStates CheckState(const Vec2i& pos);
+		Vec4i  GetRectDims(){ return Vec4i(top, bottom, left, right); };
 	private:
-		double top, bottom, left, right;
+		int top, bottom, left, right;
 
 		
 	};

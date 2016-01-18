@@ -1,6 +1,7 @@
 #if !defined (INPUT_MANAGER)
 #define INPUT_MANAGER
 
+#include "Vector2.h"
 #include "Manager.h"
 
 namespace GlassEngine{
@@ -43,7 +44,7 @@ namespace GlassEngine{
 		template <typename T>
 		bool GetButton(T button, int controllerIndex)
 		{
-			return Input.controller[controllerIndex].digitalButtons[button];
+			return Input.controllers[controllerIndex].digitalButtons[button];
 		};
 
 		template <typename T>
@@ -56,7 +57,10 @@ namespace GlassEngine{
 		bool WasControllerDisconnectedLastUpdate(int id);
 		bool WasControllerConnectedLastUpdadate(int id);
 		void Reset();
-
+		const Vec2i GetMousePosition(){ return Vec2i(mouse.x, mouse.y); };
+		const int GetMiddleMouseMovement() { return mouse.wheelMovement; };
+		const bool GetLeftMouseButton() { return mouse.leftButtonDown; };
+		const bool GetRightMouseButton() { return mouse.rightButtonDown; };
 	protected:
 		InputManager(){};
 

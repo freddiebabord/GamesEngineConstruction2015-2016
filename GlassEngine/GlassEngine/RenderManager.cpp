@@ -43,11 +43,17 @@ namespace GlassEngine{
 		}
 
 		//Start the HAPI API to create the window
+#if defined(_DEBUG)
 		if (!HAPI->Initialise(&screenWidth, &screenHeight))
 		{
 			return;
 		}
-
+#else
+		if (!HAPI->Initialise(&screenWidth, &screenHeight, HAPI_INIT_FULLSCREEN))
+		{
+			return;
+		}
+#endif
 		//Create new unique screen data pointer
 		screen = std::make_unique<Screen>(screenWidth, screenHeight, HAPI->GetScreenPointer());
 	}

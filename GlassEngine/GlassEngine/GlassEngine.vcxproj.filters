@@ -58,6 +58,18 @@
     <Filter Include="Source Files\Core\Game">
       <UniqueIdentifier>{52ee9cb9-e8d3-46ba-ae88-da2bdda43167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{fd8f34e3-0fdc-4d9c-9c4c-034b5759f61b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{52d4a2c1-2a40-41e2-a1bf-be2791bc5ebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\UI">
+      <UniqueIdentifier>{a7d55d85-c89a-492d-8cdd-5884844f5cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\UI">
+      <UniqueIdentifier>{328db2c9-f616-4373-89e4-325738de1b3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,8 +123,14 @@
     <ClCompile Include="Level.cpp">
       <Filter>Source Files\Core\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Utility.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="UIObject.cpp">
+      <Filter>Source Files\Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Core\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +208,18 @@
     </ClInclude>
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObject.h">
+      <Filter>Header Files\Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Header Files\Core\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Core\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

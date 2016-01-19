@@ -69,8 +69,33 @@
 	</Players>
 	<World>
 		<GameObject name="Planet" type="World">
-			<Transform positionX="250" positionY="450" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\planet.png"/>
+			<Transform positionX="50" positionY="5" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\nebulae1.png"/>
+			<Gravity type="Point" strength="1"/>
+		</GameObject>
+		<GameObject name="Planet" type="World">
+			<Transform positionX="1100" positionY="10" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\nebulae2.png"/>
+			<Gravity type="Point" strength="1"/>
+		</GameObject>
+		<GameObject name="Planet" type="World">
+			<Transform positionX="300" positionY="-100" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\nebulae3.png"/>
+			<Gravity type="Point" strength="1"/>
+		</GameObject>
+		<GameObject name="Sun" type="World">
+			<Transform positionX="1450" positionY="150" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\Sun.png"/>
+			<Gravity type="Point" strength="1"/>
+		</GameObject>
+		<GameObject name="Planet" type="World">
+			<Transform positionX="300" positionY="650" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\planet1.png"/>
+			<Gravity type="Point" strength="1"/>
+		</GameObject>
+		<GameObject name="Planet" type="World">
+			<Transform positionX="800" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\planet2.png"/>
 			<Gravity type="Point" strength="1"/>
 		</GameObject>
 	</World>

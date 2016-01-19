@@ -47,8 +47,6 @@ namespace GlassEngine{
 #endif
 		for (auto gos : Game.CurrentLevel()->GetGameObjects())
 		{
-			if (gos->isActive())
-			{
 				Vec3i pos = gos->GetTransform()->GetPosition();
 				Vec2i size = Vec2i(0);
 				if (gos->GetSprite())
@@ -56,7 +54,7 @@ namespace GlassEngine{
 				else if (gos->GetSpritesheet())
 					size = gos->GetSpritesheet()->GetIdvSpriteDims();
 				Renderer.RenderDR(Vec2i(pos.x - 5, pos.y - 5), Vec2i(size.x + 10, size.y + 10));
-			}
+			
 		}
 
 		for (auto gos : Game.CurrentLevel()->GetGameObjects())

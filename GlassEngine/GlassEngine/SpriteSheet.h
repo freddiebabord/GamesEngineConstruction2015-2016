@@ -45,7 +45,7 @@ namespace GlassEngine{
 		bool LoadSprite(std::string path);
 		//Gets the Sprites dimentions in a Vec2 (width, height)
 		Vec2i GetSpriteDims();
-
+		void SetAnimSpeed(const int newAnimSpeed){ animationSpeed = newAnimSpeed; };
 		const int GetRowCount(){ return rowCount; };
 		const Vec2i GetIdvSpriteDims();
 		void SetIdvSpriteSize(const Vec2i size){ individualSpriteSize = size; };

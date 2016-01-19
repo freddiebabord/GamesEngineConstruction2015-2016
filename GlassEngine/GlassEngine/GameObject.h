@@ -19,6 +19,7 @@ namespace GlassEngine{
 
 		virtual void Start();
 		virtual void Update();
+		virtual void FixedUpdate(){};
 		virtual void Stop();
 
 		std::shared_ptr<Component> GetComponent(int id);
@@ -54,6 +55,7 @@ namespace GlassEngine{
 	protected :
 		std::vector<std::shared_ptr<Component>> components;
 		std::vector<std::shared_ptr<GameObject>> children;
+		void UpdateChildren(Vec3i parentPos);
 
 		int id = 0;
 

@@ -18,6 +18,13 @@ namespace GlassEngine{
 	{
 		
 	}
+	
+	void PhysicsManager::FixedUpdate()
+	{
+		for (auto r : rigidbodies)
+			r->FixedUpdate();
+	}
+
 
 	void PhysicsManager::Update()
 	{

@@ -15,7 +15,7 @@ namespace GlassEngine
 
 	void UIManager::Start()
 	{
-		delete instance;
+
 	}
 	
 	void UIManager::Update()
@@ -24,5 +24,6 @@ namespace GlassEngine
 
 	void UIManager::Stop()
 	{
+		delete instance;
 	}
 }

@@ -11,6 +11,7 @@ namespace GlassEngine{
 
 		virtual void Start(){};
 		virtual void Update(){};
+		virtual void FixedUpdate(){};
 		virtual void Stop(){};
 
 	};

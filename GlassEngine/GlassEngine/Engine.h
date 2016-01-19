@@ -29,6 +29,7 @@ namespace GlassEngine{
 	private:
 		static Engine *instance;
 		GameManager* gameManager;
+		DWORD fixedUpdateTime;
 	};
 
 

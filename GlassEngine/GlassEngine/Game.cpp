@@ -26,6 +26,12 @@ namespace GlassEngine{
 		levels.push_back(Game.loadLevel("Resources/Levels/Demo Level 1.xml"));
 	}
 
+	void GameManager::FixedUpdate()
+	{
+		for (auto g : CurrentLevel()->GetGameObjects())
+			g->FixedUpdate();
+	}
+
 	//TODO: Convert levels to shared ptrs
 	void GameManager::Update()
 	{
@@ -152,6 +158,7 @@ namespace GlassEngine{
 		{
 			spriteSheet->LoadSprite(node.child("SpriteSheet").attribute("graphic").as_string());
 			spriteSheet->SetIdvSpriteSize(Vec2i(node.child("SpriteSheet").attribute("sizeX").as_int(), node.child("SpriteSheet").attribute("sizeY").as_int()));
+			spriteSheet->SetAnimSpeed(node.child("SpriteSheet").attribute("animationSpeed").as_int());
 			for (pugi::xml_node anim : node.child("SpriteSheet").children("Animation"))
 			{
 				spriteSheet->AddAnimation(Animation(anim.attribute("name").as_string(), Vec2i(anim.attribute("start").as_int(), anim.attribute("end").as_int())));

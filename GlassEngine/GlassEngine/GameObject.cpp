@@ -87,8 +87,16 @@ namespace GlassEngine
 			}
 		}
 
+		UpdateChildren(transform->GetPosition());
+	}
+
+	void GameObject::UpdateChildren(Vec3i parentPos)
+	{
 		for (auto c : children)
-			c->GetTransform()->SetPosition(transform->GetPosition());
+		{
+			c->UpdateChildren(parentPos);
+		}
+		transform->SetPosition(parentPos);
 	}
 
 	void GameObject::Stop()

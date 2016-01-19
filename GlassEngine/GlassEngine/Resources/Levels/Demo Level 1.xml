@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level id="0">
-  <Background graphic="Resources\background.jpg" />
+  <Background graphic="Resources\background1.jpg" />
   <Players>
 		<Player name="Player1" health="50" type="Player">
 			<Transform positionX="50" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200">
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" animationSpeed="15">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="12"/>
 				<Animation name="moveRight" start="13" end="14"/>
@@ -14,15 +14,21 @@
 				<Animation name="moveBack" start="17" end="21"/>
 			</SpriteSheet>
 			<GameObject name="Shield" type="GameObject">
-				<Transform positionX="50" positionY="50" positionZ="0"/>
+				<Transform positionX="0" positionY="0" positionZ="0"/>
 				<Sprite graphic="Resources\Shield.png"/>
+				<GameObject name="Explosion" type="GameObject">
+					<Transform positionX="0" positionY="0" positionZ="0"/>
+					<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" animationSpeed="15"> 
+						<Animation name="idle" start="0" end="20"/>
+					</SpriteSheet>
+				</GameObject>
 			</GameObject>
 		</Player>
 		<Player name="Player2" health="50" type="Player">
 			<Transform positionX="150" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200"> 
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" animationSpeed="15"> 
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="12"/>
 				<Animation name="moveRight" start="13" end="14"/>
@@ -38,7 +44,7 @@
 			<Transform positionX="200" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200"> 
+			<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" animationSpeed="15"> 
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="12"/>
 				<Animation name="moveRight" start="13" end="14"/>
@@ -48,13 +54,18 @@
 			<GameObject name="Shield" type="GameObject">
 				<Transform positionX="50" positionY="50" positionZ="0"/>
 				<Sprite graphic="Resources\Shield.png"/>
+				<GameObject name="Explosion" type="GameObject">
+					<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" animationSpeed="45"> 
+						<Animation name="idle" start="0" end="5"/>
+					</SpriteSheet>
+				</GameObject>
 			</GameObject>
 		</Player>
 		<Player name="Player4" health="50" type="Player">
 			<Transform positionX="250" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="50"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200"> 
+			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" animationSpeed="15"> 
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="12"/>
 				<Animation name="moveRight" start="13" end="14"/>
@@ -82,7 +93,7 @@
 			<Transform positionX="300" positionY="-100" positionZ="0" scaleX="2" scaleY="2"/>
 			<Sprite graphic="Resources\nebulae3.png"/>
 			<Gravity type="Point" strength="1"/>
-		</GameObject>
+		</GameObject>  
 		<GameObject name="Sun" type="World">
 			<Transform positionX="1450" positionY="150" positionZ="0" scaleX="2" scaleY="2"/>
 			<Sprite graphic="Resources\Sun.png"/>

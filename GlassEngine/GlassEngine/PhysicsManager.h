@@ -18,6 +18,7 @@ namespace GlassEngine{
 
 		void Start() override;
 		void Update() override;
+		void FixedUpdate() override;
 		void Stop() override;
 
 		void AddCollider(std::shared_ptr<Collider> collider);

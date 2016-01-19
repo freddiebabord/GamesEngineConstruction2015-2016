@@ -20,6 +20,7 @@ namespace GlassEngine{
 		~GameManager(){};
 
 		void Start() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Stop() override;
 		

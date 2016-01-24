@@ -53,16 +53,16 @@ namespace GlassEngine{
 		//Render an image on screen
 		//int spriteIndex: The index of the sprite in the render managers vector of sprites
 		//Vec3 renderPos: The position in 3D space the image should be rendered at
-		void Render(const int& spriteIndex, const Vec3i& renderPos);
+		void Render(const int& spriteIndex, const Vec3d& renderPos);
 
 		//Render an image on screen
 		//int spriteIndex: The index of the spritesheet in the render managers vector of spritesheet 
 		//int idvSpriteIndex: The index of the sprite frame for the spritesheet 
 		//Vec3 renderPos: The position in 3D space the image should be rendered at
-		void Render(const int& spriteIndex, const Vec3i& renderPos, const int& idvSpriteIndex);
+		void Render(const int& spriteIndex, const Vec3d& renderPos, const int& idvSpriteIndex);
 
-		void Render(const std::shared_ptr<Sprite> spriteIndex, const Vec3i& renderPos);
-		void Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3i& renderPos, const int& idvSpriteIndex);
+		void Render(const std::shared_ptr<Sprite> spriteIndex, const Vec3d& renderPos);
+		void Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3d& renderPos, const int& idvSpriteIndex);
 
 		//Dirty Recatngles - clears a portion of the screen, based off of the screen position and size of the rectangle to render from
 		void RenderDR(const Vec2i& pos, const Vec2i& size);

@@ -71,12 +71,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IntDir>C:\temp\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>C:\temp\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -182,6 +184,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">precomp.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="PointGravity.cpp" />
     <ClCompile Include="precomp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">precomp.h</PrecompiledHeaderFile>
@@ -218,6 +221,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="MathConsts.h" />
     <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="PointGravity.h" />
     <ClInclude Include="precomp.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderManager.h" />

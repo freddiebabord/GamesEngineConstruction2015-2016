@@ -15,6 +15,7 @@ namespace GlassEngine{
 
 		void Start() override;
 		void Update()override;
+		void FixedUpdate() override;
 		void Stop()override {};
 		
 		bool useGravity() const { return gravity; };
@@ -23,18 +24,30 @@ namespace GlassEngine{
 		double getMass() const { return mass; };
 		void setMass(double mass_){ mass = mass_; };
 
-		Vec3i GetVelocity() const { return velocity; };
-		void SetVelocity(Vec3i velocity_){ velocity = velocity_; };
+		Vec3d GetVelocity() const { return velocity; };
+		void SetVelocity(Vec3d velocity_){ velocity = velocity_; };
 
 		bool hasCollided() const { return collided; };
 		void hasCollided(bool collided_){ collided = collided_; };
+
+		void AddForce(Vec3d force_)
+		{
+			velocity += (force_);
+		};
+
+		void AddForce(Vec2d force_)
+		{
+			velocity += Vec3d(force_.x, force_.y, 0);
+		};
+
+		void ResetVelocity();
 
 	private:
 		bool gravity = true;
 		bool collided = false;
 		double mass = 1.00;
 		std::shared_ptr<Transform> transform;
-		Vec3i velocity = Vec3i(0);
+		Vec3d velocity = Vec3d(0);
 	};
 
 }

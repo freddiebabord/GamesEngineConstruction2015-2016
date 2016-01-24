@@ -16,14 +16,14 @@ namespace GlassEngine
 		Vector2<T>(T ix) : x(ix), y(ix){};
 		Vector2<T>(T ix, T iy) : x(ix), y(iy){};
 
-		inline float Length()
+		inline T Length()
 		{
 			return sqrt(x * x + y * y);
 		}
 
-		inline Vec2<T> Normalize()
+		inline Vec2<float> Normalize()
 		{
-			Vec2<T> vector;
+			Vec2<float> vector;
 			float length = this->Length();
 
 			if (length != 0)

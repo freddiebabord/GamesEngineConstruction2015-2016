@@ -48,6 +48,24 @@ namespace GlassEngine{
 		};
 
 		template <typename T>
+		bool GetButtonDown(T button, int controllerIndex)
+		{
+			if (Input.controllers[controllerIndex].digitalButtons[button] && !Input.controllersBuffer[controllerIndex].digitalButtons[button])
+				return true;
+			else
+				return false;
+		};
+
+		template <typename T>
+		bool GetButtonUp(T button, int controllerIndex)
+		{
+			if (!Input.controllers[controllerIndex].digitalButtons[button] && Input.controllersBuffer[controllerIndex].digitalButtons[button])
+				return true;
+			else
+				return false;
+		};
+
+		template <typename T>
 		int GetAxis(T axis, int controllerIndex)
 		{
 			return Input.controllers[controllerIndex].analogueButtons[axis];
@@ -73,6 +91,7 @@ namespace GlassEngine{
 		HAPI_TKeyboardData keyboardBuffer;
 		HAPI_TMouseData mouse;
 		HAPI_TControllerData *controllers;
+		HAPI_TControllerData *controllersBuffer;
 		bool* activeControllersThisFrame;
 		bool* activeControllersLastFrame;
 	};

@@ -5,6 +5,7 @@
 
 namespace GlassEngine{
 	
+	class Rigidbody;
 	class Transform;
 	class Sprite;
 	class SpriteSheet;
@@ -55,11 +56,12 @@ namespace GlassEngine{
 	protected :
 		std::vector<std::shared_ptr<Component>> components;
 		std::vector<std::shared_ptr<GameObject>> children;
-		void UpdateChildren(Vec3i parentPos);
+		void UpdateChildren(Vec3d parentPos);
 
 		int id = 0;
 
 		std::shared_ptr<Transform> transform;
+		std::shared_ptr<Rigidbody> rigidbody;
 		std::shared_ptr<Sprite> sprite;
 		std::shared_ptr<SpriteSheet> spritesheet;
 		std::string name = "";

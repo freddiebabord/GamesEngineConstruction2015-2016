@@ -39,7 +39,19 @@ namespace GlassEngine{
 		Physics.Update();
 		Game.Update();
 		Renderer.Update();
+		//Renderer.Render(Background, Vec3d(0.0));
 		
+		for (auto gos : Game.CurrentLevel()->GetGameObjects())
+		{
+			Vec3d pos = gos->GetTransform()->GetPosition();
+			Vec2i size = Vec2i(0);
+			if (gos->GetSprite())
+				size = gos->GetSprite()->GetSpriteDims();
+			else if (gos->GetSpritesheet())
+				size = gos->GetSpritesheet()->GetIdvSpriteDims();
+			Renderer.RenderDR(Vec2i(pos.x - 5, pos.y - 5), Vec2i(size.x + 10, size.y + 10));
+		}
+
 		if (fixedUpdateTime < HAPI->GetTime() - (1000 / 40))
 		{
 			fixedUpdateTime = HAPI->GetTime();
@@ -53,17 +65,7 @@ namespace GlassEngine{
 			if (Input.GetKey(HK_LSHIFT) && Input.GetKey('`'))
 				Renderer.RenderDR(Vec2i(0), Vec2i(Renderer.GetScreenDimentions().width, 100));
 #endif
-			for (auto gos : Game.CurrentLevel()->GetGameObjects())
-			{
-				Vec3i pos = gos->GetTransform()->GetPosition();
-				Vec2i size = Vec2i(0);
-				if (gos->GetSprite())
-					size = gos->GetSprite()->GetSpriteDims();
-				else if (gos->GetSpritesheet())
-					size = gos->GetSpritesheet()->GetIdvSpriteDims();
-				Renderer.RenderDR(Vec2i(pos.x - 5, pos.y - 5), Vec2i(size.x + 10, size.y + 10));
-
-			}
+			
 
 			for (auto gos : Game.CurrentLevel()->GetGameObjects())
 			{
@@ -80,7 +82,7 @@ namespace GlassEngine{
 					else if (Input.WasControllerDisconnectedLastUpdate(gos->GetID()))
 					{
 						gos->isActive(false);
-						Vec3i pos = gos->GetTransform()->GetPosition();
+						Vec3d pos = gos->GetTransform()->GetPosition();
 						Vec2i size = Vec2i(0);
 
 						if (gos->GetSprite())
@@ -121,10 +123,10 @@ namespace GlassEngine{
 		{
 			for (auto uio : UI.GetUIObjects())
 			{
-				Renderer.Render(uio->currentSprite, Vec3i(uio->rect.GetRectDims().left, uio->rect.GetRectDims().top, 0));
+				Renderer.Render(uio->currentSprite, Vec3d(uio->rect.GetRectDims().left, uio->rect.GetRectDims().top, 0));
 			}
 		}
-		//UI.Update();
+		UI.Update();
 		if (Input.GetKeyUp(HK_ESCAPE))
 		{
 			HAPI->Close();
@@ -134,10 +136,10 @@ namespace GlassEngine{
 	void Engine::Stop()
 	{
 		Game.Stop();
-		Input.Stop();
 		Physics.Stop();
 		UI.Stop();
 		Renderer.Stop();
+		Input.Stop();
 		Time.Stop();
 		delete instance;
 	}

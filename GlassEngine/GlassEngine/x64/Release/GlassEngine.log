@@ -1,11 +1,81 @@
-﻿Build started 18/01/2016 16:42:55.
+﻿Build started 22/01/2016 13:08:39.
      1>Project "U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\GlassEngine\GlassEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IHAPI /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"precomp.h" /Fp"x64\Release\GlassEngine.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt precomp.cpp
          precomp.cpp
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(242,5): warning MSB4220: Waiting for the currently executing task "CL" to cancel.
-     1>Done Building Project "U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\GlassEngine\GlassEngine.vcxproj" (Build target(s)) -- FAILED.
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IHAPI /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt Button.cpp Component.cpp Game.cpp GameObject.cpp Level.cpp PhysicsManager.cpp Rect.cpp Rigidbody.cpp SpriteSheet.cpp Time.cpp Transform.cpp UIManager.cpp UIObject.cpp XML\pugixml.cpp
+         Button.cpp
+         Component.cpp
+         Game.cpp
+         GameObject.cpp
+     1>GameObject.cpp(56): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(60): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(64): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(68): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(73): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(77): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(81): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>GameObject.cpp(85): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+         Level.cpp
+         PhysicsManager.cpp
+         Rect.cpp
+         Rigidbody.cpp
+         SpriteSheet.cpp
+         Time.cpp
+         Transform.cpp
+         UIManager.cpp
+         UIObject.cpp
+         pugixml.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IHAPI /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"precomp.h" /Fp"x64\Release\GlassEngine.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /FR"x64\Release\\" /Gd /TP /errorReport:prompt Engine.cpp InputManager.cpp main.cpp RenderManager.cpp Sprite.cpp
+         Engine.cpp
+         InputManager.cpp
+         main.cpp
+         RenderManager.cpp
+         Sprite.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"x64\Release\GlassEngine.res" GlassEngine.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\GlassEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:HAPI HAPI64.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\GlassEngine.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\GlassEngine.lib" /MACHINE:X64 x64\Release\GlassEngine.res
+         x64\Release\Button.obj
+         x64\Release\Component.obj
+         x64\Release\Engine.obj
+         x64\Release\Game.obj
+         x64\Release\GameObject.obj
+         x64\Release\InputManager.obj
+         x64\Release\Level.obj
+         x64\Release\main.obj
+         x64\Release\PhysicsManager.obj
+         x64\Release\precomp.obj
+         x64\Release\Rect.obj
+         x64\Release\RenderManager.obj
+         x64\Release\Rigidbody.obj
+         x64\Release\Sprite.obj
+         x64\Release\SpriteSheet.obj
+         x64\Release\Time.obj
+         x64\Release\Transform.obj
+         x64\Release\UIManager.obj
+         x64\Release\UIObject.obj
+         x64\Release\pugixml.obj
+         Generating code
+         Finished generating code
+     1>HAPI64.lib(HapiMain.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiMain.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(stdafx.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(stdafx.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(Error.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(Error.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiCore.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiCore.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(PerfCounters.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(PerfCounters.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiRendererSDL.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiRendererSDL.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiSoundSDLMixer.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiSoundSDLMixer.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiInputOs.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiInputOs.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(ImageLoader.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(ImageLoader.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(FTFontManager.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(FTFontManager.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(FTFont.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(FTFont.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(HapiOsSDL.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(HapiOsSDL.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+     1>HAPI64.lib(SDL2GameController.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'HAPI64.lib(SDL2GameController.obj)' or at 'U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\vc120.pdb'; linking object as if no debug info
+         GlassEngine.vcxproj -> U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\GlassEngine.exe
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\x64\Release\GlassEngine.bsc" /n x64\Release\Button.sbr x64\Release\Component.sbr x64\Release\Engine.sbr x64\Release\Game.sbr x64\Release\GameObject.sbr x64\Release\InputManager.sbr x64\Release\Level.sbr x64\Release\main.sbr x64\Release\PhysicsManager.sbr x64\Release\precomp.sbr x64\Release\Rect.sbr x64\Release\RenderManager.sbr x64\Release\Rigidbody.sbr x64\Release\Sprite.sbr x64\Release\SpriteSheet.sbr x64\Release\Time.sbr x64\Release\Transform.sbr x64\Release\UIManager.sbr x64\Release\UIObject.sbr x64\Release\pugixml.sbr
+     1>Done Building Project "U:\GitHub\GamesEngineConstruction2015-2016\GlassEngine\GlassEngine\GlassEngine.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:19.40
+Time Elapsed 00:08:33.21

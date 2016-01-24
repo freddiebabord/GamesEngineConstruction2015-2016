@@ -34,6 +34,6 @@ namespace GlassEngine{
 #define ColliderC 2
 #define SpriteC	3
 #define SpriteSheetC 4
-
+#define PointGravityC 5
 }
 #endif

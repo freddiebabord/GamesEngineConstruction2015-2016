@@ -8,6 +8,8 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "Time.h"
+#include "Game.h"
 
 namespace GlassEngine
 {
@@ -22,9 +24,7 @@ namespace GlassEngine
 
 	GameObject::~GameObject()
 	{
-		HAPI->DebugText(name);
 		DeleteObject();
-
 	}
 
 	void GameObject::Start()
@@ -38,6 +38,7 @@ namespace GlassEngine
 		transform = std::dynamic_pointer_cast<Transform>(GetComponent(TransformC));
 		sprite = std::dynamic_pointer_cast<Sprite>(GetComponent(SpriteC));
 		spritesheet = std::dynamic_pointer_cast<SpriteSheet>(GetComponent(SpriteSheetC));
+		rigidbody = std::dynamic_pointer_cast<Rigidbody>(GetComponent(RigidbodyC));
 	}
 
 	void GameObject::Update()
@@ -50,38 +51,52 @@ namespace GlassEngine
 		{
 			if (id < 4)
 			{
+				if (Input.GetButtonUp(HK_DIGITAL_A, id) || Input.GetKeyUp(HK_SPACE))
+				{
+					std::shared_ptr<GameObject> bulletObj = Game.Instantiate("Bullet", transform->GetPosition());
+					//std::shared_ptr<Rigidbody> rb = std::dynamic_pointer_cast<Rigidbody>(bulletObj->GetComponent(RigidbodyC));
+					//rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
+				}
+				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
+				{
+					rigidbody->SetVelocity(Vec3d(0.0, 0.0, 0.0));
+				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					transform->Translate(Vec3i(5, 0, 0));
+					rigidbody->AddForce(Vec2d(0.25, 0.0));
+					//transform->Translate(Vec3d((double)(0.25 * Time.DeltaTime()), 0, 0));
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					transform->Translate(Vec3i(-5, 0, 0));
+					rigidbody->AddForce(Vec2d(-0.25, 0.0));
+					//transform->Translate(Vec3d((double)(-0.25 * Time.DeltaTime()), 0, 0));
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					transform->Translate(Vec3i(0, 5, 0));
+					rigidbody->AddForce(Vec2d(0.0, 0.25));
+					//transform->Translate(Vec3d(0, (double)(0.25 * Time.DeltaTime()), 0));
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					transform->Translate(Vec3i(0, -5, 0));
+					rigidbody->AddForce(Vec2d(0.0, -0.25));
+					//transform->Translate(Vec3d(0, (double)(-0.25 * Time.DeltaTime()), 0));
 				}
 				if (Input.GetKey('W') || Input.GetKey('A') || Input.GetKey('S') || Input.GetKey('D'))
 				{
 					if (Input.GetKey('W')){
-						transform->Translate(Vec3i(0, -5, 0));
+						transform->Translate(Vec3d(0, (double)(-0.25 * Time.DeltaTime()), 0));
 					}
 
 					else if (Input.GetKey('S')){
-						transform->Translate(Vec3i(0, 5, 0));
+						transform->Translate(Vec3d(0, (double)(0.25 * Time.DeltaTime()), 0));
 					}
 
 					if (Input.GetKey('A')){
-						transform->Translate(Vec3i(-5, 0, 0));
+						transform->Translate(Vec3d((double)(-0.25 * Time.DeltaTime()), 0, 0));
 					}
 
 					else if (Input.GetKey('D')){
-						transform->Translate(Vec3i(5, 0, 0));
+						transform->Translate(Vec3d((double)(0.25 * Time.DeltaTime()), 0, 0));
 					}
 				}
 			}
@@ -90,7 +105,7 @@ namespace GlassEngine
 		UpdateChildren(transform->GetPosition());
 	}
 
-	void GameObject::UpdateChildren(Vec3i parentPos)
+	void GameObject::UpdateChildren(Vec3d parentPos)
 	{
 		for (auto c : children)
 		{
@@ -150,9 +165,12 @@ namespace GlassEngine
 			c->Stop();
 		}
 		children.clear();
-		components.clear();
+		
 		transform.reset();
 		sprite.reset();
 		spritesheet.reset();
+		rigidbody.reset();
+		
+		components.clear();
 	}
 }

@@ -97,7 +97,7 @@ namespace GlassEngine{
 	//Render an image on screen
 	//int spriteIndex: The index of the sprite in the render managers vector of sprites
 	//Vec3 renderPos: The position in 3D space the image should be rendered at
-	void RenderManager::Render(const int& spriteIndex, const Vec3i& renderPos)
+	void RenderManager::Render(const int& spriteIndex, const Vec3d& renderPos)
 	{
 		Vec2i screenDims = screen->screenDimentions;
 		Vec2i spriteDims = sprites[spriteIndex]->GetSpriteDims();
@@ -145,7 +145,7 @@ namespace GlassEngine{
 					continue;
 
 				//Sets a screen offset for where the BYTE data needs to be written to the screen
-				int scrOffset = (((renderPos.y + y) * screenDims.width) + ((renderPos.x + x))) * 4;
+				int scrOffset = ((((int)renderPos.y + y) * screenDims.width) + (((int)renderPos.x + x))) * 4;
 
 				//If the image doesn't have transparency copy the data from the sprites data to the screen for (RGB)
 				//Note the 4th alpha BYTE of the screen is being used as a z-index
@@ -180,7 +180,7 @@ namespace GlassEngine{
 		}
 	};
 
-	void RenderManager::Render(const std::shared_ptr<Sprite> sprite, const Vec3i& renderPos)
+	void RenderManager::Render(const std::shared_ptr<Sprite> sprite, const Vec3d& renderPos)
 	{
 		Vec2i screenDims = screen->screenDimentions;
 		Vec2i spriteDims = sprite->GetSpriteDims();
@@ -228,13 +228,13 @@ namespace GlassEngine{
 					continue;
 
 				//Sets a screen offset for where the BYTE data needs to be written to the screen
-				int scrOffset = (((renderPos.y + y) * screenDims.width) + ((renderPos.x + x))) * 4;
+				int scrOffset = ((((int)renderPos.y + y) * screenDims.width) + (((int)renderPos.x + x))) * 4;
 
 				//If the image doesn't have transparency copy the data from the sprites data to the screen for (RGB)
 				//Note the 4th alpha BYTE of the screen is being used as a z-index
 				if (alpha >= 255)
 				{
-					memmove(&screenPtr[scrOffset], &imgPtr[offset], 3);
+					memcpy(&screenPtr[scrOffset], &imgPtr[offset], 3);
 				}
 				else
 				{
@@ -244,9 +244,9 @@ namespace GlassEngine{
 					BYTE green = imgPtr[offset + 2];
 
 					//And lerp the screens BYTE data with the sprites BYTE data using the amount of alpha as a percentage offset
-					screenPtr[(int)scrOffset] = screenPtr[(int)scrOffset] + ((alpha * (blue - screenPtr[(int)scrOffset])) >> 8);
-					screenPtr[(int)scrOffset + 1] = screenPtr[(int)scrOffset + 1] + ((alpha*(red - screenPtr[(int)scrOffset + 1])) >> 8);
-					screenPtr[(int)scrOffset + 2] = screenPtr[(int)scrOffset + 2] + ((alpha*(green - screenPtr[(int)scrOffset + 2])) >> 8);
+					screenPtr[scrOffset] = screenPtr[scrOffset] + ((alpha * (blue - screenPtr[scrOffset])) >> 8);
+					screenPtr[scrOffset + 1] = screenPtr[scrOffset + 1] + ((alpha*(red - screenPtr[scrOffset + 1])) >> 8);
+					screenPtr[scrOffset + 2] = screenPtr[scrOffset + 2] + ((alpha*(green - screenPtr[scrOffset + 2])) >> 8);
 				}
 			}
 		}
@@ -266,7 +266,7 @@ namespace GlassEngine{
 	//int spriteIndex: The index of the spritesheet in the render managers vector of spritesheet 
 	//int idvSpriteIndex: The index of the sprite frame for the spritesheet 
 	//Vec3 renderPos: The position in 3D space the image should be rendered at
-	void RenderManager::Render(const int& spriteIndex, const Vec3i& renderPos, const int& idvSpriteIndex)
+	void RenderManager::Render(const int& spriteIndex, const Vec3d& renderPos, const int& idvSpriteIndex)
 	{
 		//The current spriesheet from the index
 		std::shared_ptr<SpriteSheet> sheet = spritesheets[spriteIndex];
@@ -365,7 +365,7 @@ namespace GlassEngine{
 		}
 	};
 
-	void RenderManager::Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3i& renderPos, const int& idvSpriteIndex)
+	void RenderManager::Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3d& renderPos, const int& idvSpriteIndex)
 	{
 
 		Vec2i screenDims = screen->screenDimentions;

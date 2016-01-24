@@ -29,16 +29,19 @@ namespace GlassEngine{
 		std::shared_ptr<Level> loadLevel(char* name);
 		std::shared_ptr<Level> CurrentLevel();
 
+		std::shared_ptr<GameObject> Instantiate(std::string gameObjectName);
+		std::shared_ptr<GameObject> Instantiate(std::string gameObjectName, Vec3d pos);
+
 	protected:
 		GameManager(){};
 
 	private:
 		std::shared_ptr<GameObject> CreateNewObject(pugi::xml_node node, int id);
 		std::shared_ptr<Level> loadLevel();
-
+		void AddPrefab(std::shared_ptr<GameObject> prefab_, std::string key_){ prefabs[key_] = prefab_; };
 	private:
 		std::vector<std::shared_ptr<Level>> levels;
-
+		std::map<std::string, std::shared_ptr<GameObject>> prefabs;
 		static GameManager *instance;
 		char* levelFile = "";
 		bool levelLoaded = false;

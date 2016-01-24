@@ -22,6 +22,7 @@
 #include <memory>
 #include <HAPI_lib.h>
 #include <unordered_map>
+#include <map>
 #include <limits>
 #include <cstdlib>
 #include <thread>

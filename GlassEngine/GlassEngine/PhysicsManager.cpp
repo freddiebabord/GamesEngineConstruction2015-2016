@@ -2,6 +2,7 @@
 #include "PhysicsManager.h"
 #include "Rigidbody.h"
 #include "Collider.h"
+#include "PointGravity.h"
 
 namespace GlassEngine{
 
@@ -23,6 +24,8 @@ namespace GlassEngine{
 	{
 		for (auto r : rigidbodies)
 			r->FixedUpdate();
+		for (auto g : gravityAffectors)
+			g->FixedUpdate();
 	}
 
 
@@ -48,6 +51,10 @@ namespace GlassEngine{
 			if (r->IsEnabled())
 				r->Update();
 		}*/
+		for (auto r : rigidbodies)
+			r->Update();
+		for (auto g : gravityAffectors)
+			g->Update();
 	}
 
 	void PhysicsManager::Stop()
@@ -56,13 +63,17 @@ namespace GlassEngine{
 			c = nullptr;
 		for (auto r : rigidbodies)
 			r = nullptr;
+		for (auto g : gravityAffectors)
+			g = nullptr;
 
 		colliders.clear();
 		rigidbodies.clear();
-
+		gravityAffectors.clear();
 		//Delete the instance of the rendering manager
 		delete instance;
 	}
+
+	
 
 	void PhysicsManager::AddCollider(std::shared_ptr<Collider> collider)
 	{
@@ -72,6 +83,55 @@ namespace GlassEngine{
 	void PhysicsManager::AddRigidbody(std::shared_ptr<Rigidbody> rigidbody)
 	{
 		rigidbodies.push_back(rigidbody);
+	}
+
+	void PhysicsManager::AddGravityAffector(std::shared_ptr<PointGravity> grav_)
+	{
+		gravityAffectors.push_back(grav_);
+	}
+
+	void PhysicsManager::Reset()
+	{
+		for (auto c : colliders)
+			c = nullptr;
+		for (auto r : rigidbodies)
+			r = nullptr;
+		for (auto g : gravityAffectors)
+			g = nullptr;
+
+		colliders.clear();
+		gravityAffectors.clear();
+		rigidbodies.clear();
+	}
+
+	//Clear the buffers that store sprites in the renderer
+	void PhysicsManager::ClearPhysicsManager()
+	{
+		previousColliders = colliders;
+		previousGravityAffectors = gravityAffectors;
+		previousRigidbodies = rigidbodies;
+		rigidbodies.clear();
+		gravityAffectors.clear();
+		colliders.clear();
+	}
+
+	//Reset the live sprite buffers to what they were before a reload occured
+	void PhysicsManager::ResetToPrevious()
+	{
+		colliders = previousColliders;
+		gravityAffectors = previousGravityAffectors;
+		rigidbodies = previousRigidbodies;
+		previousColliders.clear();
+		previousGravityAffectors.clear();
+		previousRigidbodies.clear();
+	}
+
+	//Clear the previous buffer of sprites - successful reload of levels
+	void PhysicsManager::ClearPrevious()
+	{
+		previousColliders.clear();
+		previousGravityAffectors.clear();
+		previousRigidbodies.clear();
 	}
 
 }

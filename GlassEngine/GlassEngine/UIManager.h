@@ -5,7 +5,7 @@ namespace GlassEngine{
 
 #define UI UIManager::Instance()
 
-	class UIObject;
+	class Text;
 
 	class UIManager : public Manager
 	{
@@ -17,13 +17,21 @@ namespace GlassEngine{
 		void Update() override;
 		void Stop() override;
 
-		void AddUIElement(std::shared_ptr<UIObject> obj){ uiObjects.push_back(obj); };
-		std::vector<std::shared_ptr<UIObject>>& GetUIObjects() { return uiObjects; };
+		void AddUIElement(std::shared_ptr<Text> obj){ uiObjects.push_back(obj); };
+		std::vector<std::shared_ptr<Text>>& GetUIObjects() { return uiObjects; };
+		void Reset(){ uiObjectsBuffer = uiObjects; uiObjects.clear(); };
+		void RevertReset(){ uiObjects = uiObjectsBuffer;  uiObjectsBuffer.clear(); };
+		void ConfirmReset(){ uiObjectsBuffer.clear(); };
+
+		void SetFont(const std::string font_, int size_){ font = font_; size = size_; };
 
 	private:
 		UIManager(){};
 		static UIManager *instance;
-		std::vector<std::shared_ptr<UIObject>> uiObjects;
+		std::vector<std::shared_ptr<Text>> uiObjects;
+		std::vector<std::shared_ptr<Text>> uiObjectsBuffer;
+		std::string font = "Calibri";
+		int size = 25;
 	};
 
 }

@@ -6,10 +6,12 @@
 #include "Collider.h"
 #include "Rigidbody.h"
 #include "PointGravity.h"
+#include "Text.h"
 #include "GameObject.h"
 #include "PhysicsManager.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "UIManager.h"
 
 namespace GlassEngine{
 	
@@ -26,6 +28,7 @@ namespace GlassEngine{
 	void GameManager::Start()
 	{
 		levels.push_back(Game.loadLevel("Resources/Levels/Demo Level 1.xml"));
+		HAPI->PlayStreamedMedia(levels.back()->GetAudioTrack());
 	}
 
 	void GameManager::FixedUpdate()
@@ -46,6 +49,7 @@ namespace GlassEngine{
 		{
 			Physics.ClearPhysicsManager();
 			Renderer.ClearRenderer();
+			//UI.Reset();
 			int id = CurrentLevel()->GetID();
 			std::shared_ptr<Level> newLevel = loadLevel(CurrentLevel()->GetLevelName());
 			if (newLevel != nullptr)
@@ -56,7 +60,10 @@ namespace GlassEngine{
 				Renderer.ClearPrevious();
 				Physics.ClearPrevious();
 				Input.Reset();
+				//UI.ConfirmReset();
 				levels.push_back(newLevel);
+				std::string test=levels.back()->GetAudioTrack();
+				HAPI->PlayStreamedMedia(levels.back()->GetAudioTrack());
 			}
 			else
 			{
@@ -64,6 +71,7 @@ namespace GlassEngine{
 				Physics.ClearPrevious();
 				Renderer.ResetToPrevious();
 				Renderer.ClearPrevious();
+				//UI.RevertReset();
 			}
 		}
 		
@@ -116,6 +124,7 @@ namespace GlassEngine{
 			Renderer.ClearRenderer();
 			for (pugi::xml_node level = doc.child("level"); level; level = level.next_sibling("level"))
 			{
+				newLevel->SetAudioTrack(level.attribute("backgroundAudio").as_string());
 				newLevel->SetID(level.attribute("id").as_int());
 				Renderer.AddSprite(level.child("Background").attribute("graphic").as_string());
 				for (pugi::xml_node prefab = level.child("Prefabs").child("GameObject"); prefab; prefab = prefab.next_sibling("GameObject"))
@@ -124,14 +133,20 @@ namespace GlassEngine{
 				}
 				for (pugi::xml_node player = level.child("Players").child("Player"); player; player = player.next_sibling("Player"))
 				{
-					newLevel->AddGameObject(CreateNewObject(player, (int)newLevel->GetGameObjects().size()));
+					newLevel->AddGameObject(CreateNewObject(player, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size()));
 				}
 				for (pugi::xml_node gameObject = level.child("World").child("GameObject"); gameObject; gameObject = gameObject.next_sibling("GameObject"))
 				{
-					newLevel->AddGameObject(CreateNewObject(gameObject, (int)newLevel->GetGameObjects().size()));
+					newLevel->AddGameObject(CreateNewObject(gameObject, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size()));
 				}
+				/*UI.SetFont(level.child("UI").attribute("Font").as_string(), level.child("UI").attribute("Size").as_int());
+				for (pugi::xml_node uio = level.child("UI").child("GameObject"); uio; uio = uio.next_sibling("GameObject"))
+				{
+					newLevel->AddUIObject(CreateNewObject(uio, (int)newLevel->GetGameObjects().size()+(int)newLevel->GetUIObjects().size()));
+					newLevel->GetUIObjects().back()->isActive(true);
+				}*/
 				levelLoaded = true;
-				Renderer.Render(Background, Vec3d(0.0));
+				Renderer.RenderBackground(Background, Vec3d(0.0));
 				return newLevel;
 			}
 		}
@@ -153,6 +168,7 @@ namespace GlassEngine{
 	{
 		std::shared_ptr<GameObject> prefabObj_ = std::make_shared<GameObject>(*prefabs[gameObjectName]);
 		prefabObj_->GetTransform()->SetPosition(pos);
+		prefabObj_->isActive(true);
 		CurrentLevel()->AddGameObject(prefabObj_);
 		return prefabObj_;
 	}
@@ -166,6 +182,7 @@ namespace GlassEngine{
 		std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(newObject);
 		std::shared_ptr<SpriteSheet> spriteSheet = std::make_shared<SpriteSheet>(newObject);
 		std::shared_ptr<PointGravity> pointGravity = std::make_shared<PointGravity>(newObject);
+		std::shared_ptr<Text> text = std::make_shared<Text>(newObject);
 
 		transform->SetPosition(Vec3d(node.child("Transform").attribute("positionX").as_double(), node.child("Transform").attribute("positionY").as_double(), node.child("Transform").attribute("positionZ").as_double()));
 		//;
@@ -175,7 +192,12 @@ namespace GlassEngine{
 		if (node.child("Sprite"))
 		{
 			sprite->LoadSprite(node.child("Sprite").attribute("graphic").as_string());
-			offset = Vec2d(sprite->GetSpriteDims().x / 2, sprite->GetSpriteDims().y / 2);
+			offset = Vec2d(sprite->GetSpriteDims().x / 4, sprite->GetSpriteDims().y / 4);
+			if (node.child("Sprite").attribute("renderToBackground").as_bool())
+			{
+				Renderer.RenderToBackground(sprite, transform->GetPosition());
+				sprite->Renderable(false);
+			}
 			newObject->AddComponent(sprite);
 			Renderer.AddSprite(sprite);
 		}
@@ -188,7 +210,7 @@ namespace GlassEngine{
 			{
 				spriteSheet->AddAnimation(Animation(anim.attribute("name").as_string(), Vec2i(anim.attribute("start").as_int(), anim.attribute("end").as_int())));
 			}
-			offset = Vec2d(spriteSheet->GetIdvSpriteDims().x / 2, spriteSheet->GetIdvSpriteDims().y / 2);
+			offset = Vec2d(spriteSheet->GetIdvSpriteDims().x / 4, spriteSheet->GetIdvSpriteDims().y / 4);
 			newObject->AddComponent(spriteSheet);
 			Renderer.AddSpriteSheet(spriteSheet);
 		}
@@ -207,6 +229,13 @@ namespace GlassEngine{
 			rigidBody->setMass(node.child("Rigidbody").attribute("Mass").as_double());
 			newObject->AddComponent(rigidBody);
 			Physics.AddRigidbody(rigidBody);
+		}
+
+		if (node.child("Text"))
+		{
+			text->SetContent(node.child("Text").attribute("Content").as_string());
+			newObject->AddComponent(text);
+			UI.AddUIElement(text);
 		}
 
 		/*if (node.child("Collider"))

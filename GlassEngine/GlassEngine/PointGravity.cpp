@@ -26,7 +26,6 @@ namespace GlassEngine
 
 	void PointGravity::FixedUpdate()
 	{
-		//FINISH ME
 		GetRigidbodies();
 		for (auto r : rigidbodies)
 		{
@@ -40,7 +39,6 @@ namespace GlassEngine
 			Vec2d result = Vec2d(n.x, n.y) * (1.0f - d / (range)) * gravityStrength;
 			r->AddForce(result);
 		}
-			//r->AddForce()
 	}
 
 	void PointGravity::Stop()
@@ -57,13 +55,6 @@ namespace GlassEngine
 
 	void PointGravity::GetRigidbodies()
 	{
-		/*for (auto r : rigidbodies)
-		{ 
-			auto d = Distance(r->GetParent()->GetTransform()->GetPosition(), this->parentObject->GetTransform()->GetPosition());
-			if (d > range)
-				r->ResetVelocity();
-		}*/
-
 		rigidbodies.clear();
 		for (auto r : Physics.GetRigidbodies())
 		{

@@ -56,7 +56,6 @@ namespace GlassEngine{
 		activeControllersThisFrame = new bool[maxControllers];
 		activeControllersLastFrame = new bool[maxControllers];
 		controllers = new HAPI_TControllerData[maxControllers];
-		controllersBuffer = new HAPI_TControllerData[maxControllers];
 		for (int i = 0; i < maxControllers; ++i)
 		{
 			activeControllersThisFrame[i] = false;
@@ -71,7 +70,7 @@ namespace GlassEngine{
 		{			//Update the current time
 			time = HAPI->GetTime();
 			Input.keyboardBuffer = Input.keyboard;
-			Input.controllersBuffer = Input.controllers;
+			Input.controllersBuffer = *Input.controllers;
 			HAPI->GetKeyboardData(&Input.keyboard);
 			HAPI->GetMouseData(&Input.mouse);
 			for (int i = 0; i < 8; i++)

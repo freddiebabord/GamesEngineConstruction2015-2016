@@ -22,9 +22,6 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{d54bbe08-45d0-4179-b3a5-9bbc1153852d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Core\Maths">
-      <UniqueIdentifier>{890c58e9-f0d5-4fde-830a-e0323ddf2601}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Core\Managers">
       <UniqueIdentifier>{3a58d893-5aaa-461d-b332-c69ee3388425}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="Source Files\Core\Components">
       <UniqueIdentifier>{131a13ac-34d2-464a-8ebd-a89bfe9be6de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Core\Maths">
-      <UniqueIdentifier>{68fcc88b-f36c-4e73-884c-3578e9d2d8a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Core\Game">
       <UniqueIdentifier>{08bc036a-7bcc-4983-831c-c2a6b10d79d1}</UniqueIdentifier>
@@ -111,9 +105,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files\Core\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Rect.cpp">
-      <Filter>Source Files\Core\Maths</Filter>
-    </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Source Files\Core\Managers</Filter>
     </ClCompile>
@@ -123,17 +114,14 @@
     <ClCompile Include="Level.cpp">
       <Filter>Source Files\Core\Game</Filter>
     </ClCompile>
-    <ClCompile Include="UIObject.cpp">
-      <Filter>Source Files\Core\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Source Files\Core\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files\Core\UI</Filter>
-    </ClCompile>
     <ClCompile Include="PointGravity.cpp">
       <Filter>Source Files\Core\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\Core\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,18 +130,6 @@
     </ClInclude>
     <ClInclude Include="precomp.h">
       <Filter>Precomp</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Header Files\Core\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="MathConsts.h">
-      <Filter>Header Files\Core\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files\Core\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Header Files\Core\Maths</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files\Core\Managers</Filter>
@@ -191,9 +167,6 @@
     <ClInclude Include="SpriteSheet.h">
       <Filter>Header Files\Core\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Rect.h">
-      <Filter>Header Files\Core\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Header Files\Core\Managers</Filter>
     </ClInclude>
@@ -212,20 +185,14 @@
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UIObject.h">
-      <Filter>Header Files\Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>Header Files\Core\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Header Files\Core\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\Core\UI</Filter>
-    </ClInclude>
     <ClInclude Include="PointGravity.h">
       <Filter>Header Files\Core\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\Core\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

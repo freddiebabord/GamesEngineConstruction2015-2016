@@ -51,11 +51,11 @@ namespace GlassEngine
 		{
 			if (id < 4)
 			{
-				if (Input.GetButtonUp(HK_DIGITAL_A, id) || Input.GetKeyUp(HK_SPACE))
+				if (/*Input.GetButtonUp(HK_DIGITAL_A, id) || */Input.GetKeyUp(HK_SPACE))
 				{
 					std::shared_ptr<GameObject> bulletObj = Game.Instantiate("Bullet", transform->GetPosition());
-					//std::shared_ptr<Rigidbody> rb = std::dynamic_pointer_cast<Rigidbody>(bulletObj->GetComponent(RigidbodyC));
-					//rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
+					std::shared_ptr<Rigidbody> rb = std::dynamic_pointer_cast<Rigidbody>(bulletObj->GetComponent(RigidbodyC));
+					rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
 				}
 				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
 				{

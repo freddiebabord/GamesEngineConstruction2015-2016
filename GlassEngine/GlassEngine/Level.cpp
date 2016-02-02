@@ -8,6 +8,5 @@ namespace GlassEngine{
 		for (auto g : gameObjects)
 			g->DeleteObject();
 		gameObjects.clear();
-		players.clear();
 	}
 }

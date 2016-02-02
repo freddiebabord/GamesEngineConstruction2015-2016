@@ -20,7 +20,6 @@
 #include <wchar.h>
 #include <new>
 #include <memory>
-#include <HAPI_lib.h>
 #include <unordered_map>
 #include <map>
 #include <limits>
@@ -28,5 +27,6 @@
 #include <thread>
 #include "resource.h"
 #include "Math.h"
-#include "Utility.h"
+#include "GlassUtilities.h"
+#include <HAPI_lib.h>
 #define MAX_THREADS 2

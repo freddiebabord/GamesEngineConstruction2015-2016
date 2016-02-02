@@ -25,10 +25,13 @@ namespace GlassEngine{
 		//Gets the Sprites dimentions in a Vec2 (width, height)
 		Vec2i GetSpriteDims();
 
+		void Renderable(bool canBeRendered){ renderable = canBeRendered; };
+		bool Renderable() const { return renderable; };
 
 	private:
 		BYTE* imageData = nullptr;
 		Vec2i spriteDims;
+		bool renderable = true;
 	};
 
 }

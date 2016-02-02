@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<level id="0">
-  <Background graphic="Resources\background.jpg" />
-  <Players>
+<level id="0" backgroundAudio="Resources/The Spectacular Quiet.wav">
+	<Background graphic="Resources\background.jpg" />
+	<Players>
 		<Player name="Player1" health="50" type="Player" active="true">
-			<Transform positionX="50" positionY="50" positionZ="0"/>
+			<Transform positionX="500" positionY="500" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
 			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" animationSpeed="15">
@@ -79,22 +79,84 @@
 		</Player>
 	</Players>
 	<World>
+		<GameObject name="Nebulae" type="WorldBackground" active="true">
+			<Transform positionX="1850" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\nebulae2.png" renderToBackground="true"/>
+		</GameObject>
+		<GameObject name="Nebulae" type="WorldBackground" active="true">
+			<Transform positionX="800" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\nebulae1.png" renderToBackground="true"/>
+		</GameObject>
+		<GameObject name="Nebulae" type="WorldBackground" active="true">
+			<Transform positionX="1200" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\nebulae3.png" renderToBackground="true"/>
+		</GameObject>
 		<GameObject name="Sun" type="WorldBackground" active="true">
-			<Transform positionX="1450" positionY="150" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\Sun.png"/>
+			<Transform positionX="1850" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\Sun.png" renderToBackground="true"/>
 			<PointGravity strength="0.50" range="700"/>
 		</GameObject>
 		<GameObject name="Planet" type="WorldBackground" active="true">
-			<Transform positionX="300" positionY="650" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\planet1.png"/>
+			<Transform positionX="500" positionY="650" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\planet1.png" renderToBackground="true"/>
 			<PointGravity strength="0.25" range="350"/>
 		</GameObject> 
 		<GameObject name="Planet" type="WorldBackground" active="true">
 			<Transform positionX="800" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\planet2.png"/>
+			<Sprite graphic="Resources\planet2.png" renderToBackground="true"/>
 			<PointGravity strength="0.25" range="550"/>
 		</GameObject>
 	</World>
+	<UI Font="Calibri Bold" Size="25">
+		<GameObject name="BaseBottom" active="true">
+			<Transform positionX="950" positionY="1050" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\UI\Base.png"/>
+		</GameObject>
+		<GameObject name="ScoreText" active="true">
+			<Transform positionX="50" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
+			<Text Content="Score: "/>
+		</GameObject>
+		<GameObject name="KillsText" active="true">
+			<Transform positionX="450" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
+			<Text Content="Kill Count: "/>
+		</GameObject>
+		<GameObject name="Wave:" active="true">
+			<Transform positionX="850" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
+			<Text Content="Wave: "/>
+		</GameObject>
+		<GameObject name="MenuButton">
+			<Transform positionX="1570" positionY="955" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\UI\Button.png"/>
+			<GameObject name="MenuButton">
+				<Transform positionX="1550" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
+				<Text Content="Menu "/>
+			</GameObject>
+		</GameObject>
+		<GameObject name="PauseMenu">
+			<Transform positionX="960" positionY="540" positionZ="0" scaleX="2" scaleY="2"/>
+			<Sprite graphic="Resources\UI\Base2.png"/>
+			<GameObject name="PauseMenuText">
+				<Transform positionX="915" positionY="450" positionZ="0" scaleX="2" scaleY="2"/>
+				<Text Content="Pause Menu"/>
+			</GameObject>
+			<GameObject name="ReturnToGame">
+				<Transform positionX="960" positionY="520" positionZ="0" scaleX="2" scaleY="2"/>
+				<Sprite graphic="Resources\UI\Button.png"/>
+				<GameObject name="MenuButton">
+					<Transform positionX="945" positionY="515" positionZ="0" scaleX="2" scaleY="2"/>
+					<Text Content="Back"/>
+				</GameObject>
+			</GameObject>
+			<GameObject name="QuitButton">
+				<Transform positionX="960" positionY="600" positionZ="0" scaleX="2" scaleY="2"/>
+				<Sprite graphic="Resources\UI\Button.png"/>
+				<GameObject name="MenuButton">
+					<Transform positionX="945" positionY="595" positionZ="0" scaleX="2" scaleY="2"/>
+					<Text Content="Quit"/>
+				</GameObject>
+			</GameObject>
+		</GameObject>
+	</UI>
 	<Prefabs>
 		<GameObject name="Bullet" type="PlayerWeapon" active="true">
 			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
@@ -103,55 +165,4 @@
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
 		</GameObject>
 	</Prefabs>
-  <!-- <Players graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\Galaxy_alt.png">
-		<Player  name="Player" health="180" type="Player">
-			<Transform positionX="808" positionY="937" positionZ="0"/>
-			<Rigidbody Mass="50"/>
-			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-		</Player>
-		<Player name="Player" health="40" type="Player" >
-			<Transform positionX="307" positionY="196" positionZ="0" />
-			<Rigidbody Mass="50"/>
-			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-		</Player>
-  </Players>
-  <AIs graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\borg cube.png">
-    <AI  positionX="2418" positionY="184" positionZ="0" name="AI" health="100" type="AI" />
-    <AI  positionX="2385" positionY="929" positionZ="0" name="AI" health="100" type="AI" />
-    <AI  positionX="2058" positionY="1310" positionZ="0" name="AI" health="150" type="AI" />
-    <AI  positionX="2126" positionY="423" positionZ="0" name="AI" health="190" type="AI" />
-    <AI  positionX="2422" positionY="669" positionZ="0" name="AI" health="100" type="AI" />
-    <AI  positionX="2045" positionY="723" positionZ="0" name="AI" health="150" type="AI" />
-    <AI  positionX="2163" positionY="1051" positionZ="0" name="AI" health="100" type="AI" />
-    <AI  positionX="2310" positionY="74" positionZ="0" name="AI" health="150" type="AI" />
-    <AI  positionX="2357" positionY="1334" positionZ="0" name="AI" health="100" type="AI" />
-  </AIs>
-  <Sprites graphic="F:\University\Year 2\Mem\Glass Engine v4\GlassEngineEditor\bin\Release\Resources\asteroid.png">
-    <Sprite  positionX="662" positionY="458" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="682" positionY="215" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1007" positionY="728" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="677" positionY="690" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1551" positionY="410" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1535" positionY="805" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1181" positionY="459" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="346" positionY="481" positionZ="0" name="Sprite" health="0" type="World" />
-    <Sprite  positionX="183" positionY="69" positionZ="0" name="Sprite" health="10" type="World" />
-    <Sprite  positionX="178" positionY="549" positionZ="0" name="Sprite" health="30" type="World" />
-    <Sprite  positionX="502" positionY="835" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1293" positionY="847" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="934" positionY="406" positionZ="0" name="Sprite" health="30" type="World" />
-    <Sprite  positionX="511" positionY="109" positionZ="0" name="Sprite" health="10" type="World" />
-    <Sprite  positionX="301" positionY="1023" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1431" positionY="1233" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="995" positionY="1049" positionZ="0" name="Sprite" health="10" type="World" />
-    <Sprite  positionX="644" positionY="1158" positionZ="0" name="Sprite" health="10" type="World" />
-    <Sprite  positionX="2028" positionY="241" positionZ="0" name="Sprite" health="10" type="World" />
-    <Sprite  positionX="1890" positionY="550" positionZ="0" name="Sprite" health="30" type="World" />
-    <Sprite  positionX="1780" positionY="879" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="2135" positionY="912" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1790" positionY="80" positionZ="0" name="Sprite" health="20" type="World" />
-    <Sprite  positionX="188" positionY="854" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="2411" positionY="505" positionZ="0" name="Sprite" health="100" type="World" />
-    <Sprite  positionX="1908" positionY="1226" positionZ="0" name="Sprite" health="100" type="World" />
-  </Sprites> -->
 </level>

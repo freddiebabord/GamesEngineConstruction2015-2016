@@ -1,7 +1,6 @@
 #if !defined (INPUT_MANAGER)
 #define INPUT_MANAGER
 
-#include "Vector2.h"
 #include "Manager.h"
 
 namespace GlassEngine{
@@ -28,8 +27,8 @@ namespace GlassEngine{
 		{
 			if (Input.keyboard.scanCode[key] && !Input.keyboardBuffer.scanCode[key])
 				return true;
-			else
-				return false;
+		
+			return false;
 		};
 
 		template <typename T>
@@ -37,8 +36,8 @@ namespace GlassEngine{
 		{
 			if (!Input.keyboard.scanCode[key] && Input.keyboardBuffer.scanCode[key])
 				return true;
-			else
-				return false;
+
+			return false;
 		};
 
 		template <typename T>
@@ -52,17 +51,18 @@ namespace GlassEngine{
 		{
 			if (Input.controllers[controllerIndex].digitalButtons[button] && !Input.controllersBuffer[controllerIndex].digitalButtons[button])
 				return true;
-			else
-				return false;
+
+			return false;
+
 		};
 
 		template <typename T>
 		bool GetButtonUp(T button, int controllerIndex)
 		{
-			if (!Input.controllers[controllerIndex].digitalButtons[button] && Input.controllersBuffer[controllerIndex].digitalButtons[button])
+			if (!Input.controllers[controllerIndex].digitalButtons[button] && Input.controllersBuffer.digitalButtons[button])
 				return true;
-			else
-				return false;
+			
+			return false;
 		};
 
 		template <typename T>
@@ -75,10 +75,10 @@ namespace GlassEngine{
 		bool WasControllerDisconnectedLastUpdate(int id);
 		bool WasControllerConnectedLastUpdadate(int id);
 		void Reset();
-		const Vec2i GetMousePosition(){ return Vec2i(mouse.x, mouse.y); };
-		const int GetMiddleMouseMovement() { return mouse.wheelMovement; };
-		const bool GetLeftMouseButton() { return mouse.leftButtonDown; };
-		const bool GetRightMouseButton() { return mouse.rightButtonDown; };
+		Vec2i GetMousePosition() const { return Vec2i(mouse.x, mouse.y); };
+		int GetMiddleMouseMovement() const { return mouse.wheelMovement; };
+		bool GetLeftMouseButton() const { return mouse.leftButtonDown; };
+		bool GetRightMouseButton() const { return mouse.rightButtonDown; };
 	protected:
 		InputManager(){};
 
@@ -91,7 +91,7 @@ namespace GlassEngine{
 		HAPI_TKeyboardData keyboardBuffer;
 		HAPI_TMouseData mouse;
 		HAPI_TControllerData *controllers;
-		HAPI_TControllerData *controllersBuffer;
+		HAPI_TControllerData controllersBuffer;
 		bool* activeControllersThisFrame;
 		bool* activeControllersLastFrame;
 	};

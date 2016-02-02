@@ -10,6 +10,13 @@ namespace GlassEngine{
 	class Sprite;
 	class SpriteSheet;
 		
+	struct DirtyRectangle
+	{
+		DirtyRectangle(Vec2i position_, Vec2i size_){ position = position_; size = size_; };
+		Vec2i position;
+		Vec2i size;
+	};
+
 	//A structure to hold the screens width, height and the pointer to the screens pixel data for the application
 	struct Screen
 	{
@@ -50,6 +57,8 @@ namespace GlassEngine{
 		// Clear the screen to a blanket colour by copying all of the pixels that were already set and then pasting them into the next set of the array. Fills the screen exponentially.
 		void ClearScreen(const HAPI_TColour& backgroundColour);
 
+		void RenderBackground(const int& spriteIndex, const Vec3d& renderPos);
+
 		//Render an image on screen
 		//int spriteIndex: The index of the sprite in the render managers vector of sprites
 		//Vec3 renderPos: The position in 3D space the image should be rendered at
@@ -85,6 +94,11 @@ namespace GlassEngine{
 		void ClearRenderer();
 		void ResetToPrevious();
 		void ClearPrevious();
+
+		void AddDirtyRectangle(DirtyRectangle r){ dirtyRectangles.push_back(r); };
+
+		void RenderToBackground(std::shared_ptr<Sprite> sprite, Vec3d renderPos);
+
 	protected:
 		RenderManager(){};
 
@@ -97,6 +111,7 @@ namespace GlassEngine{
 		std::vector<std::shared_ptr<SpriteSheet>> spritesheets;
 		std::vector<std::shared_ptr<Sprite>> previousSprites;
 		std::vector<std::shared_ptr<SpriteSheet>> previousSpritesheets;
+		std::vector<DirtyRectangle> dirtyRectangles;
 	};
 
 

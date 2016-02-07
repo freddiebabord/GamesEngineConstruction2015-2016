@@ -32,11 +32,21 @@ namespace GlassEngine{
 
 		void AddForce(Vec3d force_)
 		{
+			if (maxVelocity.x != 0.0 && maxVelocity.y != 0.0 && maxVelocity.z != 0.0)
+			{
+				if (velocity.Length() + force_.Length() > maxVelocity.Length())
+					force_ = (0.0);
+			}
 			velocity += (force_);
 		};
 
 		void AddForce(Vec2d force_)
 		{
+			if (maxVelocity.x != 0.0 && maxVelocity.y != 0.0 && maxVelocity.z != 0.0)
+			{
+				if (velocity.Length() + force_.Length() > maxVelocity.Length())
+					force_ = (0.0);
+			}
 			velocity += Vec3d(force_.x, force_.y, 0);
 		};
 
@@ -47,7 +57,8 @@ namespace GlassEngine{
 		bool collided = false;
 		double mass = 1.00;
 		std::shared_ptr<Transform> transform;
-		Vec3d velocity = Vec3d(0);
+		Vec3d velocity = Vec3d(0.0);
+		Vec3d maxVelocity = Vec3d(50.0);
 	};
 
 }

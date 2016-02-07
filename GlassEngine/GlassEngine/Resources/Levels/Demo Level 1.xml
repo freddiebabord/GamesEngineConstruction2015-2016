@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level id="0" backgroundAudio="Resources/The Spectacular Quiet.wav">
-	<Background graphic="Resources\background.jpg" />
+	<Background graphic="Resources\background1.jpg" />
 	<Players>
 		<Player name="Player1" health="50" type="Player" active="true">
 			<Transform positionX="500" positionY="500" positionZ="0"/>
@@ -161,7 +161,6 @@
 		<GameObject name="Bullet" type="PlayerWeapon" active="true">
 			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
 			<Sprite graphic="Resources\bullet.jpg"/>
-			<Rigidbody Mass="1"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
 		</GameObject>
 	</Prefabs>

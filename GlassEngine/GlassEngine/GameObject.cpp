@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "PhysicsManager.h"
 #include "Time.h"
 #include "Game.h"
 
@@ -27,6 +28,16 @@ namespace GlassEngine
 		DeleteObject();
 	}
 
+	std::shared_ptr<GameObject> GameObject::Clone()
+	{
+		GameObject gameObject = *this;
+		std::shared_ptr<Transform> transform_ = std::make_shared<Transform>(*transform);
+		std::shared_ptr<Rigidbody> rigidbody_ = std::make_shared<Rigidbody>(*rigidbody);
+		std::shared_ptr<Sprite> sprite_ = std::make_shared<Sprite>(*sprite);
+		std::shared_ptr<SpriteSheet> spriteSheet_ = std::make_shared<SpriteSheet>(*spritesheet);
+//TODO FINISH ME
+	}
+
 	void GameObject::Start()
 	{
 		for (auto c : children)
@@ -43,10 +54,6 @@ namespace GlassEngine
 
 	void GameObject::Update()
 	{
-		/*for (auto comp : components)
-		{
-			comp->Update();
-		}*/
 		if (active)
 		{
 			if (id < 4)
@@ -54,8 +61,11 @@ namespace GlassEngine
 				if (/*Input.GetButtonUp(HK_DIGITAL_A, id) || */Input.GetKeyUp(HK_SPACE))
 				{
 					std::shared_ptr<GameObject> bulletObj = Game.Instantiate("Bullet", transform->GetPosition());
-					std::shared_ptr<Rigidbody> rb = std::dynamic_pointer_cast<Rigidbody>(bulletObj->GetComponent(RigidbodyC));
+					std::shared_ptr<Rigidbody> rb = std::make_shared<Rigidbody>(bulletObj);
+					bulletObj->AddComponent(rb);
+					Physics.AddRigidbody(rb);
 					rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
+					bulletObj->Start();
 				}
 				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
 				{

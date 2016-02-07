@@ -53,6 +53,7 @@ namespace GlassEngine{
 		const bool isActive(){ return active; };
 		void isActive(bool active_);
 
+		std::shared_ptr<GameObject> Clone();
 	protected :
 		std::vector<std::shared_ptr<Component>> components;
 		std::vector<std::shared_ptr<GameObject>> children;

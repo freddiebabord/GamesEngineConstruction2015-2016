@@ -166,11 +166,12 @@ namespace GlassEngine{
 
 	std::shared_ptr<GameObject> GameManager::Instantiate(std::string gameObjectName, Vec3d pos)
 	{
-		std::shared_ptr<GameObject> prefabObj_ = std::make_shared<GameObject>(*prefabs[gameObjectName]);
-		prefabObj_->GetTransform()->SetPosition(pos);
-		prefabObj_->isActive(true);
-		CurrentLevel()->AddGameObject(prefabObj_);
-		return prefabObj_;
+		GameObject prefabObject = *prefabs[gameObjectName].get();
+		prefabObject.GetTransform()->SetPosition(pos);
+		prefabObject.isActive(true);
+		std::shared_ptr<GameObject> go = std::make_shared<GameObject>(prefabObject);
+		CurrentLevel()->AddGameObject(go);
+		return go;
 	}
 
 	std::shared_ptr<GameObject> GameManager::CreateNewObject(pugi::xml_node node, int id)

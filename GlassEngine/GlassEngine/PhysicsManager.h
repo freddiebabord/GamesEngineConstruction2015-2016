@@ -27,6 +27,11 @@ namespace GlassEngine{
 		void AddRigidbody(std::shared_ptr<Rigidbody> rigidbody);
 		void AddGravityAffector(std::shared_ptr<PointGravity> grav_);
 		std::vector<std::shared_ptr<Rigidbody>>& GetRigidbodies(){ return rigidbodies; };
+
+
+		bool CheckForCollision(Vec3d position, int colliderID, 
+			Vec3d otherPosition, int otherColliderID);
+
 		void ClearPhysicsManager();
 		void ResetToPrevious();
 		void ClearPrevious();

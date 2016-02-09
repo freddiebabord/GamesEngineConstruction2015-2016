@@ -188,13 +188,20 @@ namespace GlassEngine{
 		std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>();
 		sprite->LoadSprite(node.attribute("graphic").as_string());
 		sprite->ID(node.attribute("id").as_int());
+		
 		if (node.attribute("renderToBackground").as_bool())
 		{
 			Renderer.RenderToBackground(sprite, Vec3d(node.attribute("positionX").as_double(), node.attribute("positionY").as_double(), 0.0));
 			sprite->Renderable(false);
 		}
 		else
+		{
 			Renderer.AddSprite(sprite);
+			std::shared_ptr<SpriteCollider> collider = std::make_shared<SpriteCollider>();
+			Rect spriteRect = Rect(0, sprite->GetSpriteDims().height, 0, sprite->GetSpriteDims().width);
+			collider->GenerateMask(sprite->GetImage(), spriteRect);
+			Physics.AddCollider(collider);
+		}
 	}
 
 	void GameManager::CreateSpriteSheet(pugi::xml_node node)
@@ -204,6 +211,11 @@ namespace GlassEngine{
 		spriteSheet->SetIdvSpriteSize(Vec2i(node.attribute("sizeX").as_int(), node.attribute("sizeY").as_int()));
 		spriteSheet->ID(node.attribute("id").as_int());
 		Renderer.AddSpriteSheet(spriteSheet);
+
+		std::shared_ptr<SpriteCollider> collider = std::make_shared<SpriteCollider>();
+		Rect spriteRect = Rect(0, spriteSheet->GetIdvSpriteDims().height, 0, spriteSheet->GetIdvSpriteDims().width);
+		collider->GenerateMask(spriteSheet->GetImage(), spriteRect);
+		Physics.AddCollider(collider);
 	}
 
 	std::shared_ptr<GameObject> GameManager::CreateNewObject(pugi::xml_node node, int id)
@@ -227,11 +239,14 @@ namespace GlassEngine{
 		if (node.child("Sprite"))
 		{
 			newObject->SpriteRef(node.child("Sprite").attribute("id").as_int());
+			newObject->ColliderRef(node.child("Sprite").attribute("id").as_int());
 		}
 		if (node.child("SpriteSheet"))
 		{
+			newObject->ColliderRef(node.child("SpriteSheet").attribute("id").as_int());
 			newObject->SpriteSheetRef(node.child("SpriteSheet").attribute("id").as_int());
 		}
+
 		if (node.child("Animator"))
 		{
 			animation->SetAnimSpeed(node.child("Animator").attribute("animationSpeed").as_int());
@@ -263,21 +278,6 @@ namespace GlassEngine{
 			text->SetContent(node.child("Text").attribute("Content").as_string());
 			newObject->AddComponent(text);
 			UI.AddUIElement(text);
-		}
-
-		if (node.child("Collider"))
-		{
-			if (node.child("Collider").attribute("type").as_string() == "Sprite")
-			{
-				if (newObject->SpriteRef() > 0)
-					spriteCollider->GenerateMask(Renderer.GetSprite(newObject->SpriteRef()));
-				else
-					spriteCollider->GenerateMask(Renderer.GetSpriteSheet(newObject->SpriteSheetRef()));
-				
-				newObject->AddComponent(spriteCollider);
-				Physics.AddCollider(spriteCollider);
-			}
-			
 		}
 		
 		newObject->SetName(node.attribute("name").as_string());

@@ -38,6 +38,10 @@ inline T lerp(T a, T b, float s)
 	return a + (b - a) * s;
 }
 
+#define MAX(a,b) a>b? a: b;
+#define MIN(a,b) a<b? a: b;
+
+
 #endif //GLASSMATHSCONSTANTS
 
 
@@ -536,10 +540,17 @@ namespace GlassEngine
 			top(top_), bottom(bottom_), left(left_), right(right_){};
 		~Rect(){};
 
+		int Width() const;
+		int Height() const;
 		Rect* GetRect() { return this; };
 		RectStates CheckState(const Rect& other);
 		RectStates CheckState(const Vec2i& pos);
 		Vec4i  GetRectDims(){ return Vec4i(top, bottom, left, right); };
+
+		void Translate(int x, int y);
+		void ClipTo(const Rect &other);
+		bool Intersects(const Rect &other);
+
 	private:
 		int top, bottom, left, right;
 
@@ -575,5 +586,7 @@ namespace GlassEngine
 
 }
 #endif //GLASSDISTANCE
+
+
 
 #endif

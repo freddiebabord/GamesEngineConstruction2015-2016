@@ -38,6 +38,10 @@ inline T lerp(T a, T b, float s)
 	return a + (b - a) * s;
 }
 
+#define MAX(a,b) a>b? a: b;
+#define MIN(a,b) a<b? a: b;
+
+
 #endif //GLASSMATHSCONSTANTS
 
 
@@ -65,15 +69,15 @@ namespace GlassEngine
 			return sqrt(x * x + y * y);
 		}
 
-		inline Vec2<T> Normalize()
+		inline Vec2<float> Normalize()
 		{
-			Vec2<T> vector;
-			auto length = this->Length();
+			Vec2<float> vector;
+			float length = this->Length();
 
 			if (length != 0)
 			{
-				vector.x = (T)this->x / length;
-				vector.y = (T)this->y / length;
+				vector.x = this->x / length;
+				vector.y = this->y / length;
 			}
 
 			return vector;
@@ -180,7 +184,7 @@ namespace GlassEngine
 		Vector3<T>(Vector2<T> ixy, T iz) : x(ixy.x), y(ixy.y), z(iz){};
 		Vector3<T>(T ix, T iy, T iz) : x(ix), y(iy), z(iz){};
 
-		inline T Length()
+		inline float Length()
 		{
 			return sqrt(x * x + y * y + z * z);
 		}
@@ -273,6 +277,70 @@ namespace GlassEngine
 		inline Vector3<T> operator/(const Vector3<T>& rhs)
 		{
 			return Vector3<T>(this->x / rhs.x, this->y / rhs.y, this->z * rhs.z);
+		}
+
+		inline bool operator > (const Vector3<T>& rhs)
+		{
+			if (this->Length() > rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator >= (const Vector3<T>& rhs)
+		{
+			if (this->Length() >= rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator < (const Vector3<T>& rhs)
+		{
+			if (this->Length() > rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator <= (const Vector3<T>& rhs)
+		{
+			if (this->Length() >= rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator != (const Vector3<T>& rhs)
+		{
+			if (this->x == rhs.x)
+			{
+				if (this->y == rhs.y)
+				{
+					if (this->z == rhs.z)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		inline bool operator != (const T& rhs)
+		{
+			if (this->x == rhs)
+			{
+				if (this->y == rhs)
+				{
+					if (this->z == rhs)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
 		// versions of vec3 variables
@@ -420,6 +488,7 @@ namespace GlassEngine
 			return Vector4<T>(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z, this->w / rhs.w);
 		}
 
+
 		// versions of vec4 variables
 		union {
 			struct {
@@ -429,7 +498,7 @@ namespace GlassEngine
 				T r, g, b, a;
 			};
 			struct {
-				T left, right, top, bottom;
+				T top, bottom, left, right;
 			};
 		};
 	};
@@ -471,10 +540,17 @@ namespace GlassEngine
 			top(top_), bottom(bottom_), left(left_), right(right_){};
 		~Rect(){};
 
+		int Width() const;
+		int Height() const;
 		Rect* GetRect() { return this; };
 		RectStates CheckState(const Rect& other);
 		RectStates CheckState(const Vec2i& pos);
 		Vec4i  GetRectDims(){ return Vec4i(top, bottom, left, right); };
+
+		void Translate(int x, int y);
+		void ClipTo(const Rect &other);
+		bool Intersects(const Rect &other);
+
 	private:
 		int top, bottom, left, right;
 
@@ -510,5 +586,7 @@ namespace GlassEngine
 
 }
 #endif //GLASSDISTANCE
+
+
 
 #endif

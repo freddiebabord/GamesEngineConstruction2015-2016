@@ -12,6 +12,7 @@ namespace GlassEngine{
 	{
 	public:
 		Collider(std::shared_ptr<GameObject> parentObj_) : Component(parentObj_){ id = ColliderC; };
+		Collider() : Component() { id = ColliderC; };
 		~Collider(){};
 
 		void Start() override {};

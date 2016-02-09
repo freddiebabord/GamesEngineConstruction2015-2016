@@ -53,9 +53,11 @@ namespace GlassEngine{
 
 		void SpriteRef(const int ref){ sprite = ref; };
 		void SpriteSheetRef(const int ref){ spritesheet = ref; };
+		void ColliderRef(const int ref){ collider = ref; };
 
 		int SpriteRef() const { return sprite; };
 		int SpriteSheetRef() const { return spritesheet; };
+		int ColliderRef() const { return collider; };
 
 		void Collided(const bool col_){ hasCollided = col_; };
 		bool Collided() const { return hasCollided; };
@@ -64,6 +66,7 @@ namespace GlassEngine{
 		std::vector<std::shared_ptr<Component>> components;
 		int sprite = -1;
 		int spritesheet = -1;
+		int collider = -1;
 		std::vector<std::shared_ptr<GameObject>> children;
 		void UpdateChildren(Vec3d parentPos);
 

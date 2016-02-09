@@ -11,86 +11,49 @@ namespace GlassEngine{
 			delete[] mask;
 	}
 
-	void SpriteCollider::GenerateMask(std::shared_ptr<Sprite> sprite)
+	void SpriteCollider::GenerateMask(BYTE* imageData, const Rect& rect)
 	{
-		Vec2i spriteDims = sprite->GetSpriteDims();
+		// Sanity check
+		assert(sizeof(DWORD) == 4);
 
-		//A local "rectangle" which handles image clipping
-		int startX = 0;
-		int startY = 0;
-		int endX = spriteDims.width;
-		int endY = spriteDims.height;
+		// How many DWORDs across do we need? 
+		int numDwordsAcross = (rect.Width() + 31) / 32;
 
-		BYTE noColl[4] = { 0, 0, 0, 0 };
-		BYTE Coll[4] = { 1, 1, 1, 1};
+		// allocate	memory for the collision mask and clear
+		DWORD *mask_ = new DWORD[numDwordsAcross * rect.Height()];
+		memset(mask_, 0, numDwordsAcross * rect.Height() * 4);
 
-		BYTE* imgPtr = sprite->GetImage();
-		mask = new BYTE[endX * endY * 4];
+		// Set up start pointers
+		BYTE *sourcePntr = imageData;
+		DWORD *maskPointer = mask_;
+		DWORD currentBit = 0;
 
-		for (int y = startY; y < endY; ++y)
+		for (int y = 0; y < rect.Height(); y++)
 		{
-			for (int x = startX; x < endX; ++x)
+			for (int x = 0; x < rect.Width(); x++)
 			{
+				BYTE alpha = sourcePntr[3];
 
-				int offset = ((y * spriteDims.width) + x) * 4;
-
-
-				BYTE alpha = imgPtr[offset + 3];
-
-
-				if (alpha <= 0)
+				// Each pixel can be represented as one bit, either 1 for solid or 0 for empty
+				// Here 1 is when alpha is 255 only but I guess you could say if the alpha is > some amount it is counted as solid - up to the game
+				if (alpha == 255)
 				{
-					memcpy(&mask[offset], &noColl, 4);
+					*maskPointer = *maskPointer | (1 << currentBit); // turn on the correct bit in the current mask DWORD
 				}
-				else
+
+				sourcePntr += 4;
+				currentBit++;
+				if (currentBit == 32)
 				{
-					memcpy(&mask[offset], &Coll, 4);
+					// When we reach the last bit we move on to the next DWORD and reset bit to 0
+					currentBit = 0;
+					maskPointer++;
 				}
 			}
 		}
-
-		maskSize = spriteDims;
-	}
-
-	void SpriteCollider::GenerateMask(std::shared_ptr<SpriteSheet> spriteSheet)
-	{
-		Vec2i spriteDims = spriteSheet->GetIdvSpriteDims();
-
-		//A local "rectangle" which handles image clipping
-		int startX = 0;
-		int startY = 0;
-		int endX = spriteDims.width;
-		int endY = spriteDims.height;
-
-		BYTE noColl[4] = { 0, 0, 0, 0 };
-		BYTE Coll[4] = { 1, 1, 1, 1 };
-
-		BYTE* imgPtr = spriteSheet->GetImage();
-		mask = new BYTE[endX * endY * 4];
-
-		for (int y = startY; y < endY; ++y)
-		{
-			for (int x = startX; x < endX; ++x)
-			{
-
-				int offset = ((y * spriteDims.width) + x) * 4;
-
-
-				BYTE alpha = imgPtr[offset + 3];
-
-
-				if (alpha <= 0)
-				{
-					memcpy(&mask[offset], &noColl, 4);
-				}
-				else
-				{
-					memcpy(&mask[offset], &Coll, 4);
-				}
-			}
-		}
-
-		maskSize = spriteDims;
+		mask = mask_;
+		boundingBox = rect;
+		dwordSize = numDwordsAcross;
 	}
 
 	bool SpriteCollider::CheckCollider(std::shared_ptr<SpriteCollider> collider)
@@ -123,4 +86,6 @@ namespace GlassEngine{
 		}
 		return false;
 	}
+
+	
 }

@@ -3,6 +3,39 @@
 namespace GlassEngine
 {
 
+	int Rect::Width() const
+	{
+		return right - left;
+	}
+
+	int Rect::Height() const
+	{
+		return bottom - top;
+	}
+
+	void Rect::Translate(int x, int y)
+	{
+		left += x;
+		right += x;
+		top += y;
+		bottom += y;
+	}
+
+	void Rect::ClipTo(const Rect &other)
+	{
+		left = MAX(other.left, left);
+		right = MIN(other.right, right);
+		top = MAX(other.top, top);
+		bottom = MIN(other.bottom, bottom);
+	}
+
+	bool Rect::Intersects(const Rect &other)
+	{
+		if (left>other.right || right<other.left || top>other.bottom || bottom<other.top)
+			return false;
+		return true;
+	}
+
 	RectStates Rect::CheckState(const Rect& other)
 	{
 		if (right < other.right &&

@@ -121,6 +121,27 @@ namespace GlassEngine{
 				}
 			}
 		}
+
+		//TODO: Fix me as always true
+		for (auto gos : Game.CurrentLevel()->GetGameObjects())
+		{
+			if (gos->isActive())
+			{
+				for (auto gos2 : Game.CurrentLevel()->GetGameObjects())
+				{
+					if (gos2->isActive())
+					{
+						if (gos != gos2)
+						{
+							if (Physics.CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
+							{
+								HAPI->UserMessage("I've Collided!!!!!", "Glass Engine");
+							}
+						}
+					}
+				}
+			}
+		}
 		/*for (auto gos : Game.CurrentLevel()->GetUIObjects())
 		{
 			if (gos->isActive())

@@ -275,6 +275,70 @@ namespace GlassEngine
 			return Vector3<T>(this->x / rhs.x, this->y / rhs.y, this->z * rhs.z);
 		}
 
+		inline bool operator > (const Vector3<T>& rhs)
+		{
+			if (this->Length() > rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator >= (const Vector3<T>& rhs)
+		{
+			if (this->Length() >= rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator < (const Vector3<T>& rhs)
+		{
+			if (this->Length() > rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator <= (const Vector3<T>& rhs)
+		{
+			if (this->Length() >= rhs->Length())
+				return true;
+
+			return false;
+		}
+
+		inline bool operator != (const Vector3<T>& rhs)
+		{
+			if (this->x == rhs.x)
+			{
+				if (this->y == rhs.y)
+				{
+					if (this->z == rhs.z)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		inline bool operator != (const T& rhs)
+		{
+			if (this->x == rhs)
+			{
+				if (this->y == rhs)
+				{
+					if (this->z == rhs)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
 		// versions of vec3 variables
 		union {
 			struct {
@@ -420,6 +484,7 @@ namespace GlassEngine
 			return Vector4<T>(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z, this->w / rhs.w);
 		}
 
+
 		// versions of vec4 variables
 		union {
 			struct {
@@ -429,7 +494,7 @@ namespace GlassEngine
 				T r, g, b, a;
 			};
 			struct {
-				T left, right, top, bottom;
+				T top, bottom, left, right;
 			};
 		};
 	};
@@ -471,6 +536,8 @@ namespace GlassEngine
 			top(top_), bottom(bottom_), left(left_), right(right_){};
 		~Rect(){};
 
+		int Width() const;
+		int Height() const;
 		Rect* GetRect() { return this; };
 		RectStates CheckState(const Rect& other);
 		RectStates CheckState(const Vec2i& pos);

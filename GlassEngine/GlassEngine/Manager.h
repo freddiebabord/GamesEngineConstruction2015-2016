@@ -10,7 +10,7 @@ namespace GlassEngine{
 		virtual ~Manager() = 0{};
 
 		virtual void Start(){};
-		virtual void Update(){};
+		virtual void Update(){ HAPI->UserMessage("Im right?", "GlassEngine");  };
 		virtual void FixedUpdate(){};
 		virtual void Stop(){};
 

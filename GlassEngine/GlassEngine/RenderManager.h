@@ -70,9 +70,6 @@ namespace GlassEngine{
 		//Vec3 renderPos: The position in 3D space the image should be rendered at
 		void Render(const int& spriteIndex, const Vec3d& renderPos, const int& idvSpriteIndex);
 
-		void Render(const std::shared_ptr<Sprite> spriteIndex, const Vec3d& renderPos);
-		void Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3d& renderPos, const int& idvSpriteIndex);
-
 		//Dirty Recatngles - clears a portion of the screen, based off of the screen position and size of the rectangle to render from
 		void RenderDR(const Vec2i& pos, const Vec2i& size);
 
@@ -89,6 +86,7 @@ namespace GlassEngine{
 		bool AddSpriteSheet(const std::string& path, Vec2i spriteSize);
 		bool AddSpriteSheet(std::shared_ptr<SpriteSheet> spriteToAdd);
 
+		std::shared_ptr<Sprite> GetSprite(const int& spriteIndex) const { return sprites[spriteIndex]; };
 		// Returns a spritesheet from the vector or spritesheets that the render manager has
 		std::shared_ptr<SpriteSheet> GetSpriteSheet(const int& spriteSheetIndex){ return spritesheets[spriteSheetIndex]; };
 		void ClearRenderer();
@@ -99,6 +97,8 @@ namespace GlassEngine{
 
 		void RenderToBackground(std::shared_ptr<Sprite> sprite, Vec3d renderPos);
 
+		int GetSpriteSheetStorageSize() const { return (int)spritesheets.size(); };
+		int GetSpriteStorageSize() const { return (int)sprites.size(); };
 	protected:
 		RenderManager(){};
 

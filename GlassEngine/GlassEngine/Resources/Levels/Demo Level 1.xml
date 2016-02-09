@@ -1,46 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level id="0" backgroundAudio="Resources/The Spectacular Quiet.wav">
-	<Background graphic="Resources\background1.jpg" />
+	<Background graphic="Resources\background.jpg" />
+	<SpriteSheets>
+		<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" id="0" />
+		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="32" sizeY ="32" id="1" />
+	</SpriteSheets>
+	<Sprites>
+		<Sprites graphic="Resources\Shield.png" id="1" />
+		<Sprite graphic="Resources\nebulae2.png" renderToBackground="true" positionX="1850" positionY="550"/>
+		<Sprite graphic="Resources\nebulae1.png" renderToBackground="true" positionX="800" positionY="550" />
+		<Sprite graphic="Resources\nebulae3.png" renderToBackground="true" positionX="1200" positionY="50"/>
+		<Sprite graphic="Resources\Sun.png" renderToBackground="true" positionX="1850" positionY="550" />
+		<Sprite graphic="Resources\planet1.png" renderToBackground="true" positionX="500" positionY="650"/>
+		<Sprite graphic="Resources\planet2.png" renderToBackground="true" positionX="800" positionY="50"/>
+	</Sprites>
 	<Players>
-		<Player name="Player1" health="50" type="Player" active="true">
+		 <Player name="Player1" health="50" type="Player" active="true">
 			<Transform positionX="500" positionY="500" positionZ="0"/>
 			<Rigidbody Mass="1"/>
-			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" animationSpeed="15">
+			<SpriteSheet id ="0"/>
+			<Collider type="Sprite"/>
+			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="12"/>
 				<Animation name="moveRight" start="13" end="14"/>
 				<Animation name="moveLeft" start="15" end="16"/>
 				<Animation name="moveBack" start="17" end="21"/>
-			</SpriteSheet>
+			</Animator>	
 			<GameObject name="Shield" type="GameObject" active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
-				<Sprite graphic="Resources\Shield.png"/>
-				<!-- <GameObject name="Explosion" type="GameObject">
-					<Transform positionX="0" positionY="0" positionZ="0"/>
-					<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" animationSpeed="15"> 
-						<Animation name="idle" start="0" end="20"/>
-					</SpriteSheet>
-				</GameObject> -->
+				<Sprite id="1"/>
 			</GameObject>
 		</Player>
-		<Player name="Player2" health="50" type="Player" active="true">
+		 <Player name="Player2" health="50" type="Player" active="true">
 			<Transform positionX="150" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
-			<Collider Top="50" Left="50" Right="50" Bottom="50" />
-			<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" animationSpeed="15"> 
+			<SpriteSheet id ="0"/>
+			<Collider type="Sprite"/>
+			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="12"/>
 				<Animation name="moveRight" start="13" end="14"/>
 				<Animation name="moveLeft" start="15" end="16"/>
 				<Animation name="moveBack" start="17" end="21"/>
-			</SpriteSheet>
+			</Animator>	
 			<GameObject name="Shield" type="GameObject" active="false">
-				<Transform positionX="50" positionY="50" positionZ="0"/>
-				<Sprite graphic="Resources\Shield.png"/>
+				<Transform positionX="0" positionY="0" positionZ="0"/>
+				<Sprite id="1"/>
 			</GameObject>
 		</Player>
-		<Player name="Player3" health="50" type="Player" active="true">
+		<!--<Player name="Player3" health="50" type="Player" active="true">
 			<Transform positionX="200" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
@@ -61,7 +70,7 @@
 				</GameObject>
 			</GameObject>
 		</Player>
-		<Player name="Player4" health="50" type="Player" active="true">
+		<Player name="Player4" health="50" type="Player" active="true"> 
 			<Transform positionX="250" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
@@ -76,38 +85,23 @@
 				<Transform positionX="50" positionY="50" positionZ="0"/>
 				<Sprite graphic="Resources\Shield.png"/>
 			</GameObject>
-		</Player>
+		</Player> -->
 	</Players>
 	<World>
-		<GameObject name="Nebulae" type="WorldBackground" active="true">
-			<Transform positionX="1850" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\nebulae2.png" renderToBackground="true"/>
-		</GameObject>
-		<GameObject name="Nebulae" type="WorldBackground" active="true">
-			<Transform positionX="800" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\nebulae1.png" renderToBackground="true"/>
-		</GameObject>
-		<GameObject name="Nebulae" type="WorldBackground" active="true">
-			<Transform positionX="1200" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\nebulae3.png" renderToBackground="true"/>
-		</GameObject>
 		<GameObject name="Sun" type="WorldBackground" active="true">
 			<Transform positionX="1850" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\Sun.png" renderToBackground="true"/>
 			<PointGravity strength="0.50" range="700"/>
 		</GameObject>
 		<GameObject name="Planet" type="WorldBackground" active="true">
 			<Transform positionX="500" positionY="650" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\planet1.png" renderToBackground="true"/>
 			<PointGravity strength="0.25" range="350"/>
 		</GameObject> 
 		<GameObject name="Planet" type="WorldBackground" active="true">
 			<Transform positionX="800" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\planet2.png" renderToBackground="true"/>
 			<PointGravity strength="0.25" range="550"/>
 		</GameObject>
 	</World>
-	<UI Font="Calibri Bold" Size="25">
+	<!--<UI Font="Calibri Bold" Size="25">
 		<GameObject name="BaseBottom" active="true">
 			<Transform positionX="950" positionY="1050" positionZ="0" scaleX="2" scaleY="2"/>
 			<Sprite graphic="Resources\UI\Base.png"/>
@@ -157,11 +151,11 @@
 			</GameObject>
 		</GameObject>
 	</UI>
-	<Prefabs>
+	<Prefabs> 
 		<GameObject name="Bullet" type="PlayerWeapon" active="true">
 			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
 			<Sprite graphic="Resources\bullet.jpg"/>
 			<Collider Top="50" Left="50" Right="50" Bottom="50" />
 		</GameObject>
-	</Prefabs>
+	</Prefabs> -->
 </level>

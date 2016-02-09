@@ -7,7 +7,7 @@ namespace GlassEngine{
 
 #define Physics PhysicsManager::Instance()
 
-	class Collider;
+	class SpriteCollider;
 	class Rigidbody;
 	class PointGravity;
 
@@ -23,7 +23,7 @@ namespace GlassEngine{
 		void Stop() override;
 		void Reset();
 
-		void AddCollider(std::shared_ptr<Collider> collider);
+		void AddCollider(std::shared_ptr<SpriteCollider> collider);
 		void AddRigidbody(std::shared_ptr<Rigidbody> rigidbody);
 		void AddGravityAffector(std::shared_ptr<PointGravity> grav_);
 		std::vector<std::shared_ptr<Rigidbody>>& GetRigidbodies(){ return rigidbodies; };
@@ -37,11 +37,11 @@ namespace GlassEngine{
 
 	private:
 		static PhysicsManager *instance;
-		std::vector<std::shared_ptr<Collider>> colliders;
+		std::vector<std::shared_ptr<SpriteCollider>> colliders;
 		std::vector<std::shared_ptr<Rigidbody>> rigidbodies;
 		std::vector<std::shared_ptr<PointGravity>> gravityAffectors;
 
-		std::vector<std::shared_ptr<Collider>> previousColliders;
+		std::vector<std::shared_ptr<SpriteCollider>> previousColliders;
 		std::vector<std::shared_ptr<Rigidbody>> previousRigidbodies;
 		std::vector<std::shared_ptr<PointGravity>> previousGravityAffectors;
 	};

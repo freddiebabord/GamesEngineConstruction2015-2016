@@ -23,14 +23,12 @@ namespace GlassEngine{
 		virtual void FixedUpdate(){};
 		virtual void Stop();
 
-		std::shared_ptr<Component> GetComponent(int id);
-
 		template<typename T>
-		std::shared_ptr<T> GetComponent(T component)
+		std::shared_ptr<T> GetComponent(int id)
 		{
 			for (auto comp : components)
 			{
-				if (type_info(comp) == type_info(component))
+				if (comp->GetID() == id)
 					return std::dynamic_pointer_cast<T>(comp);
 			}
 			return nullptr;
@@ -43,8 +41,6 @@ namespace GlassEngine{
 
 		void SetName(const std::string& newName){ name = newName; };
 
-		std::shared_ptr<Sprite>& GetSprite() { return sprite; };
-		std::shared_ptr<SpriteSheet>& GetSpritesheet() { return spritesheet; };
 		std::shared_ptr<Transform>& GetTransform() { return transform; };
 
 		void DeleteObject();
@@ -54,19 +50,29 @@ namespace GlassEngine{
 		void isActive(bool active_);
 
 		std::shared_ptr<GameObject> Clone();
+
+		void SpriteRef(const int ref){ sprite = ref; };
+		void SpriteSheetRef(const int ref){ spritesheet = ref; };
+
+		int SpriteRef() const { return sprite; };
+		int SpriteSheetRef() const { return spritesheet; };
+
+		void Collided(const bool col_){ hasCollided = col_; };
+		bool Collided() const { return hasCollided; };
+
 	protected :
 		std::vector<std::shared_ptr<Component>> components;
+		int sprite = -1;
+		int spritesheet = -1;
 		std::vector<std::shared_ptr<GameObject>> children;
 		void UpdateChildren(Vec3d parentPos);
 
 		int id = 0;
 
 		std::shared_ptr<Transform> transform;
-		std::shared_ptr<Rigidbody> rigidbody;
-		std::shared_ptr<Sprite> sprite;
-		std::shared_ptr<SpriteSheet> spritesheet;
 		std::string name = "";
 		bool active = false;
+		bool hasCollided = false;
 	};
 
 }

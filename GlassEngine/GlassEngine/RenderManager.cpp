@@ -4,6 +4,7 @@
 #include "SpriteSheet.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "Animation.h"
 
 namespace GlassEngine{
 
@@ -257,107 +258,11 @@ namespace GlassEngine{
 			}
 		}
 
-		if (spriteIndex != Background)
-		{
-			for (auto c : sprites[spriteIndex]->GetParent()->GetChildren())
-			{
-				if (c->GetSprite())
-					Render(c->GetSprite(), c->GetTransform()->GetPosition());
-				else if (c->GetSpritesheet())
-					Render(c->GetSpritesheet(), c->GetTransform()->GetPosition(), c->GetSpritesheet()->GetCurrentSprite());
-			}
-		}
+		AddDirtyRectangle(DirtyRectangle(Vec2i((int)renderPos.x, (int)renderPos.y), spriteDims));
+
+
 	};
 
-	void RenderManager::Render(const std::shared_ptr<Sprite> sprite, const Vec3d& renderPos)
-	{
-		Vec2i screenDims = screen->screenDimentions;
-		Vec2i spriteDims = sprite->GetSpriteDims();
-
-		Vec2d finalRenderPos = Vec2d(renderPos.x, renderPos.y);
-		finalRenderPos.x -= spriteDims.x / 2;
-		finalRenderPos.y -= spriteDims.y / 2;
-
-		//If the image is off of the screen dont execute the render function
-		if (finalRenderPos.x >= screenDims.width || finalRenderPos.y >= screenDims.height || finalRenderPos.x + spriteDims.width < 0 || finalRenderPos.y + spriteDims.height < 0)
-			return;
-
-		//A local "rectangle" which handles image clipping
-		int startX = 0;
-		int startY = 0;
-		int endX = 0;
-		int endY = 0;
-
-
-		BYTE* imgPtr = sprite->GetImage();
-		BYTE* screenPtr = screen->screenData;
-
-		//If the image is off of the left side of the screen offset the left side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.x < 0)
-			startX = abs((int)finalRenderPos.x);
-		//If the image is off of the top side of the screen offset the top side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.y < 0)
-			startY = abs((int)finalRenderPos.y);
-		//If the image is off of the right side of the screen offset the right side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.x + spriteDims.width > screenDims.width)
-			endX = (spriteDims.width + (int)finalRenderPos.x) - screenDims.width;
-		//If the image is off of the bottom side of the screen offset the bottom side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.y + spriteDims.height > screenDims.height)
-			endY = ((int)finalRenderPos.y + spriteDims.height) - screenDims.height;
-
-		//The rendering loop for each pixal of the images clipped rectangle
-		for (int y = startY; y < spriteDims.height - endY; ++y)
-		{
-			for (int x = startX; x < spriteDims.width - endX; ++x)
-			{
-				//Offset of the current pixel for 4 BYTES (RGBA)
-				int offset = ((y * spriteDims.width) + x) * 4;
-
-				//Gets the alpha value from the images data by the offset for the alpha BYTE of the pixel
-				BYTE alpha = imgPtr[offset + 3];
-
-				//Coninue the next loop
-				if (alpha <= 0)
-					continue;
-
-				//Sets a screen offset for where the BYTE data needs to be written to the screen
-				int scrOffset = ((((int)finalRenderPos.y + y) * screenDims.width) + (((int)finalRenderPos.x + x))) * 4;
-
-				//If the image doesn't have transparency copy the data from the sprites data to the screen for (RGB)
-				//Note the 4th alpha BYTE of the screen is being used as a z-index
-				if (alpha >= 255)
-				{
-					memcpy(&screenPtr[scrOffset], &imgPtr[offset], 3);
-				}
-				else
-				{
-					//Otherwise get each BYTE of colour from the image
-					BYTE blue = imgPtr[offset];
-					BYTE red = imgPtr[offset + 1];
-					BYTE green = imgPtr[offset + 2];
-
-					//And lerp the screens BYTE data with the sprites BYTE data using the amount of alpha as a percentage offset
-					screenPtr[scrOffset] = screenPtr[scrOffset] + ((alpha * (blue - screenPtr[scrOffset])) >> 8);
-					screenPtr[scrOffset + 1] = screenPtr[scrOffset + 1] + ((alpha*(red - screenPtr[scrOffset + 1])) >> 8);
-					screenPtr[scrOffset + 2] = screenPtr[scrOffset + 2] + ((alpha*(green - screenPtr[scrOffset + 2])) >> 8);
-				}
-			}
-		}
-		if (sprite != sprites[Background])
-		{
-			for (auto c : sprite->GetParent()->GetChildren())
-			{
-				auto sp = c->GetSprite();
-				auto pos = c->GetTransform()->GetPosition();
-				if (sp)
-				{
-					Render(sp, pos);
-				}
-				else if (c->GetSpritesheet())
-					Render(c->GetSpritesheet(), pos, c->GetSpritesheet()->GetCurrentSprite());
-			}
-		}
-	};
 
 	//Render an image on screen
 	//int spriteIndex: The index of the spritesheet in the render managers vector of spritesheet 
@@ -457,115 +362,10 @@ namespace GlassEngine{
 			}
 		}
 
-		for (auto c : sheet->GetParent()->GetChildren())
-		{
-			if (c->GetSprite())
-				Render(c->GetSprite(), c->GetTransform()->GetPosition());
-			else if (c->GetSpritesheet())
-				Render(c->GetSpritesheet(), c->GetTransform()->GetPosition(), c->GetSpritesheet()->GetCurrentSprite());
-		}
+		AddDirtyRectangle(DirtyRectangle(Vec2i((int)renderPos.x, (int)renderPos.y), spriteIdvDims));
+
 	};
 
-	void RenderManager::Render(const std::shared_ptr<SpriteSheet> sheet, const Vec3d& renderPos, const int& idvSpriteIndex)
-	{
-
-		Vec2i screenDims = screen->screenDimentions;
-		Vec2i spriteIdvDims = sheet->GetIdvSpriteDims();
-		Vec2i spriteDims = sheet->GetSpriteDims();
-
-		Vec2d finalRenderPos = Vec2d(renderPos.x, renderPos.y);
-		finalRenderPos.x -= spriteDims.x / 2;
-		finalRenderPos.y -= spriteDims.y / 2;
-
-		//The local X, Y on the sprite sheet
-		int spriteY = idvSpriteIndex / (spriteDims.width / spriteIdvDims.width);
-		int spriteX = idvSpriteIndex % (spriteDims.width / spriteIdvDims.width);
-
-		//if the sprite requeststed is off of the sheet dont contiue the function
-		if (spriteX >= spriteDims.width / spriteIdvDims.width ||
-			spriteY >= spriteDims.height / spriteIdvDims.height)
-			return;
-
-		//if the rendered position is off of the screen dont render
-		if (finalRenderPos.x >= screenDims.width ||
-			finalRenderPos.y >= screenDims.height ||
-			finalRenderPos.x + spriteIdvDims.width < 0 ||
-			finalRenderPos.y + spriteIdvDims.height < 0)
-			return;
-
-		//A local "rectangle" which handles image clipping
-		int startX = 0;
-		int startY = 0;
-		int endX = 0;
-		int endY = 0;
-
-		//If the image is off of the left side of the screen offset the left side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.x < 0)
-			startX = abs((int)finalRenderPos.x);
-		//If the image is off of the top side of the screen offset the top side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.y < 0)
-			startY = abs((int)finalRenderPos.y);
-		//If the image is off of the right side of the screen offset the right side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.x + spriteIdvDims.width > screenDims.width)
-			endX = (spriteIdvDims.width + (int)finalRenderPos.x) - screenDims.width;
-		//If the image is off of the bottom side of the screen offset the bottom side of the rectangle with the amount its off of the screen by
-		if (finalRenderPos.y + spriteIdvDims.height > screenDims.height)
-			endY = ((int)finalRenderPos.y + spriteIdvDims.height) - screenDims.height;
-
-		//The local offset for the sprite in the spritesheet
-		int spriteOffset = ((spriteY * spriteDims.width * spriteIdvDims.height) + (spriteX * spriteIdvDims.width)) * 4;
-
-		BYTE* imgPtr = sheet->GetImage();
-		BYTE* screenPtr = screen->screenData;
-
-		int yLoopEnd = spriteIdvDims.height - endY;
-		int xLoopEnd = spriteIdvDims.width - endX;
-
-		//The rendering loop for each pixal of the images clipped rectangle
-		for (int y = startY; y < yLoopEnd; ++y)
-		{
-			for (int x = startX; x < xLoopEnd; ++x)
-			{
-				//Offset of the current pixel for 4 BYTES (RGBA)
-				int offset = ((y * spriteDims.width) + x) * 4;
-
-				//Gets the alpha value from the images data by the offset for the alpha BYTE of the pixel
-				BYTE alpha = imgPtr[offset + spriteOffset + 3];
-
-				//Coninue the next loop
-				if (alpha <= 0) continue;
-
-				int scrOffset = (((int)(finalRenderPos.y + y)  * screenDims.width) + ((int)(finalRenderPos.x + x))) * 4;
-
-				//If the image doesn't have transparency copy the data from the sprites data to the screen for (RGB)
-				//Note the 4th alpha BYTE of the screen is being used as a z-index
-				if (alpha >= 255)
-				{
-					memmove(&screenPtr[scrOffset], &imgPtr[offset + spriteOffset], 3);
-				}
-				else
-				{
-					//Otherwise get each BYTE of colour from the image
-					BYTE blue = imgPtr[offset + spriteOffset];
-					BYTE red = imgPtr[offset + spriteOffset + 1];
-					BYTE green = imgPtr[offset + spriteOffset + 2];
-
-					//And lerp the screens BYTE data with the sprites BYTE data using the amount of alpha as a percentage offset
-					screenPtr[(int)scrOffset] = screenPtr[(int)scrOffset] + ((alpha * (blue - screenPtr[(int)scrOffset])) >> 8);
-					screenPtr[(int)scrOffset + 1] = screenPtr[(int)scrOffset + 1] + ((alpha*(red - screenPtr[(int)scrOffset + 1])) >> 8);
-					screenPtr[(int)scrOffset + 2] = screenPtr[(int)scrOffset + 2] + ((alpha*(green - screenPtr[(int)scrOffset + 2])) >> 8);
-				}
-			}
-		}
-
-		for (auto c : sheet->GetParent()->GetChildren())
-		{
-			if (c->GetSprite())
-				Render(c->GetSprite(), c->GetTransform()->GetPosition());
-			else if (c->GetSpritesheet())
-				Render(c->GetSpritesheet(), c->GetTransform()->GetPosition(), c->GetSpritesheet()->GetCurrentSprite());
-		}
-	};
 
 	//Returns a Vector2<int> of the screen dimentions
 	const Vec2i RenderManager::GetScreenDimentions()
@@ -762,16 +562,6 @@ namespace GlassEngine{
 					screenPtr[scrOffset + 1] = screenPtr[scrOffset + 1] + ((alpha*(red - screenPtr[scrOffset + 1])) >> 8);
 					screenPtr[scrOffset + 2] = screenPtr[scrOffset + 2] + ((alpha*(green - screenPtr[scrOffset + 2])) >> 8);
 				}
-			}
-		}
-		if (sprite != sprites[Background])
-		{
-			for (auto c : sprite->GetParent()->GetChildren())
-			{
-				if (c->GetSprite())
-					Render(c->GetSprite(), c->GetTransform()->GetPosition());
-				else if (c->GetSpritesheet())
-					Render(c->GetSpritesheet(), c->GetTransform()->GetPosition(), c->GetSpritesheet()->GetCurrentSprite());
 			}
 		}
 	}

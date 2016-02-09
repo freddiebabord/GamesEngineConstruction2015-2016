@@ -1,8 +1,9 @@
 #include "precomp.h"
 #include "PhysicsManager.h"
 #include "Rigidbody.h"
-#include "Collider.h"
+#include "SpriteCollider.h"
 #include "PointGravity.h"
+#include "GameObject.h"
 
 namespace GlassEngine{
 
@@ -55,6 +56,20 @@ namespace GlassEngine{
 			r->Update();
 		for (auto g : gravityAffectors)
 			g->Update();
+		for (auto c : colliders)
+		{
+			for (auto oc : colliders)
+			{
+				if (oc != c)
+				{
+					if (c->CheckCollider(oc))
+					{
+						c->GetParent()->Collided(true);
+						HAPI->DebugText("Ive collided with something");
+					}
+				}
+			}
+		}
 	}
 
 	void PhysicsManager::Stop()
@@ -75,7 +90,7 @@ namespace GlassEngine{
 
 	
 
-	void PhysicsManager::AddCollider(std::shared_ptr<Collider> collider)
+	void PhysicsManager::AddCollider(std::shared_ptr<SpriteCollider> collider)
 	{
 		colliders.push_back(collider);
 	}

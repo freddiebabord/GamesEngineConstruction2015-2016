@@ -67,7 +67,7 @@ namespace GlassEngine{
 	void InputManager::Update()
 	{
 		if (time < HAPI->GetTime() - (1000 / 60))
-		{			//Update the current time
+		{
 			time = HAPI->GetTime();
 			Input.keyboardBuffer = Input.keyboard;
 			Input.controllersBuffer = *Input.controllers;
@@ -92,14 +92,11 @@ namespace GlassEngine{
 		}
 	}
 
-	// TODO: Delete controller buffer somehow...
 	void InputManager::Stop()
 	{
 		delete[] activeControllersLastFrame;
 		delete[] activeControllersThisFrame;
-		//delete controllersBuffer;
 		delete controllers;
-		//delete controllersBuffer;
 		delete instance;
 	}
 

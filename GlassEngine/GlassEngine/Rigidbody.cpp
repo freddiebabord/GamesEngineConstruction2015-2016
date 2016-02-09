@@ -8,7 +8,7 @@ namespace GlassEngine
 {
 	void Rigidbody::Start()
 	{
-		transform = std::dynamic_pointer_cast<Transform>(parentObject->GetComponent(TransformC));
+		transform = parentObject->GetComponent<Transform>(TransformC);
 	}
 	void Rigidbody::FixedUpdate()
 	{

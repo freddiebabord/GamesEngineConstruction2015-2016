@@ -180,7 +180,7 @@ namespace GlassEngine
 		Vector3<T>(Vector2<T> ixy, T iz) : x(ixy.x), y(ixy.y), z(iz){};
 		Vector3<T>(T ix, T iy, T iz) : x(ix), y(iy), z(iz){};
 
-		inline float Length()
+		inline T Length()
 		{
 			return sqrt(x * x + y * y + z * z);
 		}

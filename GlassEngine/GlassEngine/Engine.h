@@ -2,17 +2,8 @@
 #define GLASS_ENGINE_ENGINE
 
 #include "Manager.h"
-#include "RenderManager.h"
-#include "InputManager.h"
-#include "PhysicsManager.h"
-#include "UIManager.h"
-#include "Time.h"
-#include "Game.h"
-
 
 namespace GlassEngine{
-
-	struct Animation;
 
 	class Engine
 	{
@@ -28,7 +19,6 @@ namespace GlassEngine{
 
 	private:
 		static Engine *instance;
-		GameManager* gameManager;
 		DWORD fixedUpdateTime;
 	};
 

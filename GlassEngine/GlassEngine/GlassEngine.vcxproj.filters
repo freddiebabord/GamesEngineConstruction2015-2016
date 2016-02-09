@@ -123,6 +123,15 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files\Core\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Source Files\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteCollider.cpp">
+      <Filter>Source Files\Core\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -193,6 +202,15 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>Header Files\Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Header Files\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteCollider.h">
+      <Filter>Header Files\Core\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

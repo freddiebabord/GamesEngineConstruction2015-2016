@@ -11,6 +11,7 @@
 #include "PhysicsManager.h"
 #include "Time.h"
 #include "Game.h"
+#include "Animation.h"
 
 namespace GlassEngine
 {
@@ -32,10 +33,8 @@ namespace GlassEngine
 	{
 		GameObject gameObject = *this;
 		std::shared_ptr<Transform> transform_ = std::make_shared<Transform>(*transform);
-		std::shared_ptr<Rigidbody> rigidbody_ = std::make_shared<Rigidbody>(*rigidbody);
-		std::shared_ptr<Sprite> sprite_ = std::make_shared<Sprite>(*sprite);
-		std::shared_ptr<SpriteSheet> spriteSheet_ = std::make_shared<SpriteSheet>(*spritesheet);
-//TODO FINISH ME
+		gameObject.AddComponent(transform_);
+		return std::make_shared<GameObject>(gameObject);
 	}
 
 	void GameObject::Start()
@@ -46,10 +45,7 @@ namespace GlassEngine
 		{
 			comp->Start();
 		}
-		transform = std::dynamic_pointer_cast<Transform>(GetComponent(TransformC));
-		sprite = std::dynamic_pointer_cast<Sprite>(GetComponent(SpriteC));
-		spritesheet = std::dynamic_pointer_cast<SpriteSheet>(GetComponent(SpriteSheetC));
-		rigidbody = std::dynamic_pointer_cast<Rigidbody>(GetComponent(RigidbodyC));
+		transform = GetComponent<Transform>(TransformC);
 	}
 
 	void GameObject::Update()
@@ -58,55 +54,64 @@ namespace GlassEngine
 		{
 			if (id < 4)
 			{
-				if (/*Input.GetButtonUp(HK_DIGITAL_A, id) || */Input.GetKeyUp(HK_SPACE))
+				auto rigidbody = GetComponent<Rigidbody>(RigidbodyC);
+				/*if (Input.GetButtonUp(HK_DIGITAL_A, id) ||Input.GetKeyUp(HK_SPACE))
 				{
-					std::shared_ptr<GameObject> bulletObj = Game.Instantiate("Bullet", transform->GetPosition());
-					std::shared_ptr<Rigidbody> rb = std::make_shared<Rigidbody>(bulletObj);
-					bulletObj->AddComponent(rb);
-					Physics.AddRigidbody(rb);
-					rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
-					bulletObj->Start();
-				}
+				std::shared_ptr<GameObject> bulletObj = Game.Instantiate("Bullet", transform->GetPosition());
+				std::shared_ptr<Rigidbody> rb = std::make_shared<Rigidbody>(bulletObj);
+				bulletObj->AddComponent(rb);
+				Physics.AddRigidbody(rb);
+				rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
+				bulletObj->Start();
+				} */
+				GetComponent<Animation>(AnimationC)->SetCurrentAnimation("idle");
 				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
 				{
 					rigidbody->SetVelocity(Vec3d(0.0, 0.0, 0.0));
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					rigidbody->AddForce(Vec2d(0.25, 0.0));
-					//transform->Translate(Vec3d((double)(0.25 * Time.DeltaTime()), 0, 0));
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
+					rigidbody->AddForce(Vec2d(0.025, 0.0));
 				}
-				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
+				else if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					rigidbody->AddForce(Vec2d(-0.25, 0.0));
-					//transform->Translate(Vec3d((double)(-0.25 * Time.DeltaTime()), 0, 0));
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
+					rigidbody->AddForce(Vec2d(-0.025, 0.0));
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					rigidbody->AddForce(Vec2d(0.0, 0.25));
-					//transform->Translate(Vec3d(0, (double)(0.25 * Time.DeltaTime()), 0));
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
+					rigidbody->AddForce(Vec2d(0.0, 0.025));
 				}
-				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
+				else if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					rigidbody->AddForce(Vec2d(0.0, -0.25));
-					//transform->Translate(Vec3d(0, (double)(-0.25 * Time.DeltaTime()), 0));
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
+					rigidbody->AddForce(Vec2d(0.0, -0.025));
 				}
-				if (Input.GetKey('W') || Input.GetKey('A') || Input.GetKey('S') || Input.GetKey('D'))
+				if (id == 0)
 				{
-					if (Input.GetKey('W')){
-						transform->Translate(Vec3d(0, (double)(-0.25 * Time.DeltaTime()), 0));
-					}
+					if (Input.GetKey('W') || Input.GetKey('A') || Input.GetKey('S') || Input.GetKey('D'))
+					{
+						if (Input.GetKey('W')){
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
+							rigidbody->AddForce(Vec2d(0.025, 0.0));
+						}
 
-					else if (Input.GetKey('S')){
-						transform->Translate(Vec3d(0, (double)(0.25 * Time.DeltaTime()), 0));
-					}
+						else if (Input.GetKey('S')){
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
+							rigidbody->AddForce(Vec2d(-0.025, 0.0));
+						}
 
-					if (Input.GetKey('A')){
-						transform->Translate(Vec3d((double)(-0.25 * Time.DeltaTime()), 0, 0));
-					}
+						if (Input.GetKey('A')){
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
+							rigidbody->AddForce(Vec2d(0.0, -0.025));
+						}
 
-					else if (Input.GetKey('D')){
-						transform->Translate(Vec3d((double)(0.25 * Time.DeltaTime()), 0, 0));
+						else if (Input.GetKey('D')){
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
+							rigidbody->AddForce(Vec2d(0.0, 0.025));
+						}
 					}
 				}
 			}
@@ -130,16 +135,6 @@ namespace GlassEngine
 			c->Stop();
 		for (auto c : components)
 			c->Stop();
-	}
-
-	std::shared_ptr<Component> GameObject::GetComponent(int id)
-	{
-		for (auto comp : components)
-		{
-			if (comp->GetID() == id)
-				return comp;
-		}
-		return nullptr;
 	}
 
 	void GameObject::AddComponent(std::shared_ptr<Component> comp)
@@ -177,9 +172,6 @@ namespace GlassEngine
 		children.clear();
 		
 		transform.reset();
-		sprite.reset();
-		spritesheet.reset();
-		rigidbody.reset();
 		
 		components.clear();
 	}

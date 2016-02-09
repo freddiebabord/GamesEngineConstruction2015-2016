@@ -39,6 +39,9 @@ namespace GlassEngine{
 		std::shared_ptr<GameObject> CreateNewObject(pugi::xml_node node, int id);
 		std::shared_ptr<Level> loadLevel();
 		void AddPrefab(std::shared_ptr<GameObject> prefab_, std::string key_){ prefabs[key_] = prefab_; };
+		void CreateSprite(pugi::xml_node node);
+		void CreateSpriteSheet(pugi::xml_node node);
+
 	private:
 		std::vector<std::shared_ptr<Level>> levels;
 		std::map<std::string, std::shared_ptr<GameObject>> prefabs;
@@ -46,7 +49,6 @@ namespace GlassEngine{
 		char* levelFile = "";
 		bool levelLoaded = false;
 		int currentLevel = 0;
-
 	};
 
 }

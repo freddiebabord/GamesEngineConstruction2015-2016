@@ -11,7 +11,7 @@ namespace GlassEngine{
 	{
 	public:
 		Sprite(std::shared_ptr<GameObject> parentObj) : Component(parentObj){ id = SpriteC; };
-		Sprite(std::shared_ptr<GameObject> parentObj, std::string path) : Component(parentObj){ id = SpriteC; LoadSprite(path); };
+		Sprite(std::shared_ptr<GameObject> parentObj, std::string path) : Component(parentObj){ id = SpriteC; LoadSprite(path); name = path; };
 		Sprite(std::string path){ id = SpriteC; LoadSprite(path); };
 		Sprite() :Component(){};
 		virtual ~Sprite();
@@ -28,10 +28,20 @@ namespace GlassEngine{
 		void Renderable(bool canBeRendered){ renderable = canBeRendered; };
 		bool Renderable() const { return renderable; };
 
+		void ID(const int id_){ id = id_; };
+		int ID() const { return id; };
+
+		void Name(const std::string& path)
+		{
+			name = path;
+		};
+
 	private:
+		int id = 0;
 		BYTE* imageData = nullptr;
 		Vec2i spriteDims;
 		bool renderable = true;
+		std::string name = "";
 	};
 
 }

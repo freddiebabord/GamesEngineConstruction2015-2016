@@ -60,8 +60,8 @@ namespace GlassEngine
 		{
 			if (Distance(r->GetParent()->GetTransform()->GetPosition(), this->parentObject->GetTransform()->GetPosition()) < range)
 			{
-				if (r->GetParent()->GetComponent(RigidbodyC))
-					rigidbodies.push_back(std::dynamic_pointer_cast<Rigidbody>(r->GetParent()->GetComponent(RigidbodyC)));
+				if (r->GetParent()->GetComponent<Rigidbody>(RigidbodyC))
+					rigidbodies.push_back(r->GetParent()->GetComponent<Rigidbody>(RigidbodyC));
 			}
 		}
 	}

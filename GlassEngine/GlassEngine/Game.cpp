@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "SpriteSheet.h"
+#include "Animation.h"
 #include "Transform.h"
 #include "Collider.h"
 #include "Rigidbody.h"
@@ -12,6 +13,8 @@
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "UIManager.h"
+#include "Animator.h"
+#include "SpriteCollider.h"
 
 namespace GlassEngine{
 	
@@ -112,8 +115,6 @@ namespace GlassEngine{
 
 	std::shared_ptr<Level> GameManager::loadLevel()
 	{
-		
-		
 		std::shared_ptr<Level> newLevel = std::make_shared<Level>(instance, levelFile);
 		pugi::xml_document doc;
 
@@ -127,6 +128,14 @@ namespace GlassEngine{
 				newLevel->SetAudioTrack(level.attribute("backgroundAudio").as_string());
 				newLevel->SetID(level.attribute("id").as_int());
 				Renderer.AddSprite(level.child("Background").attribute("graphic").as_string());
+				for (pugi::xml_node spriteSheetNode = level.child("SpriteSheets").child("SpriteSheet"); spriteSheetNode; spriteSheetNode = spriteSheetNode.next_sibling("SpriteSheet"))
+				{
+					CreateSpriteSheet(spriteSheetNode);
+				}
+				for (pugi::xml_node spriteNode = level.child("Sprites").child("Sprite"); spriteNode; spriteNode = spriteNode.next_sibling("Sprite"))
+				{
+					CreateSprite(spriteNode);
+				}
 				for (pugi::xml_node prefab = level.child("Prefabs").child("GameObject"); prefab; prefab = prefab.next_sibling("GameObject"))
 				{
 					AddPrefab(CreateNewObject(prefab, (int)prefabs.size()), prefab.attribute("name").as_string());
@@ -174,14 +183,37 @@ namespace GlassEngine{
 		return go;
 	}
 
+	void GameManager::CreateSprite(pugi::xml_node node)
+	{
+		std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>();
+		sprite->LoadSprite(node.attribute("graphic").as_string());
+		sprite->ID(node.attribute("id").as_int());
+		if (node.attribute("renderToBackground").as_bool())
+		{
+			Renderer.RenderToBackground(sprite, Vec3d(node.attribute("positionX").as_double(), node.attribute("positionY").as_double(), 0.0));
+			sprite->Renderable(false);
+		}
+		else
+			Renderer.AddSprite(sprite);
+	}
+
+	void GameManager::CreateSpriteSheet(pugi::xml_node node)
+	{
+		std::shared_ptr<SpriteSheet> spriteSheet = std::make_shared<SpriteSheet>();
+		spriteSheet->LoadSprite(node.attribute("graphic").as_string());
+		spriteSheet->SetIdvSpriteSize(Vec2i(node.attribute("sizeX").as_int(), node.attribute("sizeY").as_int()));
+		spriteSheet->ID(node.attribute("id").as_int());
+		Renderer.AddSpriteSheet(spriteSheet);
+	}
+
 	std::shared_ptr<GameObject> GameManager::CreateNewObject(pugi::xml_node node, int id)
 	{
 		std::shared_ptr<GameObject> newObject = std::make_shared<GameObject>(id);
 		std::shared_ptr<Transform> transform = std::make_shared<Transform>(newObject);
 		std::shared_ptr<Rigidbody> rigidBody = std::make_shared<Rigidbody>(newObject);
 		std::shared_ptr<Collider> collider = std::make_shared<Collider>(newObject);
-		std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(newObject);
-		std::shared_ptr<SpriteSheet> spriteSheet = std::make_shared<SpriteSheet>(newObject);
+		std::shared_ptr<SpriteCollider> spriteCollider = std::make_shared<SpriteCollider>(newObject);
+		std::shared_ptr<Animation> animation = std::make_shared<Animation>(newObject);
 		std::shared_ptr<PointGravity> pointGravity = std::make_shared<PointGravity>(newObject);
 		std::shared_ptr<Text> text = std::make_shared<Text>(newObject);
 
@@ -189,31 +221,26 @@ namespace GlassEngine{
 		//;
 		//collider->Start(Rect(node.child("Collider").attribute("Top").as_double(), node.child("Collider").attribute("Left").as_double(), node.child("Collider").attribute("Right").as_double(), node.child("Collider").attribute("Bottom").as_double()));
 		
+		newObject->AddComponent(transform);
 		Vec2d offset(0.0);
+
 		if (node.child("Sprite"))
 		{
-			sprite->LoadSprite(node.child("Sprite").attribute("graphic").as_string());
-			offset = Vec2d(sprite->GetSpriteDims().x / 4, sprite->GetSpriteDims().y / 4);
-			if (node.child("Sprite").attribute("renderToBackground").as_bool())
-			{
-				Renderer.RenderToBackground(sprite, transform->GetPosition());
-				sprite->Renderable(false);
-			}
-			newObject->AddComponent(sprite);
-			Renderer.AddSprite(sprite);
+			newObject->SpriteRef(node.child("Sprite").attribute("id").as_int());
 		}
 		if (node.child("SpriteSheet"))
 		{
-			spriteSheet->LoadSprite(node.child("SpriteSheet").attribute("graphic").as_string());
-			spriteSheet->SetIdvSpriteSize(Vec2i(node.child("SpriteSheet").attribute("sizeX").as_int(), node.child("SpriteSheet").attribute("sizeY").as_int()));
-			spriteSheet->SetAnimSpeed(node.child("SpriteSheet").attribute("animationSpeed").as_int());
-			for (pugi::xml_node anim : node.child("SpriteSheet").children("Animation"))
+			newObject->SpriteSheetRef(node.child("SpriteSheet").attribute("id").as_int());
+		}
+		if (node.child("Animator"))
+		{
+			animation->SetAnimSpeed(node.child("Animator").attribute("animationSpeed").as_int());
+			for (pugi::xml_node anim : node.child("Animator").children("Animation"))
 			{
-				spriteSheet->AddAnimation(Animation(anim.attribute("name").as_string(), Vec2i(anim.attribute("start").as_int(), anim.attribute("end").as_int())));
+				animation->AddAnimation(AnimationClip(anim.attribute("name").as_string(), Vec2i(anim.attribute("start").as_int(), anim.attribute("end").as_int())));
 			}
-			offset = Vec2d(spriteSheet->GetIdvSpriteDims().x / 4, spriteSheet->GetIdvSpriteDims().y / 4);
-			newObject->AddComponent(spriteSheet);
-			Renderer.AddSpriteSheet(spriteSheet);
+			newObject->AddComponent(animation);
+			Animator.AddAnimation(animation);
 		}
 
 		if (node.child("PointGravity"))
@@ -222,8 +249,7 @@ namespace GlassEngine{
 			newObject->AddComponent(pointGravity);
 			Physics.AddGravityAffector(pointGravity);
 		}
-		//rigidBody->IsEnabled(false);
-		newObject->AddComponent(transform);
+		
 		
 		if (node.child("Rigidbody"))
 		{
@@ -239,11 +265,20 @@ namespace GlassEngine{
 			UI.AddUIElement(text);
 		}
 
-		/*if (node.child("Collider"))
+		if (node.child("Collider"))
 		{
-			newObject->AddComponent(collider);
-			Physics.AddCollider(collider);
-		}*/
+			if (node.child("Collider").attribute("type").as_string() == "Sprite")
+			{
+				if (newObject->SpriteRef() > 0)
+					spriteCollider->GenerateMask(Renderer.GetSprite(newObject->SpriteRef()));
+				else
+					spriteCollider->GenerateMask(Renderer.GetSpriteSheet(newObject->SpriteSheetRef()));
+				
+				newObject->AddComponent(spriteCollider);
+				Physics.AddCollider(spriteCollider);
+			}
+			
+		}
 		
 		newObject->SetName(node.attribute("name").as_string());
 

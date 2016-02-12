@@ -9,6 +9,8 @@
 #endif
 
 // TODO: Comment everything
+// TODO: Finish AI
+// TODO: Fix Constant Collisions and spawning of explositons / bullets
 
 using namespace GlassEngine;
 

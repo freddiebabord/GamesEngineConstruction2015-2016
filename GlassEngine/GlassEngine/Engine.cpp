@@ -71,6 +71,26 @@ namespace GlassEngine{
 		{
 			fixedUpdateTime = HAPI->GetTime();
 			Physics.FixedUpdate();
+			for (auto gos : Game.CurrentLevel()->GetGameObjects())
+			{
+				if (gos->isActive())
+				{
+					for (auto gos2 : Game.CurrentLevel()->GetGameObjects())
+					{
+						if (gos2->isActive() && gos != gos2)
+						{
+							if (Physics.CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
+							{
+								if (!gos->Collided())
+									gos->OnCollisionEnter(gos2);
+								if (!gos2->Collided())
+									gos2->OnCollisionEnter(gos);
+								//HAPI->UserMessage("I've Collided!!!!!", "Glass Engine");
+							}
+						}
+					}
+				}
+			}
 			Game.FixedUpdate();
 		}
 
@@ -81,31 +101,14 @@ namespace GlassEngine{
 			Renderer.AddDirtyRectangle(DirtyRectangle(Vec2i(0), Vec2i(Renderer.GetScreenDimentions().width, 100)));
 		}
 #endif
-		for (auto gos : Game.CurrentLevel()->GetGameObjects())
-		{
-			if (gos->GetID() < 4)
-			{
-				if (Input.WasControllerConnectedLastUpdadate(gos->GetID()))
-				{
-					gos->isActive(true);
-					if (gos->SpriteRef() > 0)
-						Renderer.Render(gos->SpriteRef(), gos->GetTransform()->GetPosition());
-					else if (gos->SpriteSheetRef() >= 0)
-						Renderer.Render(gos->SpriteSheetRef(), gos->GetTransform()->GetPosition(), gos->GetComponent<Animation>(AnimationC)->GetCurrentSprite());
-				}
-				else if (Input.WasControllerDisconnectedLastUpdate(gos->GetID()))
-				{
-					gos->isActive(false);
-				}
-			}
-			else
-			{
-				if (gos->SpriteRef() > 0)
-					Renderer.Render(gos->SpriteRef(), gos->GetTransform()->GetPosition());
-				else if (gos->SpriteSheetRef() >= 0)
-					Renderer.Render(gos->SpriteSheetRef(), gos->GetTransform()->GetPosition(), gos->GetComponent<Animation>(AnimationC)->GetCurrentSprite());
 
-			}
+		for (int i = 0; i < 4; ++i)
+		{
+			auto gameObject = Game.CurrentLevel()->GetGameObjects()[i];
+			if (Input.WasControllerConnectedLastUpdadate(i))
+				gameObject->isActive(true);
+			else if (Input.WasControllerDisconnectedLastUpdate(gameObject->GetID()))
+				gameObject->isActive(false);
 		}
 
 		for (auto gos : Game.CurrentLevel()->GetGameObjects())
@@ -123,22 +126,7 @@ namespace GlassEngine{
 			}
 		}
 
-		for (auto gos : Game.CurrentLevel()->GetGameObjects())
-		{
-			if (gos->isActive())
-			{
-				for (auto gos2 : Game.CurrentLevel()->GetGameObjects())
-				{
-					if (gos2->isActive() && gos != gos2)
-					{
-						if (Physics.CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
-						{
-							//HAPI->UserMessage("I've Collided!!!!!", "Glass Engine");
-						}
-					}
-				}
-			}
-		}
+		
 
 		/*for (auto gos : Game.CurrentLevel()->GetUIObjects())
 		{

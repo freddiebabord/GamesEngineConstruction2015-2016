@@ -30,6 +30,7 @@ namespace GlassEngine{
 		std::shared_ptr<Level> CurrentLevel();
 		
 		const void SpawnBullet(Vec3d position, Vec2d force);
+		const void SpawnExplosion(Vec3d position);
 
 	protected:
 		GameManager(){};
@@ -41,7 +42,7 @@ namespace GlassEngine{
 		void CreateSprite(pugi::xml_node node);
 		void CreateSpriteSheet(pugi::xml_node node);
 		void CreateBulletPool(int poolSize, int spriteID, std::shared_ptr<Level> currentLevel);
-		
+		void CreateExplosionPool(int poolSize, int spriteSheetID, std::shared_ptr<Level> currentLevel, pugi::xml_node node);
 	private:
 		std::vector<std::shared_ptr<Level>> levels;
 		std::map<std::string, std::shared_ptr<GameObject>> prefabs;
@@ -50,6 +51,7 @@ namespace GlassEngine{
 		bool levelLoaded = false;
 		int currentLevel = 0;
 		std::vector<std::shared_ptr<GameObject>> bullets;
+		std::vector<std::shared_ptr<GameObject>> explosions;
 	};
 
 }

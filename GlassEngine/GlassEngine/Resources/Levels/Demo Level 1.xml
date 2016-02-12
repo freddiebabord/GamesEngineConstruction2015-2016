@@ -2,19 +2,19 @@
 <level id="0" backgroundAudio="Resources/The Spectacular Quiet.wav">
 	<Background graphic="Resources\background.jpg" />
 	<SpriteSheets>
-		<SpriteSheet graphic="Resources\GalaxySpriteSheet.png" sizeX="250" sizeY ="200" id="0" />
+		<SpriteSheet graphic="Resources\JJEnterpriseSpriteSheet.png" sizeX="300" sizeY ="189" id="0" />
 		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="32" sizeY ="32" id="1" />
 	</SpriteSheets>
 	<Sprites>
 		<Sprites graphic="Resources\Shield.png" id="0" />
-		<Sprite graphic="Resources\bullet.jpg" id="1"/>
+		<Sprite graphic="Resources\bullet1.png" id="1"/>
+		<Sprite graphic="Resources\klingonspaceship.png" id="2"/>
 		<Sprite graphic="Resources\nebulae2.png" renderToBackground="true" positionX="1850" positionY="550" />
 		<Sprite graphic="Resources\nebulae1.png" renderToBackground="true" positionX="800" positionY="550" />
 		<Sprite graphic="Resources\nebulae3.png" renderToBackground="true" positionX="1200" positionY="50" />
-		<Sprite graphic="Resources\Sun.png" renderToBackground="true" positionX="1850" positionY="550" />
+		<Sprite graphic="Resources\Sun.png" renderToBackground="true" positionX="1850" positionY="550"/>
 		<Sprite graphic="Resources\planet1.png" renderToBackground="true" positionX="500" positionY="650" />
 		<Sprite graphic="Resources\planet2.png" renderToBackground="true" positionX="800" positionY="50" />
-		
 	</Sprites>
 	<Players>
 		 <Player name="Player1" health="50" type="Player" active="true">
@@ -24,10 +24,10 @@
 			<Collider type="Sprite"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
-				<Animation name="moveFwd" start="5" end="12"/>
-				<Animation name="moveRight" start="13" end="14"/>
-				<Animation name="moveLeft" start="15" end="16"/>
-				<Animation name="moveBack" start="17" end="21"/>
+				<Animation name="moveFwd" start="5" end="9"/>
+				<Animation name="moveRight" start="10" end="14"/>
+				<Animation name="moveLeft" start="15" end="19"/>
+				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
 			<GameObject name="Shield" type="GameObject" active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
@@ -41,10 +41,10 @@
 			<Collider type="Sprite"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
-				<Animation name="moveFwd" start="5" end="12"/>
-				<Animation name="moveRight" start="13" end="14"/>
-				<Animation name="moveLeft" start="15" end="16"/>
-				<Animation name="moveBack" start="17" end="21"/>
+				<Animation name="moveFwd" start="5" end="9"/>
+				<Animation name="moveRight" start="10" end="14"/>
+				<Animation name="moveLeft" start="15" end="19"/>
+				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
 			<GameObject name="Shield" type="GameObject" active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
@@ -58,10 +58,10 @@
 			<Collider type="Sprite"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
-				<Animation name="moveFwd" start="5" end="12"/>
-				<Animation name="moveRight" start="13" end="14"/>
-				<Animation name="moveLeft" start="15" end="16"/>
-				<Animation name="moveBack" start="17" end="21"/>
+				<Animation name="moveFwd" start="5" end="9"/>
+				<Animation name="moveRight" start="10" end="14"/>
+				<Animation name="moveLeft" start="15" end="19"/>
+				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
 			<GameObject name="Shield" type="GameObject" active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
@@ -75,10 +75,10 @@
 			<Collider type="Sprite"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
-				<Animation name="moveFwd" start="5" end="12"/>
-				<Animation name="moveRight" start="13" end="14"/>
-				<Animation name="moveLeft" start="15" end="16"/>
-				<Animation name="moveBack" start="17" end="21"/>
+				<Animation name="moveFwd" start="5" end="9"/>
+				<Animation name="moveRight" start="10" end="14"/>
+				<Animation name="moveLeft" start="15" end="19"/>
+				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
 			<GameObject name="Shield" type="GameObject" active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
@@ -86,6 +86,18 @@
 			</GameObject>
 		</Player>
 	</Players>
+	<AIs>
+		<GameObject name="Enemy" health="100">
+			<Transform positionX="1550" positionY="50" positionZ="0"/>
+			<Sprite id="2" /> 
+			<AI>
+				<State type="Idle" />
+				<State type="Attack" />
+				<State type="Evade" />
+				<State type="Die" />"
+			</AI>
+		</GameObject>
+	</AIs>
 	<World>
 		<GameObject name="Sun" type="WorldBackground" active="true">
 			<Transform positionX="1850" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
@@ -154,6 +166,13 @@
 		<GameObject name="Bullet" type="PlayerWeapon" active="true">
 			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
 			<Sprite id="1"/>
+		</GameObject>
+		<GameObject name="Explosion" type="PlayerWeapon" active="true">
+			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
+			<SpriteSheet id="2"/>
+			<Animator animationSpeed="5">	
+				<Animation name="explode" start="0" end="15"/>
+			</Animator>	
 		</GameObject>
 	</Prefabs> 
 </level>

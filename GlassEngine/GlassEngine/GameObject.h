@@ -9,7 +9,7 @@ namespace GlassEngine{
 	class Sprite;
 	class SpriteSheet;
 	class Component;
-	
+	class Collider;
 	class GameObject
 	{
 	public:
@@ -61,6 +61,12 @@ namespace GlassEngine{
 		bool Collided() const { return hasCollided; };
 
 		std::string GetName() const { return name; };
+
+		virtual void OnCollisionEnter(std::shared_ptr<GameObject> collider);
+
+		bool Colliding() const { return isColliding; };
+		void Colliding(bool colliding) { isColliding = colliding; };
+
 	protected :
 		std::vector<std::shared_ptr<Component>> components;
 		int sprite = -1;
@@ -70,6 +76,7 @@ namespace GlassEngine{
 		void UpdateChildren(Vec3d parentPos);
 
 		int id = 0;
+		bool isColliding = false;
 
 		std::shared_ptr<Transform> transform;
 		std::string name = "";

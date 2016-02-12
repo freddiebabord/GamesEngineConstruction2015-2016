@@ -41,5 +41,6 @@ namespace GlassEngine{
 #define SpriteSheetC 4
 #define PointGravityC 5
 #define AnimationC 6
+#define AIC 7
 }
 #endif

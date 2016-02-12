@@ -49,9 +49,43 @@ namespace GlassEngine{
 			rigidbody->IsEnabled(false);
 			bullet->AddComponent(transform);
 			bullet->AddComponent(rigidbody);
+			bullet->SetName("Bullet");
 			bullet->Start();
 			bullet->isActive(false);
 			bullets.push_back(bullet);	
+			currentLevel->AddGameObject(bullet);
+		}
+	}
+
+	void GameManager::CreateExplosionPool(int poolSize, int spriteSheetID, std::shared_ptr<Level> currentLevel, pugi::xml_node node)
+	{
+		bullets.reserve(sizeof(GameObject) * 150);
+		for (int i = 0; i < 150; ++i)
+		{
+			auto explosion = std::make_shared<GameObject>((int)prefabs.size());
+			explosion->SpriteSheetRef(spriteSheetID);
+			explosion->ColliderRef(spriteSheetID);
+			auto transform = std::make_shared<Transform>(explosion);
+			transform->SetPosition(Vec3d(0.0));
+			auto rigidbody = std::make_shared<Rigidbody>(explosion);
+			rigidbody->IsEnabled(false);
+			auto animation = std::make_shared<Animation>(explosion);
+			animation->SetAnimSpeed(node.child("Animator").attribute("animationSpeed").as_int());
+			for (pugi::xml_node anim : node.child("Animator").children("Animation"))
+			{
+				animation->AddAnimation(AnimationClip(anim.attribute("name").as_string(), Vec2i(anim.attribute("start").as_int(), anim.attribute("end").as_int())));
+			}
+			animation->SetCurrentAnimation("explode");
+			explosion->AddComponent(animation);
+			Animator.AddAnimation(animation);
+			Physics.AddRigidbody(rigidbody);
+			explosion->AddComponent(transform);
+			explosion->AddComponent(rigidbody);
+			explosion->SetName("Explosion");
+			explosion->Start();
+			explosion->isActive(false);
+			explosions.push_back(explosion);
+			currentLevel->AddGameObject(explosion);
 		}
 	}
 
@@ -158,13 +192,13 @@ namespace GlassEngine{
 				{
 					CreateSprite(spriteNode);
 				}
-				for (pugi::xml_node prefab = level.child("Prefabs").child("GameObject"); prefab; prefab = prefab.next_sibling("GameObject"))
-				{
-					AddPrefab(CreateNewObject(prefab, (int)prefabs.size(), newLevel), prefab.attribute("name").as_string());
-				}
 				for (pugi::xml_node player = level.child("Players").child("Player"); player; player = player.next_sibling("Player"))
 				{
 					newLevel->AddGameObject(CreateNewObject(player, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size(), newLevel));
+				}
+				for (pugi::xml_node prefab = level.child("Prefabs").child("GameObject"); prefab; prefab = prefab.next_sibling("GameObject"))
+				{
+					AddPrefab(CreateNewObject(prefab, (int)prefabs.size(), newLevel), prefab.attribute("name").as_string());
 				}
 				for (pugi::xml_node gameObject = level.child("World").child("GameObject"); gameObject; gameObject = gameObject.next_sibling("GameObject"))
 				{
@@ -240,6 +274,15 @@ namespace GlassEngine{
 		if (newObject->GetName() == "Bullet")
 		{
 			CreateBulletPool(150, node.child("Sprite").attribute("id").as_int(), level);
+			for (auto bullet : bullets)
+				bullet->isActive(false);
+		}
+
+		if (newObject->GetName() == "Explosion")
+		{
+			CreateExplosionPool(150, node.child("Spritesheet").attribute("id").as_int(), level, node);
+			for (auto explosion : explosions)
+				explosion->isActive(false);
 		}
 
 		transform->SetPosition(Vec3d(node.child("Transform").attribute("positionX").as_double(), node.child("Transform").attribute("positionY").as_double(), node.child("Transform").attribute("positionZ").as_double()));
@@ -314,7 +357,19 @@ namespace GlassEngine{
 				bullet->GetTransform()->SetPosition(position);
 				bullet->GetComponent<Rigidbody>(RigidbodyC)->IsEnabled(true);
 				bullet->GetComponent<Rigidbody>(RigidbodyC)->AddForce(force);
-				CurrentLevel()->AddGameObject(bullet);
+				return;
+			}
+		}
+	}
+
+	const void GameManager::SpawnExplosion(Vec3d position)
+	{
+		for (auto explosion : explosions)
+		{
+			if (!explosion->isActive())
+			{
+				explosion->isActive(true);
+				explosion->GetTransform()->SetPosition(position);
 				return;
 			}
 		}

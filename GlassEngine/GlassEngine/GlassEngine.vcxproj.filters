@@ -132,6 +132,9 @@
     <ClCompile Include="SpriteCollider.cpp">
       <Filter>Source Files\Core\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="AI.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="SpriteCollider.h">
       <Filter>Header Files\Core\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="AI.h">
+      <Filter>Header Files\Core\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

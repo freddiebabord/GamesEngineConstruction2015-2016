@@ -52,6 +52,11 @@ namespace GlassEngine{
 
 		void ResetVelocity();
 
+		std::shared_ptr<Rigidbody> Clone() const { return (std::static_pointer_cast<Rigidbody, Component>(CloneImpl())); };
+
+	protected:
+		std::shared_ptr<Component> CloneImpl() const override { return std::shared_ptr<Rigidbody>(new Rigidbody(*this)); };
+
 	private:
 		bool gravity = true;
 		bool collided = false;

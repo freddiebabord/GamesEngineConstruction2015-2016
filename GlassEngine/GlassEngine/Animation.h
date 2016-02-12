@@ -38,6 +38,8 @@ namespace GlassEngine{
 		int GetCurrentSprite()const{ return currentSprite; };
 
 
+	protected:
+
 	private:
 		void Animate();
 		

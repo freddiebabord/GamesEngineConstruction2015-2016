@@ -30,8 +30,29 @@ namespace GlassEngine{
 
 	void GameManager::Start()
 	{
+		
 		levels.push_back(Game.loadLevel("Resources/Levels/Demo Level 1.xml"));
 		HAPI->PlayStreamedMedia(levels.back()->GetAudioTrack());
+	}
+
+	void GameManager::CreateBulletPool(int poolSize, int spriteID, std::shared_ptr<Level> currentLevel)
+	{
+		bullets.reserve(sizeof(GameObject) * 150);
+		for (int i = 0; i < 150; ++i)
+		{
+			auto bullet = std::make_shared<GameObject>((int)prefabs.size());
+			bullet->SpriteRef(spriteID);
+			bullet->ColliderRef(spriteID);
+			auto transform = std::make_shared<Transform>(bullet);
+			transform->SetPosition(Vec3d(0.0));
+			auto rigidbody = std::make_shared<Rigidbody>(bullet);
+			rigidbody->IsEnabled(false);
+			bullet->AddComponent(transform);
+			bullet->AddComponent(rigidbody);
+			bullet->Start();
+			bullet->isActive(false);
+			bullets.push_back(bullet);	
+		}
 	}
 
 	void GameManager::FixedUpdate()
@@ -45,7 +66,8 @@ namespace GlassEngine{
 	{
 		for (std::shared_ptr<GameObject> gos : levels[currentLevel]->GetGameObjects())
 		{
-			gos->Update();
+			if (gos->isActive())
+				gos->Update();
 		}
 
 		if (Input.GetKeyUp(HK_F5))
@@ -138,15 +160,15 @@ namespace GlassEngine{
 				}
 				for (pugi::xml_node prefab = level.child("Prefabs").child("GameObject"); prefab; prefab = prefab.next_sibling("GameObject"))
 				{
-					AddPrefab(CreateNewObject(prefab, (int)prefabs.size()), prefab.attribute("name").as_string());
+					AddPrefab(CreateNewObject(prefab, (int)prefabs.size(), newLevel), prefab.attribute("name").as_string());
 				}
 				for (pugi::xml_node player = level.child("Players").child("Player"); player; player = player.next_sibling("Player"))
 				{
-					newLevel->AddGameObject(CreateNewObject(player, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size()));
+					newLevel->AddGameObject(CreateNewObject(player, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size(), newLevel));
 				}
 				for (pugi::xml_node gameObject = level.child("World").child("GameObject"); gameObject; gameObject = gameObject.next_sibling("GameObject"))
 				{
-					newLevel->AddGameObject(CreateNewObject(gameObject, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size()));
+					newLevel->AddGameObject(CreateNewObject(gameObject, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size(), newLevel));
 				}
 				/*UI.SetFont(level.child("UI").attribute("Font").as_string(), level.child("UI").attribute("Size").as_int());
 				for (pugi::xml_node uio = level.child("UI").child("GameObject"); uio; uio = uio.next_sibling("GameObject"))
@@ -166,22 +188,6 @@ namespace GlassEngine{
 		return nullptr;
 	}
 
-	std::shared_ptr<GameObject> GameManager::Instantiate(std::string gameObjectName)
-	{
-		std::shared_ptr<GameObject> prefabObj_ = std::make_shared<GameObject>(*prefabs[gameObjectName]);
-		CurrentLevel()->AddGameObject(prefabObj_);
-		return prefabObj_;
-	}
-
-	std::shared_ptr<GameObject> GameManager::Instantiate(std::string gameObjectName, Vec3d pos)
-	{
-		GameObject prefabObject = *prefabs[gameObjectName].get();
-		prefabObject.GetTransform()->SetPosition(pos);
-		prefabObject.isActive(true);
-		std::shared_ptr<GameObject> go = std::make_shared<GameObject>(prefabObject);
-		CurrentLevel()->AddGameObject(go);
-		return go;
-	}
 
 	void GameManager::CreateSprite(pugi::xml_node node)
 	{
@@ -218,7 +224,7 @@ namespace GlassEngine{
 		Physics.AddCollider(collider);
 	}
 
-	std::shared_ptr<GameObject> GameManager::CreateNewObject(pugi::xml_node node, int id)
+	std::shared_ptr<GameObject> GameManager::CreateNewObject(pugi::xml_node node, int id, std::shared_ptr<Level> level)
 	{
 		std::shared_ptr<GameObject> newObject = std::make_shared<GameObject>(id);
 		std::shared_ptr<Transform> transform = std::make_shared<Transform>(newObject);
@@ -228,6 +234,13 @@ namespace GlassEngine{
 		std::shared_ptr<Animation> animation = std::make_shared<Animation>(newObject);
 		std::shared_ptr<PointGravity> pointGravity = std::make_shared<PointGravity>(newObject);
 		std::shared_ptr<Text> text = std::make_shared<Text>(newObject);
+
+		newObject->SetName(node.attribute("name").as_string());
+
+		if (newObject->GetName() == "Bullet")
+		{
+			CreateBulletPool(150, node.child("Sprite").attribute("id").as_int(), level);
+		}
 
 		transform->SetPosition(Vec3d(node.child("Transform").attribute("positionX").as_double(), node.child("Transform").attribute("positionY").as_double(), node.child("Transform").attribute("positionZ").as_double()));
 		//;
@@ -278,17 +291,32 @@ namespace GlassEngine{
 			text->SetContent(node.child("Text").attribute("Content").as_string());
 			newObject->AddComponent(text);
 			UI.AddUIElement(text);
-		}
-		
-		newObject->SetName(node.attribute("name").as_string());
+		}	
 
 		for (pugi::xml_node child : node.children("GameObject"))
 		{
-			newObject->AddChild(CreateNewObject(child, id));
+			newObject->AddChild(CreateNewObject(child, id, level));
 		}
 		//newObject->isActive(node.attribute("active").as_bool());
 		newObject->Start();
 		
+		
 		return newObject;
+	}
+
+	const void GameManager::SpawnBullet(Vec3d position, Vec2d force)
+	{
+		for (auto bullet : bullets)
+		{
+			if (!bullet->isActive())
+			{
+				bullet->isActive(true);
+				bullet->GetTransform()->SetPosition(position);
+				bullet->GetComponent<Rigidbody>(RigidbodyC)->IsEnabled(true);
+				bullet->GetComponent<Rigidbody>(RigidbodyC)->AddForce(force);
+				CurrentLevel()->AddGameObject(bullet);
+				return;
+			}
+		}
 	}
 }

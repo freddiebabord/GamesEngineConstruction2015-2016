@@ -1,7 +1,6 @@
 #if !defined (GAMEOBJECT)
 #define GAMEOBJECT
 
-#include <typeinfo>
 
 namespace GlassEngine{
 	
@@ -49,7 +48,6 @@ namespace GlassEngine{
 		const bool isActive(){ return active; };
 		void isActive(bool active_);
 
-		std::shared_ptr<GameObject> Clone();
 
 		void SpriteRef(const int ref){ sprite = ref; };
 		void SpriteSheetRef(const int ref){ spritesheet = ref; };
@@ -62,6 +60,7 @@ namespace GlassEngine{
 		void Collided(const bool col_){ hasCollided = col_; };
 		bool Collided() const { return hasCollided; };
 
+		std::string GetName() const { return name; };
 	protected :
 		std::vector<std::shared_ptr<Component>> components;
 		int sprite = -1;

@@ -42,8 +42,6 @@ namespace GlassEngine{
 			name = path;
 		};
 
-	protected:
-		
 
 	private:
 		int id = 0;

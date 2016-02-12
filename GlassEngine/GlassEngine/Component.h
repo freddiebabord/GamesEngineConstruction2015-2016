@@ -11,7 +11,7 @@ namespace GlassEngine{
 	public:
 		Component(){};
 		Component(std::shared_ptr<GameObject> parentObject_) : parentObject(parentObject_){};
-		virtual ~Component() = 0{ parentObject = nullptr; };
+		virtual ~Component(){ parentObject = nullptr; };
 
 		virtual void Start(){};
 		virtual void Update(){};
@@ -23,7 +23,12 @@ namespace GlassEngine{
 		void IsEnabled(const bool enabled_){ enabled = enabled_; };
 		std::shared_ptr<GameObject> GetParent(){ return parentObject; };
 
+		std::shared_ptr<Component> Clone() const {
+			return CloneImpl();
+		};
+
 	protected:
+		virtual std::shared_ptr<Component> CloneImpl() const { return std::shared_ptr<Component>(new Component(*this)); };
 		std::shared_ptr<GameObject> parentObject;
 		bool enabled = true;
 		int id;

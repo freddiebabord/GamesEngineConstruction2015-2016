@@ -565,4 +565,38 @@ namespace GlassEngine{
 			}
 		}
 	}
+
+	void RenderManager::DrawCollisionMask(int posX, int posY, DWORD* collisionMask, Rect sourceRct)
+	{
+		Vec2i finalRenderPos = Vec2i(posX, posY);
+		finalRenderPos.x -= sourceRct.Width() / 2;
+		finalRenderPos.y -= sourceRct.Height() / 2;
+
+		// Set up start points
+		BYTE *destPnter = screen->screenData + (finalRenderPos.x + finalRenderPos.y * screen->screenDimentions.width) * 4;
+		int endOfLineDestIncrement = (screen->screenDimentions.width - sourceRct.Width()) * 4;
+
+		DWORD *maskPointer = collisionMask;
+		DWORD currentBit = 0;
+
+		for (int y = 0; y<sourceRct.Height(); y++)
+		{
+			for (int x = 0; x<sourceRct.Width(); x++)
+			{
+				// Check current bit, white for set otherwise leave as destination
+				if (*maskPointer & (1 << currentBit))
+					memset(destPnter, 255, 4);
+
+				currentBit++;
+				if (currentBit == 32)
+				{
+					currentBit = 0;
+					maskPointer++;
+				}
+				destPnter += 4;
+			}
+
+			destPnter += endOfLineDestIncrement;
+		}
+	}
 }

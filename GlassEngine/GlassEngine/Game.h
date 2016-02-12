@@ -28,20 +28,20 @@ namespace GlassEngine{
 		
 		std::shared_ptr<Level> loadLevel(char* name);
 		std::shared_ptr<Level> CurrentLevel();
-
-		std::shared_ptr<GameObject> Instantiate(std::string gameObjectName);
-		std::shared_ptr<GameObject> Instantiate(std::string gameObjectName, Vec3d pos);
+		
+		const void SpawnBullet(Vec3d position, Vec2d force);
 
 	protected:
 		GameManager(){};
 
 	private:
-		std::shared_ptr<GameObject> CreateNewObject(pugi::xml_node node, int id);
+		std::shared_ptr<GameObject> CreateNewObject(pugi::xml_node node, int id, std::shared_ptr<Level> level);
 		std::shared_ptr<Level> loadLevel();
 		void AddPrefab(std::shared_ptr<GameObject> prefab_, std::string key_){ prefabs[key_] = prefab_; };
 		void CreateSprite(pugi::xml_node node);
 		void CreateSpriteSheet(pugi::xml_node node);
-
+		void CreateBulletPool(int poolSize, int spriteID, std::shared_ptr<Level> currentLevel);
+		
 	private:
 		std::vector<std::shared_ptr<Level>> levels;
 		std::map<std::string, std::shared_ptr<GameObject>> prefabs;
@@ -49,6 +49,7 @@ namespace GlassEngine{
 		char* levelFile = "";
 		bool levelLoaded = false;
 		int currentLevel = 0;
+		std::vector<std::shared_ptr<GameObject>> bullets;
 	};
 
 }

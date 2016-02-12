@@ -9,7 +9,6 @@
 #endif
 
 // TODO: Comment everything
-// TODO: Delete controller buffer somehow...
 
 using namespace GlassEngine;
 

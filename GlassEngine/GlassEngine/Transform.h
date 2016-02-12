@@ -38,6 +38,11 @@ namespace GlassEngine{
 			SetPosition(position + translationAmount);
 		}
 
+		std::shared_ptr<Transform> Clone() const { return (std::static_pointer_cast<Transform, Component>(CloneImpl())); };
+
+	protected:
+		std::shared_ptr<Component> CloneImpl() const override { return std::shared_ptr<Transform>(new Transform(*this)); };
+
 	private:
 		Vec3d position = Vec3d(0.0);
 		Vec3d rotation = Vec3d(0.0);

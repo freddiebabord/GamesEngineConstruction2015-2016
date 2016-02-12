@@ -29,13 +29,6 @@ namespace GlassEngine
 		DeleteObject();
 	}
 
-	std::shared_ptr<GameObject> GameObject::Clone()
-	{
-		GameObject gameObject = *this;
-		std::shared_ptr<Transform> transform_ = std::make_shared<Transform>(*transform);
-		gameObject.AddComponent(transform_);
-		return std::make_shared<GameObject>(gameObject);
-	}
 
 	void GameObject::Start()
 	{
@@ -52,18 +45,9 @@ namespace GlassEngine
 	{
 		if (active)
 		{
-			if (id < 4)
+			if (id < 4 && GetComponent<Animation>(AnimationC))
 			{
 				auto rigidbody = GetComponent<Rigidbody>(RigidbodyC);
-				/*if (Input.GetButtonUp(HK_DIGITAL_A, id) ||Input.GetKeyUp(HK_SPACE))
-				{
-				std::shared_ptr<GameObject> bulletObj = Game.Instantiate("Bullet", transform->GetPosition());
-				std::shared_ptr<Rigidbody> rb = std::make_shared<Rigidbody>(bulletObj);
-				bulletObj->AddComponent(rb);
-				Physics.AddRigidbody(rb);
-				rb->SetVelocity(Vec3d(0.25, 0.0, 0.0));
-				bulletObj->Start();
-				} */
 				GetComponent<Animation>(AnimationC)->SetCurrentAnimation("idle");
 				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
 				{
@@ -89,6 +73,8 @@ namespace GlassEngine
 					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
 					rigidbody->AddForce(Vec2d(0.0, -0.025));
 				}
+				if (Input.GetButtonUp(HK_DIGITAL_A, id))
+					Game.SpawnBullet(transform->GetPosition(), Vec2d(5.0, 0.0));
 				if (id == 0)
 				{
 					if (Input.GetKey('W') || Input.GetKey('A') || Input.GetKey('S') || Input.GetKey('D'))

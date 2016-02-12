@@ -61,18 +61,18 @@ namespace GlassEngine
 	public:
 		//Constructors
 		Vector2<T>() : x(0), y(0){};
-		Vector2<T>(T ix) : x(ix), y(ix){};
-		Vector2<T>(T ix, T iy) : x(ix), y(iy){};
+		Vector2<T>(T ix) : x((T)ix), y(ix){};
+		Vector2<T>(T ix, T iy) : x((T)ix), y((T)iy){};
 
 		inline T Length()
 		{
 			return sqrt(x * x + y * y);
 		}
 
-		inline Vec2<float> Normalize()
+		inline Vec2<T> Normalize()
 		{
-			Vec2<float> vector;
-			float length = this->Length();
+			Vec2<T> vector;
+			T length = this->Length();
 
 			if (length != 0)
 			{
@@ -184,7 +184,7 @@ namespace GlassEngine
 		Vector3<T>(Vector2<T> ixy, T iz) : x(ixy.x), y(ixy.y), z(iz){};
 		Vector3<T>(T ix, T iy, T iz) : x(ix), y(iy), z(iz){};
 
-		inline float Length()
+		inline T Length()
 		{
 			return sqrt(x * x + y * y + z * z);
 		}

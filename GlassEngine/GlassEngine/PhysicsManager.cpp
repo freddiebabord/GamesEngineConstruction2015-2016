@@ -126,14 +126,28 @@ namespace GlassEngine{
 		std::shared_ptr<SpriteCollider> collider = colliders[colliderID];
 		std::shared_ptr<SpriteCollider> otherCollider = colliders[otherColliderID];
 
-		// Find the collision area within player and enemy rectangles
-		Rect playerCollisionRect(collider->getBoundingBox());
-		playerCollisionRect.ClipTo(otherCollider->getBoundingBox());
-		playerCollisionRect.Translate(-position.x, -position.y);
+		Vec2i finalPos = Vec2i((int)position.x, (int)position.y);
+		finalPos.x -= collider->getBoundingBox().Width() / 2;
+		finalPos.y -= collider->getBoundingBox().Height() / 2;
 
-		Rect enemyCollisionRect(otherCollider->getBoundingBox());
-		enemyCollisionRect.ClipTo(collider->getBoundingBox());
-		enemyCollisionRect.Translate(-otherPosition.x, -otherPosition.y);
+		Vec2i otherFinalPos = Vec2i((int)otherPosition.x, (int)otherPosition.y);
+		otherFinalPos.x -= otherCollider->getBoundingBox().Width() / 2;
+		otherFinalPos.y -= otherCollider->getBoundingBox().Height() / 2;
+
+		// Find the collision area within player and enemy rectangles
+		Rect playerCollisionRect = collider->getBoundingBox();
+		playerCollisionRect.Translate(finalPos.x, finalPos.y);
+
+		Rect enemyCollisionRect = otherCollider->getBoundingBox();
+		enemyCollisionRect.Translate(otherFinalPos.x, otherFinalPos.y);
+
+		if (!playerCollisionRect.Intersects(enemyCollisionRect))
+			return false;
+
+		playerCollisionRect.ClipTo(enemyCollisionRect);
+		playerCollisionRect.Translate(-finalPos.x, -finalPos.y);
+		enemyCollisionRect.ClipTo(playerCollisionRect);
+		enemyCollisionRect.Translate(-otherFinalPos.x, -otherFinalPos.y);
 
 		// Note: the collision rects should be same width and height
 		for (int y = 0; y<playerCollisionRect.Height(); y++)

@@ -99,6 +99,9 @@ namespace GlassEngine{
 
 		int GetSpriteSheetStorageSize() const { return (int)spritesheets.size(); };
 		int GetSpriteStorageSize() const { return (int)sprites.size(); };
+
+		void DrawCollisionMask(int posX, int posY, DWORD* collisionMask, Rect sourceRct);
+
 	protected:
 		RenderManager(){};
 

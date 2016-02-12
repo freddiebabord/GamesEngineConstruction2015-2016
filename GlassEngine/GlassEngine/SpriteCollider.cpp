@@ -73,7 +73,7 @@ namespace GlassEngine{
 				int offset = ((y * maskSize.width) + x) * 4;
 				int otherMaskOffset = ((y * otherMaskSize.width) + x) * 4;
 				//Gets the alpha value from the images data by the offset for the alpha BYTE of the pixel
-				BYTE alpha = mask[offset];
+				BYTE alpha = (BYTE)mask[offset];
 
 				//Coninue the next loop
 				if (alpha == 0 && collider->GetMask()[otherMaskOffset] == 0)

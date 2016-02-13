@@ -79,23 +79,23 @@ namespace GlassEngine{
 		// Add a sprite to the render manager either by a pointer to a block of memory which contains the sprite
 		// or from the manager laoding in a sprite from a specified path string
 		bool AddSprite(const std::string& path);
-		bool AddSprite(std::shared_ptr<Sprite> spriteToAdd);
+		bool AddSprite(SmartPtr<Sprite> spriteToAdd);
 
 		// Add a spritesheet to the render manager either by a pointer to a block of memory which contains the spritesheet
 		// or from the manager laoding in a spritesheet from a specified path string
 		bool AddSpriteSheet(const std::string& path, Vec2i spriteSize);
-		bool AddSpriteSheet(std::shared_ptr<SpriteSheet> spriteToAdd);
+		bool AddSpriteSheet(SmartPtr<SpriteSheet> spriteToAdd);
 
-		std::shared_ptr<Sprite> GetSprite(const int& spriteIndex) const { return sprites[spriteIndex]; };
+		SmartPtr<Sprite> GetSprite(const int& spriteIndex) const { return sprites[spriteIndex]; };
 		// Returns a spritesheet from the vector or spritesheets that the render manager has
-		std::shared_ptr<SpriteSheet> GetSpriteSheet(const int& spriteSheetIndex){ return spritesheets[spriteSheetIndex]; };
+		SmartPtr<SpriteSheet> GetSpriteSheet(const int& spriteSheetIndex){ return spritesheets[spriteSheetIndex]; };
 		void ClearRenderer();
 		void ResetToPrevious();
 		void ClearPrevious();
 
 		void AddDirtyRectangle(DirtyRectangle r){ dirtyRectangles.push_back(r); };
 
-		void RenderToBackground(std::shared_ptr<Sprite> sprite, Vec3d renderPos);
+		void RenderToBackground(SmartPtr<Sprite> sprite, Vec3d renderPos);
 
 		int GetSpriteSheetStorageSize() const { return (int)spritesheets.size(); };
 		int GetSpriteStorageSize() const { return (int)sprites.size(); };
@@ -110,10 +110,10 @@ namespace GlassEngine{
 		static RenderManager *instance;
 		// Storage for local variables
 		std::unique_ptr<Screen> screen;
-		std::vector<std::shared_ptr<Sprite>> sprites;
-		std::vector<std::shared_ptr<SpriteSheet>> spritesheets;
-		std::vector<std::shared_ptr<Sprite>> previousSprites;
-		std::vector<std::shared_ptr<SpriteSheet>> previousSpritesheets;
+		std::vector<SmartPtr<Sprite>> sprites;
+		std::vector<SmartPtr<SpriteSheet>> spritesheets;
+		std::vector<SmartPtr<Sprite>> previousSprites;
+		std::vector<SmartPtr<SpriteSheet>> previousSpritesheets;
 		std::vector<DirtyRectangle> dirtyRectangles;
 	};
 

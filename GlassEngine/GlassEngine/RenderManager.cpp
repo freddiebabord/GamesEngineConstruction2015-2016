@@ -271,7 +271,7 @@ namespace GlassEngine{
 	void RenderManager::Render(const int& spriteIndex, const Vec3d& renderPos, const int& idvSpriteIndex)
 	{
 		//The current spriesheet from the index
-		std::shared_ptr<SpriteSheet> sheet = spritesheets[spriteIndex];
+		SmartPtr<SpriteSheet> sheet = spritesheets[spriteIndex];
 
 		Vec2i screenDims = screen->screenDimentions;
 		Vec2i spriteIdvDims = sheet->GetIdvSpriteDims();
@@ -376,12 +376,12 @@ namespace GlassEngine{
 	// Add a sprite to the render manager by loading in a sprite from a specified path string
 	bool RenderManager::AddSprite(const std::string& path)
 	{
-		sprites.push_back(std::make_shared<Sprite>(path));
+		sprites.push_back(MakeSmartPtr<Sprite>(path));
 		return true;
 	}
 
 	// Add a sprite to the render manager by a pointer to a block of memory which contains the sprite
-	bool RenderManager::AddSprite(std::shared_ptr<Sprite> spriteToAdd)
+	bool RenderManager::AddSprite(SmartPtr<Sprite> spriteToAdd)
 	{
 		sprites.push_back(spriteToAdd);
 		return true;
@@ -390,12 +390,12 @@ namespace GlassEngine{
 	// Add a spritesheet to the render manager by loading in a sprite from a specified path string
 	bool RenderManager::AddSpriteSheet(const std::string& path, Vec2i spriteSize)
 	{
-		spritesheets.push_back(std::make_shared<SpriteSheet>(path, spriteSize));
+		spritesheets.push_back(MakeSmartPtr<SpriteSheet>(path, spriteSize));
 		return true;
 	}
 
 	// Add a spritesheet to the render manager by a pointer to a block of memory which contains the sprite
-	bool RenderManager::AddSpriteSheet(std::shared_ptr<SpriteSheet> spriteToAdd)
+	bool RenderManager::AddSpriteSheet(SmartPtr<SpriteSheet> spriteToAdd)
 	{
 		spritesheets.push_back(spriteToAdd);
 		return true;
@@ -490,7 +490,7 @@ namespace GlassEngine{
 		previousSpritesheets.clear();
 	}
 
-	void RenderManager::RenderToBackground(std::shared_ptr<Sprite> sprite, Vec3d renderPos)
+	void RenderManager::RenderToBackground(SmartPtr<Sprite> sprite, Vec3d renderPos)
 	{
 		Vec2i screenDims = sprites[Background]->GetSpriteDims();
 		Vec2i spriteDims = sprite->GetSpriteDims();

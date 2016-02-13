@@ -12,6 +12,7 @@
 #include "Time.h"
 #include "Game.h"
 #include "Animation.h"
+#include "Health.h"
 
 namespace GlassEngine
 {
@@ -47,7 +48,7 @@ namespace GlassEngine
 		{
 			if (id < 4 && GetComponent<Animation>(AnimationC))
 			{
-				auto rigidbody = this->GetComponent<Rigidbody>(RigidbodyC);
+				auto rigidbody = GetComponent<Rigidbody>(RigidbodyC);
 				this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("idle");
 				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
 				{
@@ -55,49 +56,53 @@ namespace GlassEngine
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, this->id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
 					rigidbody->AddForce(Vec2d(0.025, 0.0));
 				}
 				else if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, this->id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
 					rigidbody->AddForce(Vec2d(-0.025, 0.0));
 				}
 				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, this->id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
 					rigidbody->AddForce(Vec2d(0.0, 0.025));
 				}
 				else if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, this->id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
 				{
-					this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
+					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
 					rigidbody->AddForce(Vec2d(0.0, -0.025));
 				}
-				if (Input.GetButtonUp(HK_DIGITAL_A, this->id))
-					Game.SpawnBullet(this->transform->GetPosition(), Vec2d(5.0, 0.0));
+				if (Input.GetButtonUp(HK_DIGITAL_A, this->id) && Time.CurrentTime() > 50000)
+					Game.SpawnBullet(transform->GetPosition(), Vec2d(5.0, 0.0));
 				if (id == 0)
 				{
 					if (Input.GetKey('W') || Input.GetKey('A') || Input.GetKey('S') || Input.GetKey('D'))
 					{
 						if (Input.GetKey('W')){
-							this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
 							rigidbody->AddForce(Vec2d(0.025, 0.0));
 						}
 
 						else if (Input.GetKey('S')){
-							this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
 							rigidbody->AddForce(Vec2d(-0.025, 0.0));
 						}
 
 						if (Input.GetKey('A')){
-							this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
 							rigidbody->AddForce(Vec2d(0.0, -0.025));
 						}
 
 						else if (Input.GetKey('D')){
-							this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
+							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
 							rigidbody->AddForce(Vec2d(0.0, 0.025));
 						}
+					}
+					if (Input.GetKeyUp(HK_SPACE) && Time.CurrentTime() > 50000)
+					{
+						Game.SpawnBullet(transform->GetPosition(), Vec2d(5.0, 0.0));
 					}
 				}
 			}
@@ -123,7 +128,7 @@ namespace GlassEngine
 			c->Stop();
 	}
 
-	void GameObject::AddComponent(std::shared_ptr<Component> comp)
+	void GameObject::AddComponent(SmartPtr<Component> comp)
 	{
 		components.push_back(comp);
 	}
@@ -162,9 +167,21 @@ namespace GlassEngine
 		components.clear();
 	}
 
-	void GameObject::OnCollisionEnter(std::shared_ptr<GameObject> collider)
+	void GameObject::OnCollisionEnter(SmartPtr<GameObject> collider)
 	{
 		Game.SpawnExplosion(collider->GetTransform()->GetPosition());
 		Collided(true);
+		if(GetComponent<Health>(HealthC))
+			GetComponent<Health>(HealthC)->SetHealth(0);
+	}
+
+	void GameObject::Destory()
+	{
+		for (auto child : children)
+			child->Destory();
+		for (auto comp : components)
+			comp.reset();
+		components.clear();
+		transform.reset();
 	}
 }

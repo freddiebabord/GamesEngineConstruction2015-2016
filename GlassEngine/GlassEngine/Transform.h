@@ -11,7 +11,7 @@ namespace GlassEngine{
 	class Transform : public Component
 	{
 	public:
-		Transform(std::shared_ptr<GameObject> parentObj_) : Component(parentObj_){ id = TransformC; position = Vec3d(0); };
+		Transform(SmartPtr<GameObject> parentObj_) : Component(parentObj_){ id = TransformC; position = Vec3d(0); };
 		Transform() : Component(){};
 		~Transform(){};
 
@@ -38,10 +38,10 @@ namespace GlassEngine{
 			SetPosition(position + translationAmount);
 		}
 
-		std::shared_ptr<Transform> Clone() const { return (std::static_pointer_cast<Transform, Component>(CloneImpl())); };
+		SmartPtr<Transform> Clone() const { return (std::static_pointer_cast<Transform, Component>(CloneImpl())); };
 
 	protected:
-		std::shared_ptr<Component> CloneImpl() const override { return std::shared_ptr<Transform>(new Transform(*this)); };
+		SmartPtr<Component> CloneImpl() const override { return SmartPtr<Transform>(new Transform(*this)); };
 
 	private:
 		Vec3d position = Vec3d(0.0);

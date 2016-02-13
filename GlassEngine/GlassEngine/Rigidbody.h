@@ -10,7 +10,7 @@ namespace GlassEngine{
 	class Rigidbody : public Component
 	{
 	public:
-		Rigidbody(std::shared_ptr<GameObject> parentObj_) : Component(parentObj_){ id = RigidbodyC; };
+		Rigidbody(SmartPtr<GameObject> parentObj_) : Component(parentObj_){ id = RigidbodyC; };
 		~Rigidbody(){};
 
 		void Start() override;
@@ -52,16 +52,16 @@ namespace GlassEngine{
 
 		void ResetVelocity();
 
-		std::shared_ptr<Rigidbody> Clone() const { return (std::static_pointer_cast<Rigidbody, Component>(CloneImpl())); };
+		SmartPtr<Rigidbody> Clone() const { return (std::static_pointer_cast<Rigidbody, Component>(CloneImpl())); };
 
 	protected:
-		std::shared_ptr<Component> CloneImpl() const override { return std::shared_ptr<Rigidbody>(new Rigidbody(*this)); };
+		SmartPtr<Component> CloneImpl() const override { return SmartPtr<Rigidbody>(new Rigidbody(*this)); };
 
 	private:
 		bool gravity = true;
 		bool collided = false;
 		double mass = 1.00;
-		std::shared_ptr<Transform> transform;
+		SmartPtr<Transform> transform;
 		Vec3d velocity = Vec3d(0.0);
 		Vec3d maxVelocity = Vec3d(50.0);
 	};

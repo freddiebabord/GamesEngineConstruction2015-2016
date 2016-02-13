@@ -3,7 +3,7 @@
 	<Background graphic="Resources\background.jpg" />
 	<SpriteSheets>
 		<SpriteSheet graphic="Resources\JJEnterpriseSpriteSheet.png" sizeX="300" sizeY ="189" id="0" />
-		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="32" sizeY ="32" id="1" />
+		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" id="1" />
 	</SpriteSheets>
 	<Sprites>
 		<Sprites graphic="Resources\Shield.png" id="0" />
@@ -21,7 +21,7 @@
 			<Transform positionX="500" positionY="500" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Collider type="Sprite"/>
+			<Health health="100"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -38,7 +38,7 @@
 			<Transform positionX="150" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Collider type="Sprite"/>
+			<Health maxHealth="100"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -55,7 +55,7 @@
 			<Transform positionX="200" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Collider type="Sprite"/>
+			<Health health="100"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -72,7 +72,7 @@
 			<Transform positionX="250" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Collider type="Sprite"/>
+			<Health health="100"/>
 			<Animator animationSpeed="5">	
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -90,6 +90,7 @@
 		<GameObject name="Enemy" health="100">
 			<Transform positionX="1550" positionY="50" positionZ="0"/>
 			<Sprite id="2" /> 
+			<Health health="100"/>
 			<AI>
 				<State type="Idle" />
 				<State type="Attack" />
@@ -162,17 +163,17 @@
 			</GameObject>
 		</GameObject>
 	</UI>-->
-	<Prefabs> 
-		<GameObject name="Bullet" type="PlayerWeapon" active="true">
-			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
-			<Sprite id="1"/>
-		</GameObject>
-		<GameObject name="Explosion" type="PlayerWeapon" active="true">
-			<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
-			<SpriteSheet id="2"/>
-			<Animator animationSpeed="5">	
-				<Animation name="explode" start="0" end="15"/>
-			</Animator>	
-		</GameObject>
-	</Prefabs> 
+	<Bullet>
+		<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
+		<Sprite id="1"/>
+	</Bullet>
+	<Explosion>
+		<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
+		<SpriteSheet id="1"/>
+		<Animator animationSpeed="5">	
+			<Animation name="explode" start="0" end="15"/>
+		</Animator>	
+	</Explosion>
+	<!-- <Prefabs> 
+	</Prefabs>  -->
 </level>

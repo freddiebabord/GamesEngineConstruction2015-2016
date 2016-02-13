@@ -25,7 +25,7 @@ namespace GlassEngine{
 	class Animation : public Component
 	{
 	public:
-		Animation(std::shared_ptr<GameObject> parentObj) : Component(parentObj){ id = AnimationC; };
+		Animation(SmartPtr<GameObject> parentObj) : Component(parentObj){ id = AnimationC; };
 		virtual ~Animation();
 
 		void Update() override final;

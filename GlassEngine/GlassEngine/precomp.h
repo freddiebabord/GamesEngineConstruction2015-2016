@@ -30,3 +30,6 @@
 #include "GlassUtilities.h"
 #include <HAPI_lib.h>
 #define MAX_THREADS 2
+
+#define SmartPtr std::shared_ptr
+#define MakeSmartPtr std::make_shared

@@ -20,7 +20,7 @@ namespace GlassEngine{
 		void Update() override;
 		void Stop() override;
 
-		void AddAnimation(std::shared_ptr<Animation> animation){ animations.push_back(animation); };
+		void AddAnimation(SmartPtr<Animation> animation){ animations.push_back(animation); };
 
 	protected:
 		AnimatorManager(){};
@@ -28,7 +28,7 @@ namespace GlassEngine{
 	private:
 		// The local instance of the render manager
 		static AnimatorManager *instance;
-		std::vector<std::shared_ptr<Animation>> animations;
+		std::vector<SmartPtr<Animation>> animations;
 	};
 } 
 

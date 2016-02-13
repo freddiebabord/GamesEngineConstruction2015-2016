@@ -10,6 +10,8 @@ namespace GlassEngine{
 	class SpriteSheet;
 	class Component;
 	class Collider;
+	class Health;
+
 	class GameObject
 	{
 	public:
@@ -23,7 +25,7 @@ namespace GlassEngine{
 		virtual void Stop();
 
 		template<typename T>
-		std::shared_ptr<T> GetComponent(int id)
+		SmartPtr<T> GetComponent(int id)
 		{
 			for (auto comp : components)
 			{
@@ -32,18 +34,19 @@ namespace GlassEngine{
 			}
 			return nullptr;
 		}
-		void AddComponent(std::shared_ptr<Component> comp);
+		void AddComponent(SmartPtr<Component> comp);
 		bool HasComponent(int id);
 
-		void AddChild(std::shared_ptr<GameObject> child){ children.push_back(child); };
-		std::vector<std::shared_ptr<GameObject>>& GetChildren(){ return children; };
+		void AddChild(SmartPtr<GameObject> child){ children.push_back(child); };
+		std::vector<SmartPtr<GameObject>>& GetChildren(){ return children; };
 
 		void SetName(const std::string& newName){ name = newName; };
 
-		std::shared_ptr<Transform>& GetTransform() { return transform; };
+		SmartPtr<Transform>& GetTransform() { return transform; };
 
 		void DeleteObject();
 
+		void SetID(const int id_){ id = id_; };
 		const int GetID() { return id; };
 		const bool isActive(){ return active; };
 		void isActive(bool active_);
@@ -62,23 +65,25 @@ namespace GlassEngine{
 
 		std::string GetName() const { return name; };
 
-		virtual void OnCollisionEnter(std::shared_ptr<GameObject> collider);
+		virtual void OnCollisionEnter(SmartPtr<GameObject> collider);
 
 		bool Colliding() const { return isColliding; };
 		void Colliding(bool colliding) { isColliding = colliding; };
+		
+		void Destory();
 
 	protected :
-		std::vector<std::shared_ptr<Component>> components;
+		std::vector<SmartPtr<Component>> components;
 		int sprite = -1;
 		int spritesheet = -1;
 		int collider = -1;
-		std::vector<std::shared_ptr<GameObject>> children;
+		std::vector<SmartPtr<GameObject>> children;
 		void UpdateChildren(Vec3d parentPos);
 
 		int id = 0;
 		bool isColliding = false;
 
-		std::shared_ptr<Transform> transform;
+		SmartPtr<Transform> transform;
 		std::string name = "";
 		bool active = false;
 		bool hasCollided = false;

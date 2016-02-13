@@ -10,7 +10,7 @@ namespace GlassEngine{
 	{
 	public:
 		Component(){};
-		Component(std::shared_ptr<GameObject> parentObject_) : parentObject(parentObject_){};
+		Component(SmartPtr<GameObject> parentObject_) : parentObject(parentObject_){};
 		virtual ~Component(){ parentObject = nullptr; };
 
 		virtual void Start(){};
@@ -21,15 +21,15 @@ namespace GlassEngine{
 		int GetID(){ return id; };
 		const bool IsEnabled(){ return enabled; };
 		void IsEnabled(const bool enabled_){ enabled = enabled_; };
-		std::shared_ptr<GameObject> GetParent(){ return parentObject; };
+		SmartPtr<GameObject> GetParent(){ return parentObject; };
 
-		std::shared_ptr<Component> Clone() const {
+		SmartPtr<Component> Clone() const {
 			return CloneImpl();
 		};
 
 	protected:
-		virtual std::shared_ptr<Component> CloneImpl() const { return std::shared_ptr<Component>(new Component(*this)); };
-		std::shared_ptr<GameObject> parentObject;
+		virtual SmartPtr<Component> CloneImpl() const { return SmartPtr<Component>(new Component(*this)); };
+		SmartPtr<GameObject> parentObject;
 		bool enabled = true;
 		int id;
 	};
@@ -42,5 +42,6 @@ namespace GlassEngine{
 #define PointGravityC 5
 #define AnimationC 6
 #define AIC 7
+#define HealthC 8
 }
 #endif

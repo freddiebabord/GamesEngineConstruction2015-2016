@@ -20,7 +20,7 @@ namespace GlassEngine
 	public:
 
 		AI() : Component(){ id = AIC; };
-		AI(std::shared_ptr<GameObject> parent) : Component(parent){ id = AIC; };
+		AI(SmartPtr<GameObject> parent) : Component(parent){ id = AIC; };
 		virtual ~AI(){};
 
 		void Start() override;
@@ -31,13 +31,13 @@ namespace GlassEngine
 		const AIState State() const { return currentState; };
 
 		const void ClearTarget() { currentTarget = nullptr; };
-		void Target(std::shared_ptr<GameObject> newTarget){ currentTarget = newTarget; };
-		std::shared_ptr<GameObject> Target() const { return currentTarget; };
+		void Target(SmartPtr<GameObject> newTarget){ currentTarget = newTarget; };
+		SmartPtr<GameObject> Target() const { return currentTarget; };
 		bool HasTarget(){ if (currentTarget == nullptr) return false; else return true; };
 
 	private:
 		AIState currentState;
-		std::shared_ptr<GameObject> currentTarget = nullptr;
+		SmartPtr<GameObject> currentTarget = nullptr;
 	};
 }
 

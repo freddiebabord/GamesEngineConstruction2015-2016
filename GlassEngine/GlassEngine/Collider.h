@@ -8,10 +8,22 @@ namespace GlassEngine{
 
 	class GameObject;
 
+	enum CollisionMask
+	{
+		Default,
+		PlayerM,
+		Enemy,
+		PlayerBullets,
+		EnemyBullets,
+		Explosions,
+		None,
+		All
+	};
+
 	class Collider : public Component
 	{
 	public:
-		Collider(std::shared_ptr<GameObject> parentObj_) : Component(parentObj_){ id = ColliderC; };
+		Collider(SmartPtr<GameObject> parentObj_) : Component(parentObj_){ id = ColliderC; };
 		Collider() : Component() { id = ColliderC; };
 		~Collider(){};
 
@@ -26,9 +38,13 @@ namespace GlassEngine{
 
 		Rect GetColliderRect() const { return rect; };
 
-	private:
+		void Mask(const CollisionMask mask) { collisionMask = mask; };
+		const CollisionMask Mask() const { return collisionMask; };
+
+	protected:
 		Rect rect;
 		bool collision = true;
+		CollisionMask collisionMask = CollisionMask::Default;
 	};
 
 }

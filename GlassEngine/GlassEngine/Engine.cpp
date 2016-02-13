@@ -73,19 +73,22 @@ namespace GlassEngine{
 			Physics.FixedUpdate();
 			for (auto gos : Game.CurrentLevel()->GetGameObjects())
 			{
-				if (gos->isActive())
+				if (gos->isActive() && gos->GetName() != "Explosion" && gos->GetName() != "")
 				{
 					for (auto gos2 : Game.CurrentLevel()->GetGameObjects())
 					{
-						if (gos2->isActive() && gos != gos2)
+						if (gos2->isActive() && gos != gos2 && gos2->GetName() != "Explosion" && gos2->GetName() != "")
 						{
-							if (Physics.CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
+							if (Physics.GetCollider(gos->ColliderRef())->Mask() == Physics.GetCollider(gos2->ColliderRef())->Mask())
 							{
-								if (!gos->Collided())
+								if (Physics.CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
+								{
+									//if (!gos->Collided())
 									gos->OnCollisionEnter(gos2);
-								if (!gos2->Collided())
+									//if (!gos2->Collided())
 									gos2->OnCollisionEnter(gos);
-								//HAPI->UserMessage("I've Collided!!!!!", "Glass Engine");
+									//HAPI->UserMessage("I've Collided!!!!!", "Glass Engine");
+								}
 							}
 						}
 					}
@@ -105,6 +108,9 @@ namespace GlassEngine{
 		for (int i = 0; i < 4; ++i)
 		{
 			auto gameObject = Game.CurrentLevel()->GetGameObjects()[i];
+			
+			//if (!gameObject->isActive()) continue;
+
 			if (Input.WasControllerConnectedLastUpdadate(i))
 				gameObject->isActive(true);
 			else if (Input.WasControllerDisconnectedLastUpdate(gameObject->GetID()))
@@ -113,16 +119,19 @@ namespace GlassEngine{
 
 		for (auto gos : Game.CurrentLevel()->GetGameObjects())
 		{
-			if (gos->isActive())
+			if (!gos->isActive()) continue;
+
+			if (gos->GetName() == "Bullet")
+				HAPI->UserMessage("Render ME: Bullet", "GlassEngine");
+			if (gos->GetName() == "Explosion")
+				HAPI->UserMessage("Render ME: Explosion", "Explosion");
+			if (gos->SpriteRef() > 0)
+				Renderer.Render(gos->SpriteRef(), gos->GetTransform()->GetPosition());
+			else if (gos->SpriteSheetRef() >= 0)
 			{
-				if (gos->SpriteRef() > 0)
-					Renderer.Render(gos->SpriteRef(), gos->GetTransform()->GetPosition());
-				else if (gos->SpriteSheetRef() >= 0)
-				{
-					auto pos = gos->GetTransform()->GetPosition();
-					auto sp = gos->GetComponent<Animation>(AnimationC)->GetCurrentSprite();
-					Renderer.Render(gos->SpriteSheetRef(), pos, sp);
-				}
+				auto pos = gos->GetTransform()->GetPosition();
+				auto sp = gos->GetComponent<Animation>(AnimationC)->GetCurrentSprite();
+				Renderer.Render(gos->SpriteSheetRef(), pos, sp);
 			}
 		}
 

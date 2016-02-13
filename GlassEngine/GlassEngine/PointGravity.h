@@ -9,7 +9,7 @@ namespace GlassEngine{
 	class PointGravity : public Component
 	{
 	public:
-		PointGravity(std::shared_ptr<GameObject> parentObj_) : Component(parentObj_){ id = PointGravityC; };
+		PointGravity(SmartPtr<GameObject> parentObj_) : Component(parentObj_){ id = PointGravityC; };
 		PointGravity();
 		~PointGravity();
 
@@ -23,7 +23,7 @@ namespace GlassEngine{
 	private:
 		void GetRigidbodies();
 
-		std::vector<std::shared_ptr<Rigidbody>> rigidbodies;
+		std::vector<SmartPtr<Rigidbody>> rigidbodies;
 		float range = 5.0f;
 		float gravityStrength = 5.0f;
 		Vec2d offset = Vec2d(0.0);

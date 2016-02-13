@@ -90,17 +90,17 @@ namespace GlassEngine{
 		delete instance;
 	}
 
-	void PhysicsManager::AddCollider(std::shared_ptr<SpriteCollider> collider)
+	void PhysicsManager::AddCollider(SmartPtr<SpriteCollider> collider)
 	{
 		colliders.push_back(collider);
 	}
 
-	void PhysicsManager::AddRigidbody(std::shared_ptr<Rigidbody> rigidbody)
+	void PhysicsManager::AddRigidbody(SmartPtr<Rigidbody> rigidbody)
 	{
 		rigidbodies.push_back(rigidbody);
 	}
 
-	void PhysicsManager::AddGravityAffector(std::shared_ptr<PointGravity> grav_)
+	void PhysicsManager::AddGravityAffector(SmartPtr<PointGravity> grav_)
 	{
 		gravityAffectors.push_back(grav_);
 	}
@@ -123,8 +123,8 @@ namespace GlassEngine{
 		Vec3d otherPosition, int otherColliderID)
 	{
 
-		std::shared_ptr<SpriteCollider> collider = colliders[colliderID];
-		std::shared_ptr<SpriteCollider> otherCollider = colliders[otherColliderID];
+		SmartPtr<SpriteCollider> collider = colliders[colliderID];
+		SmartPtr<SpriteCollider> otherCollider = colliders[otherColliderID];
 
 		Vec2i finalPos = Vec2i((int)position.x, (int)position.y);
 		finalPos.x -= collider->getBoundingBox().Width() / 2;

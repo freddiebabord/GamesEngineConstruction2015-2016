@@ -10,7 +10,7 @@ namespace GlassEngine{
 	class Text : public Component
 	{
 	public:
-		Text(std::shared_ptr<GameObject> parentObj) : Component(parentObj){ };
+		Text(SmartPtr<GameObject> parentObj) : Component(parentObj){ };
 		Text() :Component(){};
 		virtual ~Text(){};
 

@@ -17,8 +17,8 @@ namespace GlassEngine{
 		void Update() override;
 		void Stop() override;
 
-		void AddUIElement(std::shared_ptr<Text> obj){ uiObjects.push_back(obj); };
-		std::vector<std::shared_ptr<Text>>& GetUIObjects() { return uiObjects; };
+		void AddUIElement(SmartPtr<Text> obj){ uiObjects.push_back(obj); };
+		std::vector<SmartPtr<Text>>& GetUIObjects() { return uiObjects; };
 		void Reset(){ uiObjectsBuffer = uiObjects; uiObjects.clear(); };
 		void RevertReset(){ uiObjects = uiObjectsBuffer;  uiObjectsBuffer.clear(); };
 		void ConfirmReset(){ uiObjectsBuffer.clear(); };
@@ -28,8 +28,8 @@ namespace GlassEngine{
 	private:
 		UIManager(){};
 		static UIManager *instance;
-		std::vector<std::shared_ptr<Text>> uiObjects;
-		std::vector<std::shared_ptr<Text>> uiObjectsBuffer;
+		std::vector<SmartPtr<Text>> uiObjects;
+		std::vector<SmartPtr<Text>> uiObjectsBuffer;
 		std::string font = "Calibri";
 		int size = 25;
 	};

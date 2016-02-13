@@ -20,10 +20,10 @@ namespace GlassEngine{
 
 		void SetID(int newID){ id = newID; };
 		const int GetID() { return id; };
-		std::vector<std::shared_ptr<GameObject>> GetGameObjects() { return gameObjects; };
-		std::vector<std::shared_ptr<GameObject>> GetUIObjects() { return ui; };
-		void AddGameObject(std::shared_ptr<GameObject> newGameObject){ gameObjects.push_back(newGameObject); };
-		void AddUIObject(std::shared_ptr<GameObject> newUIObject){ ui.push_back(newUIObject); };
+		std::vector<SmartPtr<GameObject>> GetGameObjects() { return gameObjects; };
+		std::vector<SmartPtr<GameObject>> GetUIObjects() { return ui; };
+		void AddGameObject(SmartPtr<GameObject> newGameObject){ gameObjects.push_back(newGameObject); };
+		void AddUIObject(SmartPtr<GameObject> newUIObject){ ui.push_back(newUIObject); };
 		char* GetLevelName() { return levelName; };
 		void DeleteLevel();
 		void SetAudioTrack(std::string audio){ audioTrack = audio; };
@@ -31,8 +31,8 @@ namespace GlassEngine{
 
 	private:
 		GameManager* game = nullptr;
-		std::vector<std::shared_ptr<GameObject>> gameObjects;
-		std::vector<std::shared_ptr<GameObject>> ui;
+		std::vector<SmartPtr<GameObject>> gameObjects;
+		std::vector<SmartPtr<GameObject>> ui;
 		int id = 0;
 		char* levelName;
 		std::string audioTrack = "";

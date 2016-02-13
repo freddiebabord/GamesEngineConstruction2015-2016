@@ -8,9 +8,9 @@ namespace GlassEngine{
 	class SpriteSheet : public Component
 	{
 	public:
-		SpriteSheet(std::shared_ptr<GameObject> parentObj) :Component(parentObj){ id = SpriteSheetC; };
-		SpriteSheet(std::shared_ptr<GameObject> parentObj, const std::string& path) :Component(parentObj){ id = SpriteSheetC;  LoadSprite(path); name = path; };
-		SpriteSheet(std::shared_ptr<GameObject> parentObj, const std::string& path, Vec2i idvSpriteSize) : Component(parentObj){
+		SpriteSheet(SmartPtr<GameObject> parentObj) :Component(parentObj){ id = SpriteSheetC; };
+		SpriteSheet(SmartPtr<GameObject> parentObj, const std::string& path) :Component(parentObj){ id = SpriteSheetC;  LoadSprite(path); name = path; };
+		SpriteSheet(SmartPtr<GameObject> parentObj, const std::string& path, Vec2i idvSpriteSize) : Component(parentObj){
 			id = SpriteSheetC;
 			LoadSprite(path);
 			individualSpriteSize = idvSpriteSize;

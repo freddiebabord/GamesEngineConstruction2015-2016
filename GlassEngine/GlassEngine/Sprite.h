@@ -10,8 +10,8 @@ namespace GlassEngine{
 	class Sprite: public Component
 	{
 	public:
-		Sprite(std::shared_ptr<GameObject> parentObj) : Component(parentObj){ id = SpriteC; };
-		Sprite(std::shared_ptr<GameObject> parentObj, std::string path) : Component(parentObj){ id = SpriteC; LoadSprite(path); name = path; };
+		Sprite(SmartPtr<GameObject> parentObj) : Component(parentObj){ id = SpriteC; };
+		Sprite(SmartPtr<GameObject> parentObj, std::string path) : Component(parentObj){ id = SpriteC; LoadSprite(path); name = path; };
 		Sprite(std::string path){ id = SpriteC; LoadSprite(path); };
 		Sprite() :Component(){};
 		virtual ~Sprite();

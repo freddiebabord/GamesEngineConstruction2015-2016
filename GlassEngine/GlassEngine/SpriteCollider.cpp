@@ -56,7 +56,7 @@ namespace GlassEngine{
 		dwordSize = numDwordsAcross;
 	}
 
-	bool SpriteCollider::CheckCollider(std::shared_ptr<SpriteCollider> collider)
+	bool SpriteCollider::CheckCollider(SmartPtr<SpriteCollider> collider)
 	{
 		Vec2i otherMaskSize = collider->GetMaskSize();
 

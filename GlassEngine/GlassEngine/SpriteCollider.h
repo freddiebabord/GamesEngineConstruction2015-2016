@@ -11,12 +11,12 @@ namespace GlassEngine{
 	class SpriteCollider : public Collider
 	{
 	public:
-		SpriteCollider(std::shared_ptr<GameObject> base) : Collider(base) { id = ColliderC; };
+		SpriteCollider(SmartPtr<GameObject> base) : Collider(base) { id = ColliderC; };
 		SpriteCollider() : Collider() { id = ColliderC; };
 		virtual ~SpriteCollider();
 
 		void SpriteCollider::GenerateMask(BYTE* imageData, const Rect& rect);
-		bool CheckCollider(std::shared_ptr<SpriteCollider> collider);
+		bool CheckCollider(SmartPtr<SpriteCollider> collider);
 
 
 		DWORD* GetMask() const { return mask; };

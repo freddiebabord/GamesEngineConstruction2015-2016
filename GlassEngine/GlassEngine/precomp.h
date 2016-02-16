@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -28,6 +29,7 @@
 #include "resource.h"
 #include "Math.h"
 #include "GlassUtilities.h"
+#include "TagManager.h"
 #include <HAPI_lib.h>
 #define MAX_THREADS 2
 

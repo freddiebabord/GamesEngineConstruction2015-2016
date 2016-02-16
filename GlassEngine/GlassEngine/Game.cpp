@@ -1,22 +1,6 @@
 #include "precomp.h"
-#include "Game.h"
-#include "Sprite.h"
-#include "SpriteSheet.h"
-#include "Animation.h"
-#include "Transform.h"
-#include "Collider.h"
-#include "Rigidbody.h"
-#include "PointGravity.h"
-#include "Text.h"
-#include "GameObject.h"
-#include "PhysicsManager.h"
-#include "InputManager.h"
-#include "RenderManager.h"
-#include "UIManager.h"
-#include "Animator.h"
-#include "SpriteCollider.h"
-#include "Level.h"
-#include "Health.h"
+#include "GlassEngine.h"
+#include "GamePlayerHeaders.h"
 
 namespace GlassEngine{
 	
@@ -45,11 +29,13 @@ namespace GlassEngine{
 				b.reset();
 			bullets.clear();
 		}
-		bullets.reserve(sizeof(GameObject) * poolSize);
+		bullets.reserve(sizeof(Bullet) * poolSize);
 		for (int i = 0; i < poolSize; ++i)
 		{
-			auto bullet = CreateNewObject(node, (int)currentLevel->GetGameObjects().size(), currentLevel);
+			SmartPtr<Bullet> bullet = CreateNewObject<Bullet>(node, (int)currentLevel->GetGameObjects().size(), currentLevel);
 			bullet->isActive(false);
+			bullet->SetName("Bullet");
+			Physics.GetCollider(bullet->ColliderRef())->Mask(CollisionMask::PlayerM);
 			bullets.push_back(bullet);
 			currentLevel->AddGameObject(bullet);
 		}
@@ -66,9 +52,16 @@ namespace GlassEngine{
 		explosions.reserve(sizeof(GameObject) * poolSize);
 		for (int i = 0; i < poolSize; ++i)
 		{
-			auto explosion = CreateNewObject(node, (int)currentLevel->GetGameObjects().size(), currentLevel);
+			auto explosion = CreateNewObject<GameObject>(node, (int)currentLevel->GetGameObjects().size(), currentLevel);
 			explosion->isActive(false);
-			explosion->SpriteSheetRef(1);
+			if (explosion->GetComponent<Animation>(AnimationC))
+			{
+				explosion->GetComponent<Animation>(AnimationC)->Loop(false);
+				explosion->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("explode");
+			}
+			Physics.GetCollider(explosion->ColliderRef())->Mask(CollisionMask::None);
+			explosion->SetName("Explosion");
+			explosion->ColliderRef(-1);
 			explosions.push_back(explosion);
 			currentLevel->AddGameObject(explosion);
 		}
@@ -96,34 +89,38 @@ namespace GlassEngine{
 
 		if (Input.GetKeyUp(HK_F5))
 		{
-			Physics.ClearPhysicsManager();
-			Renderer.ClearRenderer();
-			//UI.Reset();
-			int id = CurrentLevel()->GetID();
-			SmartPtr<Level> newLevel = loadLevel(CurrentLevel()->GetLevelName());
-			if (newLevel != nullptr)
-			{
-				
-				CurrentLevel()->DeleteLevel();
-				levels.pop_back();
-				Renderer.ClearPrevious();
-				Physics.ClearPrevious();
-				Input.Reset();
-				//UI.ConfirmReset();
-				levels.push_back(newLevel);
-				std::string test=levels.back()->GetAudioTrack();
-				HAPI->PlayStreamedMedia(levels.back()->GetAudioTrack());
-			}
-			else
-			{
-				Physics.ResetToPrevious();
-				Physics.ClearPrevious();
-				Renderer.ResetToPrevious();
-				Renderer.ClearPrevious();
-				//UI.RevertReset();
-			}
+			ReloadGame();
 		}
 		
+	}
+
+	void GameManager::ReloadGame()
+	{
+		Physics.ClearPhysicsManager();
+		Renderer.ClearRenderer();
+		UI.Reset();
+		int id = CurrentLevel()->GetID();
+		SmartPtr<Level> newLevel = loadLevel(CurrentLevel()->GetLevelName());
+		if (newLevel != nullptr)
+		{
+			CurrentLevel()->DeleteLevel();
+			levels.pop_back();
+			Renderer.ClearPrevious();
+			Physics.ClearPrevious();
+			Input.Reset();
+			UI.ConfirmReset();
+			levels.push_back(newLevel);
+			std::string test = levels.back()->GetAudioTrack();
+			HAPI->PlayStreamedMedia(levels.back()->GetAudioTrack());
+		}
+		else
+		{
+			Physics.ResetToPrevious();
+			Physics.ClearPrevious();
+			Renderer.ResetToPrevious();
+			Renderer.ClearPrevious();
+			UI.RevertReset();
+		}
 	}
 
 	void GameManager::Stop()
@@ -131,7 +128,7 @@ namespace GlassEngine{
 		std::map<std::string, SmartPtr<GameObject>>::iterator itr = prefabs.begin();
 		if (itr != prefabs.end())
 		{
-			itr->second->DeleteObject();
+			itr->second->Destory();
 		}
 		DeleteLevels();
 		delete instance;
@@ -187,38 +184,47 @@ namespace GlassEngine{
 				}
 				for (pugi::xml_node player = level.child("Players").child("Player"); player; player = player.next_sibling("Player"))
 				{
-					auto player_ = CreateNewObject(player, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size(), newLevel);
-					Physics.GetCollider(player_->ColliderRef())->Mask(CollisionMask::Default);
+					auto player_ = CreateNewObject<Player>(player, (int)newLevel->GetGameObjects().size(), newLevel);
+					Physics.GetCollider(player_->ColliderRef())->Mask(CollisionMask::PlayerM);
+					player_->SetTag(Tag::PlayerTag);
 					newLevel->AddGameObject(player_);
+				}
+				for (pugi::xml_node ai = level.child("AIs").child("AI"); ai; ai = ai.next_sibling("AI"))
+				{
+					auto ai_ = CreateNewObject<EnemyAI>(ai, (int)newLevel->GetGameObjects().size(), newLevel);
+					Physics.GetCollider(ai_->ColliderRef())->Mask(CollisionMask::Enemy);
+					ai_->isActive(true);
+					ai_->SetTag(Tag::EnemyTag);
+					newLevel->AddGameObject(ai_);
 				}
 				for (pugi::xml_node prefab = level.child("Prefabs").child("GameObject"); prefab; prefab = prefab.next_sibling("GameObject"))
 				{
-					AddPrefab(CreateNewObject(prefab, (int)prefabs.size(), newLevel), prefab.attribute("name").as_string());
+					AddPrefab(CreateNewObject<GameObject>(prefab, (int)prefabs.size(), newLevel), prefab.attribute("name").as_string());
 				}
 				if (level.child("Bullet")&& !bulletPoolCreated)
 				{
-					CreateBulletPool(300, level.child("World").child("Bullet").child("Sprite").attribute("id").as_int(), level.child("World").child("Bullet"), newLevel);
-					for (auto bullet : bullets)
-						bullet->isActive(false);
+					CreateBulletPool(300, level.child("Bullet").child("Sprite").attribute("id").as_int(), level.child("Bullet"), newLevel);
 					bulletPoolCreated = true;
 				}
 				if (level.child("Explosion") && !explosionPoolCreated)
 				{
-					CreateExplosionPool(300, level.child("World").child("Explosion").child("SpriteSheet").attribute("id").as_int(), newLevel, level.child("World").child("Explosion"));
-					for (auto bullet : bullets)
-						bullet->isActive(false);
+					CreateExplosionPool(300, level.child("Explosion").child("SpriteSheet").attribute("id").as_int(), newLevel, level.child("Explosion"));
 					explosionPoolCreated = true;
 				}
 				for (pugi::xml_node gameObject = level.child("World").child("GameObject"); gameObject; gameObject = gameObject.next_sibling("GameObject"))
 				{
-					newLevel->AddGameObject(CreateNewObject(gameObject, (int)newLevel->GetGameObjects().size() + (int)newLevel->GetUIObjects().size(), newLevel));
+					newLevel->AddGameObject(CreateNewObject<GameObject>(gameObject, (int)newLevel->GetGameObjects().size(), newLevel));
 				}
-				/*UI.SetFont(level.child("UI").attribute("Font").as_string(), level.child("UI").attribute("Size").as_int());
-				for (pugi::xml_node uio = level.child("UI").child("GameObject"); uio; uio = uio.next_sibling("GameObject"))
+				for (pugi::xml_node uiObject = level.child("UI").child("UISprites").child("UISprite"); uiObject; uiObject = uiObject.next_sibling("UISprite"))
 				{
-					newLevel->AddUIObject(CreateNewObject(uio, (int)newLevel->GetGameObjects().size()+(int)newLevel->GetUIObjects().size()));
-					newLevel->GetUIObjects().back()->isActive(true);
-				}*/
+					SmartPtr<Sprite> uiSprite = MakeSmartPtr<Sprite>();
+					CreateUISprite(uiObject);
+					Renderer.AddUISprite(uiSprite);
+				}
+				for (pugi::xml_node uiObject = level.child("UI").child("UIObjects").child("UIObject"); uiObject; uiObject = uiObject.next_sibling("UIObject"))
+				{
+					CreateNewUIObject(uiObject, (int)UI.GetUIObjects().size());
+				}
 				levelLoaded = true;
 				Renderer.RenderBackground(Background, Vec3d(0.0));
 				return newLevel;
@@ -231,6 +237,13 @@ namespace GlassEngine{
 		return nullptr;
 	}
 
+	void GameManager::CreateUISprite(pugi::xml_node node)
+	{
+		SmartPtr<Sprite> sprite = MakeSmartPtr<Sprite>();
+		sprite->LoadSprite(node.attribute("graphic").as_string());
+		sprite->ID(node.attribute("id").as_int());
+		Renderer.AddUISprite(sprite);
+	}
 
 	void GameManager::CreateSprite(pugi::xml_node node)
 	{
@@ -267,88 +280,7 @@ namespace GlassEngine{
 		Physics.AddCollider(collider);
 	}
 
-	SmartPtr<GameObject> GameManager::CreateNewObject(pugi::xml_node node, int id, SmartPtr<Level> level)
-	{
-		SmartPtr<GameObject> newObject = MakeSmartPtr<GameObject>(id);
-		SmartPtr<Transform> transform = MakeSmartPtr<Transform>(newObject);
-		SmartPtr<Rigidbody> rigidBody = MakeSmartPtr<Rigidbody>(newObject);
-		SmartPtr<Collider> collider = MakeSmartPtr<Collider>(newObject);
-		SmartPtr<SpriteCollider> spriteCollider = MakeSmartPtr<SpriteCollider>(newObject);
-		SmartPtr<Animation> animation = MakeSmartPtr<Animation>(newObject);
-		SmartPtr<PointGravity> pointGravity = MakeSmartPtr<PointGravity>(newObject);
-		SmartPtr<Text> text = MakeSmartPtr<Text>(newObject);
-		SmartPtr<Health> health = MakeSmartPtr<Health>(newObject);
-
-		newObject->SetName(node.attribute("name").as_string());
-		
-		transform->SetPosition(Vec3d(node.child("Transform").attribute("positionX").as_double(), node.child("Transform").attribute("positionY").as_double(), node.child("Transform").attribute("positionZ").as_double()));
-		//;
-		//collider->Start(Rect(node.child("Collider").attribute("Top").as_double(), node.child("Collider").attribute("Left").as_double(), node.child("Collider").attribute("Right").as_double(), node.child("Collider").attribute("Bottom").as_double()));
-		
-		newObject->AddComponent(transform);
-		Vec2d offset(0.0);
-
-		if (node.child("Sprite"))
-		{
-			newObject->SpriteRef(node.child("Sprite").attribute("id").as_int());
-			newObject->ColliderRef(node.child("Sprite").attribute("id").as_int());
-		}
-		if (node.child("SpriteSheet"))
-		{
-			newObject->ColliderRef(node.child("SpriteSheet").attribute("id").as_int());
-			newObject->SpriteSheetRef(node.child("SpriteSheet").attribute("id").as_int());
-		}
-
-		if (node.child("Animator"))
-		{
-			animation->SetAnimSpeed(node.child("Animator").attribute("animationSpeed").as_int());
-			for (pugi::xml_node anim : node.child("Animator").children("Animation"))
-			{
-				animation->AddAnimation(AnimationClip(anim.attribute("name").as_string(), Vec2i(anim.attribute("start").as_int(), anim.attribute("end").as_int())));
-			}
-			newObject->AddComponent(animation);
-			Animator.AddAnimation(animation);
-		}
-
-		if (node.child("PointGravity"))
-		{
-			pointGravity->Init(node.child("PointGravity").attribute("range").as_float(), node.child("PointGravity").attribute("strength").as_float(), offset);
-			newObject->AddComponent(pointGravity);
-			Physics.AddGravityAffector(pointGravity);
-		}
-		
-		if (node.child("Health"))
-		{
-			health->SetHealth(node.child("Health").attribute("maxHealth").as_int());
-			newObject->AddComponent(health);
-		}
-		
-		if (node.child("Rigidbody"))
-		{
-			rigidBody->setMass(node.child("Rigidbody").attribute("Mass").as_double());
-			newObject->AddComponent(rigidBody);
-			Physics.AddRigidbody(rigidBody);
-		}
-
-		if (node.child("Text"))
-		{
-			text->SetContent(node.child("Text").attribute("Content").as_string());
-			newObject->AddComponent(text);
-			UI.AddUIElement(text);
-		}	
-
-		for (pugi::xml_node child : node.children("GameObject"))
-		{
-			newObject->AddChild(CreateNewObject(child, id, level));
-		}
-		//newObject->isActive(node.attribute("active").as_bool());
-		newObject->Start();
-		
-		
-		return newObject;
-	}
-
-	void GameManager::SpawnBullet(Vec3d position, Vec2d force)
+	void GameManager::SpawnBullet(Vec3d position, Vec2d force, Tag tag_)
 	{
 		for (auto bullet : bullets)
 		{
@@ -357,9 +289,10 @@ namespace GlassEngine{
 				CurrentLevel()->GetGameObjects()[bullet->GetID()]->isActive(true);
 				bullet->isActive(true);
 				bullet->GetTransform()->SetPosition(position);
+				bullet->SetTag(tag_);
 				bullet->GetComponent<Rigidbody>(RigidbodyC)->IsEnabled(true);
+				bullet->GetComponent<Rigidbody>(RigidbodyC)->ResetVelocity();
 				bullet->GetComponent<Rigidbody>(RigidbodyC)->AddForce(force);
-				HAPI->UserMessage("SpwnMe: Bullet", "GlassEngine");
 				return;
 			}
 		}
@@ -374,8 +307,8 @@ namespace GlassEngine{
 				explosion->isActive(true);
 				CurrentLevel()->GetGameObjects()[explosion->GetID()]->isActive(true);
 				explosion->GetTransform()->SetPosition(position);
-				Renderer.Render(explosion->SpriteSheetRef(), position, 0);
-				HAPI->UserMessage("SpwnMe: Explosion", "GlassEngine");
+				if (explosion->GetComponent<Animation>(AnimationC))
+					explosion->GetComponent<Animation>(AnimationC)->IsEnabled(true);
 				return;
 			}
 		}

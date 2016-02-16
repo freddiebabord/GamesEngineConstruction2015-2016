@@ -14,6 +14,7 @@
 #include "Animation.h"
 #include "Health.h"
 
+
 namespace GlassEngine
 {
 	GameObject::GameObject()
@@ -44,71 +45,27 @@ namespace GlassEngine
 
 	void GameObject::Update()
 	{
-		if (active)
-		{
-			if (id < 4 && GetComponent<Animation>(AnimationC))
-			{
-				auto rigidbody = GetComponent<Rigidbody>(RigidbodyC);
-				this->GetComponent<Animation>(AnimationC)->SetCurrentAnimation("idle");
-				if (Input.GetButtonUp(HK_DIGITAL_X, id) || Input.GetKeyUp('R'))
-				{
-					rigidbody->SetVelocity(Vec3d(0.0, 0.0, 0.0));
-				}
-				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, this->id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
-				{
-					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
-					rigidbody->AddForce(Vec2d(0.025, 0.0));
-				}
-				else if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_X, this->id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
-				{
-					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
-					rigidbody->AddForce(Vec2d(-0.025, 0.0));
-				}
-				if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, this->id) > HK_GAMEPAD_LEFT_THUMB_DEADZONE)
-				{
-					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
-					rigidbody->AddForce(Vec2d(0.0, 0.025));
-				}
-				else if (Input.GetAxis(HK_ANALOGUE_LEFT_THUMB_Y, this->id) < -HK_GAMEPAD_LEFT_THUMB_DEADZONE)
-				{
-					GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
-					rigidbody->AddForce(Vec2d(0.0, -0.025));
-				}
-				if (Input.GetButtonUp(HK_DIGITAL_A, this->id) && Time.CurrentTime() > 50000)
-					Game.SpawnBullet(transform->GetPosition(), Vec2d(5.0, 0.0));
-				if (id == 0)
-				{
-					if (Input.GetKey('W') || Input.GetKey('A') || Input.GetKey('S') || Input.GetKey('D'))
-					{
-						if (Input.GetKey('W')){
-							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveFwd");
-							rigidbody->AddForce(Vec2d(0.025, 0.0));
-						}
-
-						else if (Input.GetKey('S')){
-							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveBack");
-							rigidbody->AddForce(Vec2d(-0.025, 0.0));
-						}
-
-						if (Input.GetKey('A')){
-							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveLeft");
-							rigidbody->AddForce(Vec2d(0.0, -0.025));
-						}
-
-						else if (Input.GetKey('D')){
-							GetComponent<Animation>(AnimationC)->SetCurrentAnimation("moveRight");
-							rigidbody->AddForce(Vec2d(0.0, 0.025));
-						}
-					}
-					if (Input.GetKeyUp(HK_SPACE) && Time.CurrentTime() > 50000)
-					{
-						Game.SpawnBullet(transform->GetPosition(), Vec2d(5.0, 0.0));
-					}
-				}
-			}
-		}
-
 		UpdateChildren(transform->GetPosition());
+
+		/*if (GetComponent<Health>(HealthC))
+		{
+			if (GetComponent<Health>(HealthC)->GetHealth() <= 0)
+				Explode();
+		}*/
+
+	}
+
+	SmartPtr<GameObject> GameObject::GetChildByName(std::string name)
+	{
+		for (auto child : children)
+			if (child->GetName() == name)
+				return child;
+	}
+
+	void GameObject::Explode()
+	{
+		Game.SpawnExplosion(transform->GetPosition());
+		isActive(false);
 	}
 
 	void GameObject::UpdateChildren(Vec3d parentPos)
@@ -150,6 +107,8 @@ namespace GlassEngine
 			c->IsEnabled(active_);
 		for (auto child : children)
 			child->isActive(active_);
+		if (active_)
+			OnEnable();
 		active = active_; 
 	}
 
@@ -160,28 +119,41 @@ namespace GlassEngine
 			c->DeleteObject();
 			c->Stop();
 		}
+		for (auto col : collidingObjects)
+			col.reset();
+		collidingObjects.clear();
 		children.clear();
-		
 		transform.reset();
-		
 		components.clear();
 	}
 
-	void GameObject::OnCollisionEnter(SmartPtr<GameObject> collider)
+	void GameObject::OnCollisionEnter(SmartPtr<GameObject> gameObject)
 	{
-		Game.SpawnExplosion(collider->GetTransform()->GetPosition());
-		Collided(true);
-		if(GetComponent<Health>(HealthC))
-			GetComponent<Health>(HealthC)->SetHealth(0);
+		if (std::find(collidingObjects.begin(), collidingObjects.end(), gameObject) != collidingObjects.end())
+			OnCollisionStay(gameObject);
+		else
+		{
+			collidingObjects.push_back(gameObject);
+			if (gameObject->GetTag() != GetTag())
+			{
+				if (GetComponent<Health>(HealthC))
+					GetComponent <Health>(HealthC)->AddToHealth(-5);
+			}
+		}
+			Collided(true);
+	}
+
+	void GameObject::OnCollisionStay(SmartPtr<GameObject> gameObject)
+	{
+	}
+
+	void GameObject::OnCollisionExit(SmartPtr<GameObject> gameObject)
+	{
+		collidingObjects.erase(std::remove(collidingObjects.begin(), collidingObjects.end(), gameObject));
 	}
 
 	void GameObject::Destory()
 	{
-		for (auto child : children)
-			child->Destory();
-		for (auto comp : components)
-			comp.reset();
-		components.clear();
-		transform.reset();
+		DeleteObject();
 	}
 }

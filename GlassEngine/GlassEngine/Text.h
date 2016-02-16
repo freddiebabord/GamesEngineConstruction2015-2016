@@ -1,25 +1,27 @@
 #if !defined (TEXTCOMPONENT)
 #define TEXTCOMPONENT
 
-#include "Component.h"
+#include "precomp.h"
+#include "UIObject.h"
+#include "Font.h"
 
 namespace GlassEngine{
 
-	class GameObject;
-
-	class Text : public Component
+	class Text : public UIObject
 	{
 	public:
-		Text(SmartPtr<GameObject> parentObj) : Component(parentObj){ };
-		Text() :Component(){};
+		Text() : UIObject(){};
 		virtual ~Text(){};
 
-		void SetContent(std::string content_){ content = content_; };
-		std::string GetContent() const { return content; };
+		void Content(std::string content_){ content = content_; };
+		std::string Content() const { return content; };
 
+		Font GetFont(){ return textFont; };
+		void SetFont(const Font newFont){ textFont = newFont; };
 
 	private:
 		std::string content;
+		Font textFont;
 	};
 
 }

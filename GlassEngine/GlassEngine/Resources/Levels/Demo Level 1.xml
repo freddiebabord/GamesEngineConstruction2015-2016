@@ -3,12 +3,15 @@
 	<Background graphic="Resources\background.jpg" />
 	<SpriteSheets>
 		<SpriteSheet graphic="Resources\JJEnterpriseSpriteSheet.png" sizeX="300" sizeY ="189" id="0" />
-		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" id="1" />
+		<SpriteSheet graphic="Resources\asteroidSpriteSheet.png" sizeX="128" sizeY ="128" id="1" />
+		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" id="2" />
 	</SpriteSheets>
 	<Sprites>
-		<Sprites graphic="Resources\Shield.png" id="0" />
-		<Sprite graphic="Resources\bullet1.png" id="1"/>
-		<Sprite graphic="Resources\klingonspaceship.png" id="2"/>
+		
+		<Sprite graphic="Resources\bullet1.png" id="0"/>
+		<Sprite graphic="Resources\klingonspaceship.png" id="1"/>
+		<Sprite graphic="Resources\Shield.png" id="2" />
+		<Sprite graphic="Resources\Phaser.png" id="3"/>
 		<Sprite graphic="Resources\nebulae2.png" renderToBackground="true" positionX="1850" positionY="550" />
 		<Sprite graphic="Resources\nebulae1.png" renderToBackground="true" positionX="800" positionY="550" />
 		<Sprite graphic="Resources\nebulae3.png" renderToBackground="true" positionX="1200" positionY="50" />
@@ -17,100 +20,186 @@
 		<Sprite graphic="Resources\planet2.png" renderToBackground="true" positionX="800" positionY="50" />
 	</Sprites>
 	<Players>
-		 <Player name="Player1" health="50" type="Player" active="true">
+		 <Player name="Player1" tag="Player" Active="false">
 			<Transform positionX="500" positionY="500" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
 			<Health health="100"/>
-			<Animator animationSpeed="5">	
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
 				<Animation name="moveRight" start="10" end="14"/>
 				<Animation name="moveLeft" start="15" end="19"/>
 				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
-			<GameObject name="Shield" type="GameObject" active="false">
+			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
-				<Sprite id="1"/>
+				<Sprite id="3"/>
 			</GameObject>
 		</Player>
-		 <Player name="Player2" health="50" type="Player" active="true">
+		 <Player name="Player2" tag="Player" Active="false">
 			<Transform positionX="150" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
 			<Health maxHealth="100"/>
-			<Animator animationSpeed="5">	
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
 				<Animation name="moveRight" start="10" end="14"/>
 				<Animation name="moveLeft" start="15" end="19"/>
 				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
-			<GameObject name="Shield" type="GameObject" active="false">
+			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
 				<Sprite id="1"/>
 			</GameObject>
 		</Player>
-		<Player name="Player3" health="50" type="Player" active="true">
-			<Transform positionX="200" positionY="50" positionZ="0"/>
+		<Player name="Player3" tag="Player" Active="false">
+			<Transform positionX="200" positionY="250" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
 			<Health health="100"/>
-			<Animator animationSpeed="5">	
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
 				<Animation name="moveRight" start="10" end="14"/>
 				<Animation name="moveLeft" start="15" end="19"/>
 				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
-			<GameObject name="Shield" type="GameObject" active="false">
+			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
 				<Sprite id="1"/>
 			</GameObject>
 		</Player>
-		<Player name="Player4" health="50" type="Player" active="true"> 
+		<Player name="Player4" tag="Player" Active="false"> 
 			<Transform positionX="250" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
 			<Health health="100"/>
-			<Animator animationSpeed="5">	
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
 				<Animation name="moveRight" start="10" end="14"/>
 				<Animation name="moveLeft" start="15" end="19"/>
 				<Animation name="moveBack" start="20" end="24"/>
 			</Animator>	
-			<GameObject name="Shield" type="GameObject" active="false">
+			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
 				<Sprite id="1"/>
 			</GameObject>
 		</Player>
 	</Players>
 	<AIs>
-		<GameObject name="Enemy" health="100">
-			<Transform positionX="1550" positionY="50" positionZ="0"/>
-			<Sprite id="2" /> 
-			<Health health="100"/>
-			<AI>
-				<State type="Idle" />
-				<State type="Attack" />
-				<State type="Evade" />
-				<State type="Die" />"
-			</AI>
-		</GameObject>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="1400" positionY="350" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="1300" positionY="550" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="1400" positionY="750" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="1800" positionY="350" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="1700" positionY="550" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="1800" positionY="750" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="2500" positionY="350" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="2400" positionY="550" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="2500" positionY="750" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
 	</AIs>
 	<World>
-		<GameObject name="Sun" type="WorldBackground" active="true">
+		<GameObject name="Sun" type="WorldBackground" Active="true">
 			<Transform positionX="1850" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
-			<PointGravity strength="0.50" range="700"/>
+			<PointGravity strength="0.5" range="700"/>
 		</GameObject>
-		<GameObject name="Planet" type="WorldBackground" active="true">
+		<GameObject name="Planet" type="WorldBackground" Active="true">
 			<Transform positionX="500" positionY="650" positionZ="0" scaleX="2" scaleY="2"/>
-			<PointGravity strength="0.25" range="350"/>
+			<PointGravity strength="0.025" range="350"/>
 		</GameObject> 
-		<GameObject name="Planet" type="WorldBackground" active="true">
+		<GameObject name="Planet" type="WorldBackground" Active="true">
 			<Transform positionX="800" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
-			<PointGravity strength="0.25" range="550"/>
+			<PointGravity strength="0.025" range="550"/>
+		</GameObject>
+		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="800" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">	
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
+		</GameObject>
+		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="760" positionY="250" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">	
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
+		</GameObject>
+
+
+		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="1500" positionY="333" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
+		</GameObject>
+
+		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="860" positionY="825" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
+		</GameObject>
+		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="562" positionY="456" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
+		</GameObject>
+
+		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="964" positionY="752" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
+		</GameObject><GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
+			<Transform positionX="1154" positionY="348" positionZ="0" scaleX="2" scaleY="2"/>
+			<SpriteSheet id ="1"/>
+			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
+				<Animation name="idle" start="0" end="31"/>
+			</Animator>
 		</GameObject>
 	</World>
 	<!--<UI Font="Calibri Bold" Size="25">
@@ -163,14 +252,66 @@
 			</GameObject>
 		</GameObject>
 	</UI>-->
-	<Bullet>
+	<UI>
+		<UISprites>
+			<UISprite graphic="Resources\UI\Base.png" id="0" />
+			<UISprite graphic="Resources\UI\Base2.png" id="1"/>
+			<UISprite graphic="Resources\UI\Base3.png" id="2"/>
+			<UISprite graphic="Resources\UI\Button.png" id="3"/>
+		</UISprites>
+		<UIObjects>
+			<UIObject>
+				<Text name="ScoreText" Content="Score: 0" PositionX="250" PositionY="960">
+					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="EnemiesKilledText" Content="Enemies Killed: 0" PositionX="450" PositionY="960">
+					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="LevelText" Content="Syrellian System" PositionX="850" PositionY="960">
+					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="TorpedoCompliment" Content="Torpedos: 150" PositionX="1200" PositionY="960">
+					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="PhaserPower" Content="Phasers: 100%" PositionX="1450" PositionY="960">
+					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Button name="pauseButton" PositionX="960" PositionY="1050">
+					<Text name="EnemiesKilledText" Content="" >
+						<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					</Text>
+					<UISprite id="0" />
+				</Button>	
+			</UIObject>
+			<UIObject>
+				<Button name="player1Weapons" PositionX="750" PositionY="750">
+					<Text name="EnemiesKilledText" Content="" >
+						<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					</Text>
+					<UISprite id="1" />
+				</Button>
+			</UIObject>
+		</UIObjects>
+	</UI>
+	<Bullet name="Bullet" Active="false">
 		<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
 		<Sprite id="1"/>
+		<Rigidbody Mass="1"/>
 	</Bullet>
-	<Explosion>
+	<Explosion name="Explosion" tag="ParticleEfects" Active="false">
 		<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
-		<SpriteSheet id="1"/>
-		<Animator animationSpeed="5">	
+		<SpriteSheet id="2"/>
+		<Animator animationSpeed="50" startAnimation="explode">	
 			<Animation name="explode" start="0" end="15"/>
 		</Animator>	
 	</Explosion>

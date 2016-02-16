@@ -79,6 +79,7 @@ namespace GlassEngine{
 		int GetMiddleMouseMovement() const { return mouse.wheelMovement; };
 		bool GetLeftMouseButton() const { return mouse.leftButtonDown; };
 		bool GetRightMouseButton() const { return mouse.rightButtonDown; };
+
 	protected:
 		InputManager(){};
 

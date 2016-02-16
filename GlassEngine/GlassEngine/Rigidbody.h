@@ -7,6 +7,7 @@ namespace GlassEngine{
 
 	class Transform;
 	class GameObject;
+
 	class Rigidbody : public Component
 	{
 	public:
@@ -29,6 +30,8 @@ namespace GlassEngine{
 
 		bool hasCollided() const { return collided; };
 		void hasCollided(bool collided_){ collided = collided_; };
+
+		void Rebound();
 
 		void AddForce(Vec3d force_)
 		{
@@ -63,7 +66,7 @@ namespace GlassEngine{
 		double mass = 1.00;
 		SmartPtr<Transform> transform;
 		Vec3d velocity = Vec3d(0.0);
-		Vec3d maxVelocity = Vec3d(50.0);
+		Vec3d maxVelocity = Vec3d(0.0);
 	};
 
 }

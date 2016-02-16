@@ -29,15 +29,20 @@ namespace GlassEngine
 		GetRigidbodies();
 		for (auto r : rigidbodies)
 		{
-			Vec3d colPos = r->GetParent()->GetTransform()->GetPosition();
-			Vec3d gravityCenter = this->GetParent()->GetTransform()->GetPosition();
-			Vec2d colPos_(colPos.x, colPos.y);
-			Vec2d gravPos_ = Vec2d(gravityCenter.x, gravityCenter.y);
-			auto d = Distance(gravPos_, colPos_);
-			Vec2d p = gravPos_ - colPos_;
-			auto n = p.Normalize();
-			Vec2d result = Vec2d(n.x, n.y) * (1.0f - d / (range)) * gravityStrength;
-			r->AddForce(result);
+			try {
+				Vec3d colPos = r->GetParent()->GetTransform()->GetPosition();
+				Vec3d gravityCenter = this->GetParent()->GetTransform()->GetPosition();
+				Vec2d colPos_(colPos.x, colPos.y);
+				Vec2d gravPos_ = Vec2d(gravityCenter.x, gravityCenter.y);
+				auto d = Distance(gravPos_, colPos_);
+				Vec2d p = gravPos_ - colPos_;
+				auto n = p.Normalize();
+				Vec2d result = Vec2d(n.x, n.y) * (1.0f - d / (range)) * gravityStrength;
+				r->AddForce(result);
+			}
+			catch (const std::exception& e) { 
+				HAPI->DebugText(e.what());
+			}
 		}
 	}
 

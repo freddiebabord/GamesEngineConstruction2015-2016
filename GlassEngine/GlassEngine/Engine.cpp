@@ -31,15 +31,16 @@ namespace GlassEngine{
 	{
 		Time.Start();
 		Renderer.Start(width,height,fullscreen);
-		Animator.Start();
 		UI.Start();
 		Physics.Start();
 		Input.Start();
 		Game.Start();
+		Animator.Start();
 		if (debugMode)
 			HAPI->SetShowFPS(true, 50, 50);
 		fixedUpdateTime = HAPI->GetTime();
 
+		Game.ReloadGame();
 	}
 
 	void Engine::Update()
@@ -51,17 +52,19 @@ namespace GlassEngine{
 		Renderer.Update();
 		Animator.Update();
 
-		for (auto gos : Game.CurrentLevel()->GetGameObjects())
+		gameObjects_ = Game.CurrentLevel()->GetGameObjects();
+
+		for (auto gos : gameObjects_)
 		{
 			Vec3d pos = gos->GetTransform()->GetPosition();
 			Vec2i size = Vec2i(0);
-			if (gos->GetComponent<Sprite>(SpriteC))
+			if (gos->SpriteRef() > 0)
 			{
-				if (gos->GetComponent<Sprite>(SpriteC)->Renderable())
-					size = gos->GetComponent<Sprite>(SpriteC)->GetSpriteDims();
+				if (Renderer.GetSprite(gos->SpriteRef())->Renderable())
+					size = Renderer.GetSprite(gos->SpriteRef())->GetSpriteDims();
 			}
-			else if (gos->GetComponent<SpriteSheet>(SpriteSheetC))
-				size = gos->GetComponent<SpriteSheet>(SpriteSheetC)->GetIdvSpriteDims();
+			else if (gos->SpriteSheetRef() >= 0)
+				size = Renderer.GetSpriteSheet(gos->SpriteSheetRef())->GetIdvSpriteDims();
 			else
 				continue;
 			Renderer.AddDirtyRectangle(DirtyRectangle(Vec2i((int)pos.x, (int)pos.y), Vec2i((int)size.x, (int)size.y)));
@@ -71,43 +74,23 @@ namespace GlassEngine{
 		{
 			fixedUpdateTime = HAPI->GetTime();
 			Physics.FixedUpdate();
-			for (auto gos : Game.CurrentLevel()->GetGameObjects())
-			{
-				if (gos->isActive() && gos->GetName() != "Explosion" && gos->GetName() != "")
-				{
-					for (auto gos2 : Game.CurrentLevel()->GetGameObjects())
-					{
-						if (gos2->isActive() && gos != gos2 && gos2->GetName() != "Explosion" && gos2->GetName() != "")
-						{
-							if (Physics.GetCollider(gos->ColliderRef())->Mask() == Physics.GetCollider(gos2->ColliderRef())->Mask())
-							{
-								if (Physics.CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
-								{
-									//if (!gos->Collided())
-									gos->OnCollisionEnter(gos2);
-									//if (!gos2->Collided())
-									gos2->OnCollisionEnter(gos);
-									//HAPI->UserMessage("I've Collided!!!!!", "Glass Engine");
-								}
-							}
-						}
-					}
-				}
-			}
+			
 			Game.FixedUpdate();
 		}
 
 #if defined(_DEBUG)
-		Renderer.AddDirtyRectangle(DirtyRectangle(Vec2i(5, 5), Vec2i(150, 180)));
+		Renderer.AddDirtyRectangle(DirtyRectangle(Vec2i(5, 5), Vec2i(150, 250)));
 
 		if (Input.GetKey(HK_LSHIFT) && Input.GetKey('`')){
 			Renderer.AddDirtyRectangle(DirtyRectangle(Vec2i(0), Vec2i(Renderer.GetScreenDimentions().width, 100)));
+		if (Input.GetButton(HK_DIGITAL_B, 0))
+			showMask = !showMask;
 		}
 #endif
 
 		for (int i = 0; i < 4; ++i)
 		{
-			auto gameObject = Game.CurrentLevel()->GetGameObjects()[i];
+			auto gameObject = gameObjects_[i];
 			
 			//if (!gameObject->isActive()) continue;
 
@@ -117,14 +100,10 @@ namespace GlassEngine{
 				gameObject->isActive(false);
 		}
 
-		for (auto gos : Game.CurrentLevel()->GetGameObjects())
+		for (auto gos :gameObjects_)
 		{
-			if (!gos->isActive()) continue;
+			if (!gos->isActive() || gos->GetName() == "") continue;
 
-			if (gos->GetName() == "Bullet")
-				HAPI->UserMessage("Render ME: Bullet", "GlassEngine");
-			if (gos->GetName() == "Explosion")
-				HAPI->UserMessage("Render ME: Explosion", "Explosion");
 			if (gos->SpriteRef() > 0)
 				Renderer.Render(gos->SpriteRef(), gos->GetTransform()->GetPosition());
 			else if (gos->SpriteSheetRef() >= 0)
@@ -133,27 +112,24 @@ namespace GlassEngine{
 				auto sp = gos->GetComponent<Animation>(AnimationC)->GetCurrentSprite();
 				Renderer.Render(gos->SpriteSheetRef(), pos, sp);
 			}
-		}
 
-		
-
-		/*for (auto gos : Game.CurrentLevel()->GetUIObjects())
-		{
-			if (gos->isActive())
+			for (auto child : gos->GetChildren())
 			{
-				if (gos->GetComponent<Sprite>(SpriteC))
-					Renderer.Render(gos->GetComponent<Sprite>(SpriteC), gos->GetTransform()->GetPosition());
-				else if (gos->GetComponent<SpriteSheet>(SpriteSheetC))
+				if (!child->isActive() || child->GetName() == "") continue;
+
+				if (child->SpriteRef() > 0)
+					Renderer.Render(child->SpriteRef(), child->GetTransform()->GetPosition());
+				else if (child->SpriteSheetRef() >= 0)
 				{
-					auto pos = gos->GetTransform()->GetPosition();
-					auto sp = gos->GetComponent<SpriteSheet>(SpriteSheetC)->GetCurrentSprite();
-					Renderer.Render(gos->GetComponent<SpriteSheet>(SpriteSheetC), pos, sp);
+					auto pos = child->GetTransform()->GetPosition();
+					auto sp = child->GetComponent<Animation>(AnimationC)->GetCurrentSprite();
+					Renderer.Render(child->SpriteSheetRef(), pos, sp);
 				}
 			}
-		}*/
 
+		}
 		
-		//UI.Update();
+		UI.Update();
 		if (Input.GetKeyUp(HK_ESCAPE))
 		{
 			//UI.GetUIObjects()
@@ -163,10 +139,10 @@ namespace GlassEngine{
 
 	void Engine::Stop()
 	{
+		Animator.Stop();
 		Game.Stop();
 		Physics.Stop();
 		UI.Stop();
-		Animator.Stop();
 		Renderer.Stop();
 		Input.Stop();
 		Time.Stop();

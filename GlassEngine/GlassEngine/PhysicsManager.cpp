@@ -4,6 +4,9 @@
 #include "SpriteCollider.h"
 #include "PointGravity.h"
 #include "GameObject.h"
+#include "Transform.h"
+#include "Game.h"
+#include "InputManager.h"
 
 namespace GlassEngine{
 
@@ -27,51 +30,80 @@ namespace GlassEngine{
 			r->FixedUpdate();
 		for (auto g : gravityAffectors)
 			g->FixedUpdate();
+
+		auto &gameObjects = Game.CurrentLevel()->GetGameObjects();
+		for (int i = 0; i < gameObjects.size(); ++i)
+		{
+			auto gos = gameObjects[i];
+			if (gos->isActive() && gos->ColliderRef() > 0)
+			{
+				bool collided = false;
+				auto goPos = gos->GetTransform()->GetPosition();
+				auto gosColRef = gos->ColliderRef();
+				auto gosTag = gos->GetTag();
+				for (int j = i; j < gameObjects.size(); ++j)
+				{
+					auto gos2 = gameObjects[j];
+					if (gosTag != gos2->GetTag() && gos2->ColliderRef() > 0)
+					{
+						if (CheckForCollision(goPos, gosColRef, gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
+						{
+							collided = true;
+							if (!gos->Collided())
+								gos->OnCollisionEnter(gos2);
+							else
+								gos->OnCollisionStay(gos2);
+							if (!gos2->Collided())
+								gos2->OnCollisionEnter(gos);
+							else
+								gos2->OnCollisionStay(gos);
+						}
+					}
+				}
+				if (!collided && gos->Collided())
+					gos->Collided(false);
+			}
+		}
+		//for (auto gos : gameObjects)
+		//{
+		//	bool collided = false;
+		//	if (gos->isActive() && gos->ColliderRef() > 0)
+		//	{
+		//		for (auto gos2 : gameObjects)
+		//		{
+		//			if (gos2->isActive() && gos != gos2 && gos2->ColliderRef() > 0)
+		//			{
+		//				if (gos->GetTag() != gos2->GetTag())
+		//				{
+		//					/*if (GetCollider(gos->ColliderRef())->Mask() == GetCollider(gos2->ColliderRef())->Mask())
+		//					{*/
+		//						if (CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), 
+		//							gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
+		//						{
+		//							collided = true;
+		//							if (!gos->Collided())
+		//								gos->OnCollisionEnter(gos2);
+		//							if (!gos2->Collided())
+		//								gos2->OnCollisionEnter(gos);
+		//						}
+		//					//}
+		//				}
+		//			}
+		//		}
+		//		if (!collided && gos->Collided())
+		//			gos->Collided(false);
+		//	}
+		//}
 	}
 
 
 	void PhysicsManager::Update()
 	{
-		/*for (int i = 0; i < colliders.size(); i++)
-		{
-			for (int j = 0; j < colliders.size(); j++)
-			{
-				if (colliders[i] != colliders[j] && colliders[i]->useCollision() && colliders[j]->useCollision())
-				{
-					if (colliders[i]->GetColliderRect().CheckState(colliders[j]->GetColliderRect()) != RectStates::Separated)
-					{
-						if (i < rigidbodies.size())
-							rigidbodies[i]->hasCollided(true);
-					}
-				}
-			}
-		}
-
-	
-		for (const auto r : rigidbodies)
-		{
-			if (r->IsEnabled())
-				r->Update();
-		}*/
-
 		for (auto r : rigidbodies)
 			r->Update();
 		for (auto g : gravityAffectors)
 			g->Update();
-		for (auto c : colliders)
-		{
-			for (auto oc : colliders)
-			{
-				if (oc != c)
-				{
-					if (c->CheckCollider(oc))
-					{
-						c->GetParent()->Collided(true);
-						HAPI->DebugText("Ive collided with something");
-					}
-				}
-			}
-		}
+		
 	}
 
 	void PhysicsManager::Stop()
@@ -126,19 +158,19 @@ namespace GlassEngine{
 		SmartPtr<SpriteCollider> collider = colliders[colliderID];
 		SmartPtr<SpriteCollider> otherCollider = colliders[otherColliderID];
 
+		Rect playerCollisionRect = collider->getBoundingBox();
+		Rect enemyCollisionRect = otherCollider->getBoundingBox();
+
 		Vec2i finalPos = Vec2i((int)position.x, (int)position.y);
-		finalPos.x -= collider->getBoundingBox().Width() / 2;
-		finalPos.y -= collider->getBoundingBox().Height() / 2;
+		finalPos.x -= playerCollisionRect.Width() / 2;
+		finalPos.y -= playerCollisionRect.Height() / 2;
 
 		Vec2i otherFinalPos = Vec2i((int)otherPosition.x, (int)otherPosition.y);
-		otherFinalPos.x -= otherCollider->getBoundingBox().Width() / 2;
-		otherFinalPos.y -= otherCollider->getBoundingBox().Height() / 2;
+		otherFinalPos.x -= enemyCollisionRect.Width() / 2;
+		otherFinalPos.y -= enemyCollisionRect.Height() / 2;
 
 		// Find the collision area within player and enemy rectangles
-		Rect playerCollisionRect = collider->getBoundingBox();
 		playerCollisionRect.Translate(finalPos.x, finalPos.y);
-
-		Rect enemyCollisionRect = otherCollider->getBoundingBox();
 		enemyCollisionRect.Translate(otherFinalPos.x, otherFinalPos.y);
 
 		if (!playerCollisionRect.Intersects(enemyCollisionRect))
@@ -149,17 +181,18 @@ namespace GlassEngine{
 		enemyCollisionRect.ClipTo(playerCollisionRect);
 		enemyCollisionRect.Translate(-otherFinalPos.x, -otherFinalPos.y);
 
+		// Work out this row's starting DWORD and bit offset for the player
+		int playerMaskOffset = playerCollisionRect.GetRectDims().left / 32;
+		int playerMaskBitOffset = playerCollisionRect.GetRectDims().left % 32;
+
+		// Work out this row's starting DWORD and bit offset for the enemy
+		int enemyMaskOffset = enemyCollisionRect.GetRectDims().left / 32;
+		int enemyMaskBitOffset = enemyCollisionRect.GetRectDims().left % 32;
+
 		// Note: the collision rects should be same width and height
 		for (int y = 0; y<playerCollisionRect.Height(); y++)
 		{
-			// Work out this row's starting DWORD and bit offset for the player
-			int playerMaskOffset = playerCollisionRect.GetRectDims().left / 32;
-			int playerMaskBitOffset = playerCollisionRect.GetRectDims().left % 32;
 			DWORD *playerMaskHere = collider->GetMask() + playerMaskOffset + ((playerCollisionRect.GetRectDims().top + y)*collider->getDwordSize());
-
-			// Work out this row's starting DWORD and bit offset for the enemy
-			int enemyMaskOffset = enemyCollisionRect.GetRectDims().left / 32;
-			int enemyMaskBitOffset = enemyCollisionRect.GetRectDims().left % 32;
 			DWORD *enemyMaskHere = otherCollider->GetMask() + enemyMaskOffset + ((enemyCollisionRect.GetRectDims().top + y)*otherCollider->getDwordSize());
 
 			for (int x = 0; x<playerCollisionRect.Width(); x++)
@@ -169,9 +202,7 @@ namespace GlassEngine{
 				bool enemyBitHere = (*enemyMaskHere & (1 << enemyMaskBitOffset))>0;
 				bool playerBitHere = (*playerMaskHere & (1 << playerMaskBitOffset))>0;
 				if (enemyBitHere && playerBitHere)
-				{
 					return true;
-				}
 
 				// Advance through the masks bit by bit
 				// Once at end of a DWORD go on to next

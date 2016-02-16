@@ -32,22 +32,29 @@ namespace GlassEngine{
 
 		bool AddAnimation(AnimationClip newAnim);
 		void SetAnimSpeed(const int newAnimSpeed){ animationSpeed = newAnimSpeed; };
-		void SetCurrentAnimation(const std::string& newAnimRef){ currentAnimation = newAnimRef; };
+		void SetCurrentAnimation(const std::string& newAnimRef, bool randomFrame = false);
 		
 		Vec2i GetAnimations(const std::string& animationIndex)  { return animations[animationIndex]; };
 		int GetCurrentSprite()const{ return currentSprite; };
 
+		void Loop(const bool shouldLoop){ looping = shouldLoop; };
 
+		void SetProperties(bool randomFrame = false);
 	protected:
 
 	private:
 		void Animate();
-		
+
 		std::string currentAnimation = "";
 		int currentSprite = 0;
 		int animationSpeed = 5;
-		float animationTime = 0.f;
+		double animationTime = 0;
 		std::map<std::string, Vec2i> animations;
+
+		bool looping = true;
+
+		int currentAnimationStart = 0;
+		int currentAnimationEnd = 0;
 	};
 }
 

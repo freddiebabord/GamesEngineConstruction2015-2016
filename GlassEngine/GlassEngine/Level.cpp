@@ -6,7 +6,7 @@ namespace GlassEngine{
 	void Level::DeleteLevel()
 	{
 		for (auto g : gameObjects)
-			g->DeleteObject();
+			g->Destory();
 		gameObjects.clear();
 	}
 }

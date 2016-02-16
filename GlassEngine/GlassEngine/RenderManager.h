@@ -9,7 +9,9 @@ namespace GlassEngine{
 	
 	class Sprite;
 	class SpriteSheet;
-		
+	class Text;
+	class UIObject;
+
 	struct DirtyRectangle
 	{
 		DirtyRectangle(Vec2i position_, Vec2i size_){ position = position_; size = size_; };
@@ -70,6 +72,8 @@ namespace GlassEngine{
 		//Vec3 renderPos: The position in 3D space the image should be rendered at
 		void Render(const int& spriteIndex, const Vec3d& renderPos, const int& idvSpriteIndex);
 
+		void RenderUI(const int& uiSpriteIndex, const Vec2d& renderPos);
+
 		//Dirty Recatngles - clears a portion of the screen, based off of the screen position and size of the rectangle to render from
 		void RenderDR(const Vec2i& pos, const Vec2i& size);
 
@@ -102,6 +106,9 @@ namespace GlassEngine{
 
 		void DrawCollisionMask(int posX, int posY, DWORD* collisionMask, Rect sourceRct);
 
+		void RenderText(Vec2d position, SmartPtr<Text> textToRender);
+		void AddUISprite(SmartPtr<Sprite> spriteToAdd){ uiSprites.push_back(spriteToAdd); };
+
 	protected:
 		RenderManager(){};
 
@@ -114,13 +121,11 @@ namespace GlassEngine{
 		std::vector<SmartPtr<SpriteSheet>> spritesheets;
 		std::vector<SmartPtr<Sprite>> previousSprites;
 		std::vector<SmartPtr<SpriteSheet>> previousSpritesheets;
+		std::vector<SmartPtr<Sprite>> uiSprites;
 		std::vector<DirtyRectangle> dirtyRectangles;
 	};
 
-
 #define Background 0
-#define Player 1
-#define AI 2;
 
 }
 #endif //RENDER_MANAGER

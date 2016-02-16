@@ -3,7 +3,6 @@
 
 #include "precomp.h"
 #include "Component.h"
-
 namespace GlassEngine{
 
 	class GameObject;

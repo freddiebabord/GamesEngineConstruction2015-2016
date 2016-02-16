@@ -4,6 +4,8 @@
 #include "Manager.h"
 
 namespace GlassEngine{
+	
+	class GameObject;
 
 	class Engine
 	{
@@ -20,6 +22,8 @@ namespace GlassEngine{
 	private:
 		static Engine *instance;
 		DWORD fixedUpdateTime;
+		std::vector<SmartPtr<GameObject>> gameObjects_;
+		bool showMask = false;
 	};
 
 

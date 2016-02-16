@@ -1,6 +1,8 @@
 #include "precomp.h"
 #include "Animation.h"
 #include "SpriteSheet.h"
+#include "Time.h"
+#include "GameObject.h"
 
 namespace GlassEngine{
 
@@ -16,15 +18,39 @@ namespace GlassEngine{
 
 	void Animation::Update()
 	{
-		Animate();
+		if (enabled)
+			Animate();
+	}
+
+	void Animation::SetCurrentAnimation(const std::string& newAnimRef, bool randomFrame)
+	{
+		currentAnimation = newAnimRef; 
+		SetProperties(randomFrame);
+	}
+
+	void Animation::SetProperties(bool randomFrame)
+	{
+		currentAnimationStart = animations[currentAnimation].start;
+		currentAnimationEnd = animations[currentAnimation].end;
+		if (randomFrame)
+			currentSprite = rand() % currentAnimationEnd - currentAnimationEnd;
 	}
 
 	void Animation::Animate()
 	{
-		if (currentSprite < animations[currentAnimation].start)
-			currentSprite = animations[currentAnimation].start;
-		if (currentSprite >= animations[currentAnimation].end)
-			currentSprite = animations[currentAnimation].start;
+		if (currentSprite < currentAnimationStart)
+			currentSprite = currentAnimationStart;
+		if (currentSprite >= currentAnimationEnd)
+		{
+			if (looping)
+				currentSprite = currentAnimationStart;
+			else
+			{
+				parentObject->isActive(false);
+				currentSprite = currentAnimationStart;
+				return;
+			}
+		}
 
 		if (animationTime < HAPI->GetTime() - (1000 / animationSpeed))
 		{

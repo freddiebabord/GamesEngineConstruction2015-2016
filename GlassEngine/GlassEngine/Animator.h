@@ -16,7 +16,7 @@ namespace GlassEngine{
 		~AnimatorManager(){};
 
 		//Overide the base class' start stop and update functions
-		void Start() override{};
+		void Start() override;
 		void Update() override;
 		void Stop() override;
 

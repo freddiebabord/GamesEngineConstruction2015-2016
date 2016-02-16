@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "Animator.h"
 #include "Animation.h"
+#include "GameObject.h"
 
 namespace GlassEngine{
 
@@ -14,11 +15,21 @@ namespace GlassEngine{
 		return *instance;
 	}
 
+	void AnimatorManager::Start()
+	{
+		for (const auto a : animations)
+		{
+			a->Start();
+			a->SetProperties();
+		}
+	}
 
 	void AnimatorManager::Update()
 	{
 		for (const auto a : animations)
+		{
 			a->Update();
+		}
 	}
 
 	void AnimatorManager::Stop()

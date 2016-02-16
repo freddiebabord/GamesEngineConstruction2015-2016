@@ -61,6 +61,19 @@ namespace GlassEngine{
 			activeControllersThisFrame[i] = false;
 			activeControllersLastFrame[i] = false;
 		}
+		for (int i = 0; i < maxControllers; ++i)
+		{
+			if (HAPI->GetControllerData(i, &Input.controllers[i]))
+			{
+				activeControllersThisFrame[i] = true;
+			}
+			else
+			{
+				activeControllersThisFrame[i] = false;
+			}
+		}
+		Input.controllersBuffer = *Input.controllers;
+
 		time = HAPI->GetTime();
 	}
 

@@ -1,37 +1,30 @@
-#pragma once
-#include "GameObject.h"
+#if !defined (BUTTON)
+#define BUTTON
+
+#include "precomp.h"
 #include "UIObject.h"
 
 namespace GlassEngine{
 
-	class Sprite;
+	class Text;
 
-	enum ButtonStates
-	{
-		normal,
-		hover,
-		disabled,
-		click
-	};
-
-	class Button : public UIObject, public GameObject
+	class Button : public UIObject
 	{
 	public:
-		Button();
-		~Button();
 
-		virtual void Start() override;
-		virtual void Update() override;
-		virtual void Stop() override;
-
-		std::shared_ptr<Sprite> normalSprite;
-		std::shared_ptr<Sprite> hoverSprite;
-		std::shared_ptr<Sprite> disabledSprite;
-		std::shared_ptr<Sprite> clickSprite;
+		Button() : UIObject(){};
+		virtual ~Button(){};
+	
+		void SetText(SmartPtr<Text> newText){ text = newText; };
+		SmartPtr<Text> GetText() { return text; };
+	
+		void SetUISprite(const int newUISpriteRefreance){ uiSpriteID = newUISpriteRefreance; };
+		int GetUISprite() const { return uiSpriteID; };
 
 	private:
-		ButtonStates state = ButtonStates::normal;
+		int uiSpriteID = -1;
+		SmartPtr<Text> text;
 	};
-
-
 }
+
+#endif

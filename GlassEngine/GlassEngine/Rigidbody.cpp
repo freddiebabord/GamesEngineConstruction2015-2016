@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Time.h"
 
 namespace GlassEngine
 {
@@ -40,6 +41,11 @@ namespace GlassEngine
 	void Rigidbody::ResetVelocity()
 	{
 		velocity = Vec3d(0.0);
+	}
+
+	void Rigidbody::Rebound()
+	{
+		velocity = Vec3d(-velocity.x, -velocity.y, -velocity.z);
 	}
 	
 };

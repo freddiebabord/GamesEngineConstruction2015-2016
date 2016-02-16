@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Animation.h"
+#include "Text.h"
 
 namespace GlassEngine{
 
@@ -257,6 +258,7 @@ namespace GlassEngine{
 				}
 			}
 		}
+
 
 		AddDirtyRectangle(DirtyRectangle(Vec2i((int)renderPos.x, (int)renderPos.y), spriteDims));
 
@@ -598,5 +600,92 @@ namespace GlassEngine{
 
 			destPnter += endOfLineDestIncrement;
 		}
+	}
+
+	void RenderManager::RenderText(Vec2d position,  SmartPtr<Text> textToRender)
+	{
+		Font font = textToRender->GetFont();
+		if (!HAPI->ChangeFont(font.fontName, font.fontSize, font.fontWeight, font.antiAliasing))
+			HAPI->ChangeFontDirect(font.fontName, font.fontSize, font.fontWeight, font.antiAliasing);
+		HAPI->RenderText((int)position.x, (int)position.y, font.fontColour, textToRender->Content());
+		
+		AddDirtyRectangle(DirtyRectangle(Vec2i(position.x, position.y), Vec2i(350, 100)));
+	}
+
+	void RenderManager::RenderUI(const int& uiSpriteIndex, const Vec2d& renderPos)
+	{
+		Vec2i screenDims = screen->screenDimentions;
+		Vec2i spriteDims = uiSprites[uiSpriteIndex]->GetSpriteDims();
+
+		Vec2d finalRenderPos = Vec2d(renderPos.x, renderPos.y);
+		finalRenderPos.x -= spriteDims.x / 2;
+		finalRenderPos.y -= spriteDims.y / 2;
+
+		//If the image is off of the screen dont execute the render function
+		if (finalRenderPos.x >= screenDims.width || finalRenderPos.y >= screenDims.height || finalRenderPos.x + spriteDims.width < 0 || finalRenderPos.y + spriteDims.height < 0)
+			return;
+
+		//A local "rectangle" which handles image clipping
+		int startX = 0;
+		int startY = 0;
+		int endX = 0;
+		int endY = 0;
+
+
+		BYTE* imgPtr = uiSprites[uiSpriteIndex]->GetImage();
+		BYTE* screenPtr = screen->screenData;
+
+		//If the image is off of the left side of the screen offset the left side of the rectangle with the amount its off of the screen by
+		if (finalRenderPos.x < 0)
+			startX = abs((int)finalRenderPos.x);
+		//If the image is off of the top side of the screen offset the top side of the rectangle with the amount its off of the screen by
+		if (finalRenderPos.y < 0)
+			startY = abs((int)finalRenderPos.y);
+		//If the image is off of the right side of the screen offset the right side of the rectangle with the amount its off of the screen by
+		if (finalRenderPos.x + spriteDims.width > screenDims.width)
+			endX = (spriteDims.width + (int)finalRenderPos.x) - screenDims.width;
+		//If the image is off of the bottom side of the screen offset the bottom side of the rectangle with the amount its off of the screen by
+		if (finalRenderPos.y + spriteDims.height > screenDims.height)
+			endY = ((int)finalRenderPos.y + spriteDims.height) - screenDims.height;
+
+		//The rendering loop for each pixal of the images clipped rectangle
+		for (int y = startY; y < spriteDims.height - endY; ++y)
+		{
+			for (int x = startX; x < spriteDims.width - endX; ++x)
+			{
+				//Offset of the current pixel for 4 BYTES (RGBA)
+				int offset = ((y * spriteDims.width) + x) * 4;
+
+				//Gets the alpha value from the images data by the offset for the alpha BYTE of the pixel
+				BYTE alpha = imgPtr[offset + 3];
+
+				//Coninue the next loop
+				if (alpha <= 0)
+					continue;
+
+				//Sets a screen offset for where the BYTE data needs to be written to the screen
+				int scrOffset = ((((int)finalRenderPos.y + y) * screenDims.width) + (((int)finalRenderPos.x + x))) * 4;
+
+				//If the image doesn't have transparency copy the data from the sprites data to the screen for (RGB)
+				//Note the 4th alpha BYTE of the screen is being used as a z-index
+				if (alpha >= 255)
+				{
+					memmove(&screenPtr[scrOffset], &imgPtr[offset], 3);
+				}
+				else
+				{
+					//Otherwise get each BYTE of colour from the image
+					BYTE blue = imgPtr[offset];
+					BYTE red = imgPtr[offset + 1];
+					BYTE green = imgPtr[offset + 2];
+
+					//And lerp the screens BYTE data with the sprites BYTE data using the amount of alpha as a percentage offset
+					screenPtr[(int)scrOffset] = screenPtr[(int)scrOffset] + ((alpha * (blue - screenPtr[(int)scrOffset])) >> 8);
+					screenPtr[(int)scrOffset + 1] = screenPtr[(int)scrOffset + 1] + ((alpha*(red - screenPtr[(int)scrOffset + 1])) >> 8);
+					screenPtr[(int)scrOffset + 2] = screenPtr[(int)scrOffset + 2] + ((alpha*(green - screenPtr[(int)scrOffset + 2])) >> 8);
+				}
+			}
+		}
+		//AddDirtyRectangle(DirtyRectangle(Vec2i((int)renderPos.x, (int)renderPos.y), spriteDims));
 	}
 }

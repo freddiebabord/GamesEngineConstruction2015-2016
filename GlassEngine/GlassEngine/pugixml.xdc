@@ -1,6 +1,6 @@
 <?xml version="1.0"?><doc>
 <members>
-<member name="M:_wassert(System.Char!System.Runtime.CompilerServices.IsConst*,System.Char!System.Runtime.CompilerServices.IsConst*,System.UInt32)" decl="true" source="c:\users\p4011584\desktop\glassengine\glassengine\xml\pugixml.hpp" line="1377">
+<member name="M:_wassert(System.Char!System.Runtime.CompilerServices.IsConst*,System.Char!System.Runtime.CompilerServices.IsConst*,System.UInt32)" decl="true" source="f:\glassengine\glassengine\xml\pugixml.hpp" line="1377">
  Copyright (c) 2006-2015 Arseny Kapoulkine
 
  Permission is hereby granted, free of charge, to any person

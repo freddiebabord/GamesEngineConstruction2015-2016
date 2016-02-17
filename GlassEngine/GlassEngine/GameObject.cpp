@@ -17,10 +17,6 @@
 
 namespace GlassEngine
 {
-	GameObject::GameObject()
-	{
-	}
-
 	GameObject::GameObject(int id_)
 	{
 		id = id_;
@@ -47,11 +43,11 @@ namespace GlassEngine
 	{
 		UpdateChildren(transform->GetPosition());
 
-		/*if (GetComponent<Health>(HealthC))
+		if (GetComponent<Health>(HealthC))
 		{
-			if (GetComponent<Health>(HealthC)->GetHealth() <= 0)
+			if (GetComponent<Health>(HealthC)->GetHealth() < 0)
 				Explode();
-		}*/
+		}
 
 	}
 
@@ -60,6 +56,8 @@ namespace GlassEngine
 		for (auto child : children)
 			if (child->GetName() == name)
 				return child;
+
+		return nullptr;
 	}
 
 	void GameObject::Explode()
@@ -134,11 +132,11 @@ namespace GlassEngine
 		else
 		{
 			collidingObjects.push_back(gameObject);
-			if (gameObject->GetTag() != GetTag())
+			/*if (gameObject->GetTag() != GetTag())
 			{
 				if (GetComponent<Health>(HealthC))
 					GetComponent <Health>(HealthC)->AddToHealth(-5);
-			}
+			}*/
 		}
 			Collided(true);
 	}

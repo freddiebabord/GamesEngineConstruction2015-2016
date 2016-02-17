@@ -18,7 +18,7 @@ void HAPI_Main()
 {
 #if defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(1936);
+	//_CrtSetBreakAlloc(1689);
 	GEngine.Start(true,false, 1900, 1000);
 #else
 	GEngine.Start();

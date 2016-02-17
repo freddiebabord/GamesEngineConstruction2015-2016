@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<level id="0" backgroundAudio="Resources/The Spectacular Quiet.wav">
+<level id="1" backgroundAudio="Resources/The Spectacular Quiet.wav" difficulty="1">
 	<Background graphic="Resources\background.jpg" />
 	<SpriteSheets>
 		<SpriteSheet graphic="Resources\JJEnterpriseSpriteSheet.png" sizeX="300" sizeY ="189" id="0" />
 		<SpriteSheet graphic="Resources\asteroidSpriteSheet.png" sizeX="128" sizeY ="128" id="1" />
 		<SpriteSheet graphic="Resources\ss_explosion.png" sizeX="64" sizeY ="64" id="2" />
+		<SpriteSheet graphic="Resources\ExplosionWithShockwave.png" sizeX="960" sizeY ="960" id="3" />
 	</SpriteSheets>
 	<Sprites>
-		
-		<Sprite graphic="Resources\bullet1.png" id="0"/>
+		<Sprite graphic="Resources\Bullet1.png" id="0"/>
 		<Sprite graphic="Resources\klingonspaceship.png" id="1"/>
 		<Sprite graphic="Resources\Shield.png" id="2" />
 		<Sprite graphic="Resources\Phaser.png" id="3"/>
+		<Sprite graphic="Resources\borg tactical cube.png" id="4"/>
+		<Sprite graphic="Resources\Bullet2.png" id="5"/>
 		<Sprite graphic="Resources\nebulae2.png" renderToBackground="true" positionX="1850" positionY="550" />
 		<Sprite graphic="Resources\nebulae1.png" renderToBackground="true" positionX="800" positionY="550" />
 		<Sprite graphic="Resources\nebulae3.png" renderToBackground="true" positionX="1200" positionY="50" />
@@ -19,12 +21,18 @@
 		<Sprite graphic="Resources\planet1.png" renderToBackground="true" positionX="500" positionY="650" />
 		<Sprite graphic="Resources\planet2.png" renderToBackground="true" positionX="800" positionY="50" />
 	</Sprites>
+	<Sounds>
+		<Sound name="Torpedo" path="Resources\Audio\Torpedo.wav" />
+		<Sound name="LargeExplosion" path="Resources\Audio\Explosion.wav" />
+		<Sound name="SmallExplosion" path="Resources\Audio\SmallExplosion.wav" />
+		<Sound name="Cloak" path="Resources\Audio\Cloak.wav" />
+	</Sounds>
 	<Players>
 		 <Player name="Player1" tag="Player" Active="false">
 			<Transform positionX="500" positionY="500" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Health health="100"/>
+			<Health maxHealth="100"/>
 			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -51,14 +59,14 @@
 			</Animator>	
 			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
-				<Sprite id="1"/>
+				<Sprite id="3"/>
 			</GameObject>
 		</Player>
 		<Player name="Player3" tag="Player" Active="false">
 			<Transform positionX="200" positionY="250" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Health health="100"/>
+			<Health maxHealth="100"/>
 			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -68,14 +76,14 @@
 			</Animator>	
 			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
-				<Sprite id="1"/>
+				<Sprite id="3"/>
 			</GameObject>
 		</Player>
 		<Player name="Player4" tag="Player" Active="false"> 
 			<Transform positionX="250" positionY="50" positionZ="0"/>
 			<Rigidbody Mass="1"/>
 			<SpriteSheet id ="0"/>
-			<Health health="100"/>
+			<Health maxHealth="100"/>
 			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
 				<Animation name="idle" start="0" end="4"/>
 				<Animation name="moveFwd" start="5" end="9"/>
@@ -85,7 +93,7 @@
 			</Animator>	
 			<GameObject name="Shield" tag="Player" Active="false">
 				<Transform positionX="0" positionY="0" positionZ="0"/>
-				<Sprite id="1"/>
+				<Sprite id="3"/>
 			</GameObject>
 		</Player>
 	</Players>
@@ -135,6 +143,41 @@
 			<Health maxHealth="100"/>
 			<Sprite id ="2"/>
 		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="3000" positionY="350" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="2900" positionY="550" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="3000" positionY="750" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="3600" positionY="350" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="3500" positionY="550" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<AI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="3600" positionY="750" positionZ="0"/>
+			<Health maxHealth="100"/>
+			<Sprite id ="2"/>
+		</AI>
+		<BossAI name="Enemy" tag="Enemy" Active="true"> 
+			<Transform positionX="4300" positionY="500" positionZ="0"/>
+			<Health maxHealth="500"/>
+			<Sprite id ="5"/>
+		</BossAI>
 	</AIs>
 	<World>
 		<GameObject name="Sun" type="WorldBackground" Active="true">
@@ -149,157 +192,129 @@
 			<Transform positionX="800" positionY="50" positionZ="0" scaleX="2" scaleY="2"/>
 			<PointGravity strength="0.025" range="550"/>
 		</GameObject>
-		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="800" positionY="550" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">	
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject>
-		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="760" positionY="250" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">	
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject>
-
-
-		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="1500" positionY="333" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject>
-
-		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="860" positionY="825" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject>
-		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="562" positionY="456" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject>
-
-		<GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="964" positionY="752" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject><GameObject name="Asteroid" type="Hazzard" Active="true" tag="Default">
-			<Transform positionX="1154" positionY="348" positionZ="0" scaleX="2" scaleY="2"/>
-			<SpriteSheet id ="1"/>
-			<Animator animationSpeed="5" startAnimation="idle" randomAnimation="true">
-				<Animation name="idle" start="0" end="31"/>
-			</Animator>
-		</GameObject>
 	</World>
-	<!--<UI Font="Calibri Bold" Size="25">
-		<GameObject name="BaseBottom" active="true">
-			<Transform positionX="950" positionY="1050" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\UI\Base.png"/>
-		</GameObject>
-		<GameObject name="ScoreText" active="true">
-			<Transform positionX="50" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
-			<Text Content="Score: "/>
-		</GameObject>
-		<GameObject name="KillsText" active="true">
-			<Transform positionX="450" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
-			<Text Content="Kill Count: "/>
-		</GameObject>
-		<GameObject name="Wave:" active="true">
-			<Transform positionX="850" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
-			<Text Content="Wave: "/>
-		</GameObject>
-		<GameObject name="MenuButton">
-			<Transform positionX="1570" positionY="955" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\UI\Button.png"/>
-			<GameObject name="MenuButton">
-				<Transform positionX="1550" positionY="950" positionZ="0" scaleX="2" scaleY="2"/>
-				<Text Content="Menu "/>
-			</GameObject>
-		</GameObject>
-		<GameObject name="PauseMenu">
-			<Transform positionX="960" positionY="540" positionZ="0" scaleX="2" scaleY="2"/>
-			<Sprite graphic="Resources\UI\Base2.png"/>
-			<GameObject name="PauseMenuText">
-				<Transform positionX="915" positionY="450" positionZ="0" scaleX="2" scaleY="2"/>
-				<Text Content="Pause Menu"/>
-			</GameObject>
-			<GameObject name="ReturnToGame">
-				<Transform positionX="960" positionY="520" positionZ="0" scaleX="2" scaleY="2"/>
-				<Sprite graphic="Resources\UI\Button.png"/>
-				<GameObject name="MenuButton">
-					<Transform positionX="945" positionY="515" positionZ="0" scaleX="2" scaleY="2"/>
-					<Text Content="Back"/>
-				</GameObject>
-			</GameObject>
-			<GameObject name="QuitButton">
-				<Transform positionX="960" positionY="600" positionZ="0" scaleX="2" scaleY="2"/>
-				<Sprite graphic="Resources\UI\Button.png"/>
-				<GameObject name="MenuButton">
-					<Transform positionX="945" positionY="595" positionZ="0" scaleX="2" scaleY="2"/>
-					<Text Content="Quit"/>
-				</GameObject>
-			</GameObject>
-		</GameObject>
-	</UI>-->
 	<UI>
 		<UISprites>
 			<UISprite graphic="Resources\UI\Base.png" id="0" />
 			<UISprite graphic="Resources\UI\Base2.png" id="1"/>
 			<UISprite graphic="Resources\UI\Base3.png" id="2"/>
 			<UISprite graphic="Resources\UI\Button.png" id="3"/>
+			<UISprite graphic="Resources\UI\Player Box.png" id="4"/>
 		</UISprites>
 		<UIObjects>
 			<UIObject>
 				<Text name="ScoreText" Content="Score: 0" PositionX="250" PositionY="960">
-					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="25" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="122"/>
 				</Text>
 			</UIObject>
 			<UIObject>
-				<Text name="EnemiesKilledText" Content="Enemies Killed: 0" PositionX="450" PositionY="960">
-					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				<Text name="EnemiesKilledText" Content="Enemies Killed: 0" PositionX="1450" PositionY="960">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="25" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="122"/>
 				</Text>
 			</UIObject>
 			<UIObject>
-				<Text name="LevelText" Content="Syrellian System" PositionX="850" PositionY="960">
-					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				<Text name="LevelText" Content="Syrellian System" PositionX="790" PositionY="940">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="35" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="122"/>
 				</Text>
 			</UIObject>
 			<UIObject>
-				<Text name="TorpedoCompliment" Content="Torpedos: 150" PositionX="1200" PositionY="960">
-					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+				<Text name="DifficultyText" Content="Difficulty: Normal" PositionX="850" PositionY="970">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="25" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="122"/>
 				</Text>
 			</UIObject>
+
 			<UIObject>
-				<Text name="PhaserPower" Content="Phasers: 100%" PositionX="1450" PositionY="960">
-					<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
-				</Text>
-			</UIObject>
-			<UIObject>
-				<Button name="pauseButton" PositionX="960" PositionY="1050">
+				<Button name="taskBar" PositionX="960" PositionY="1050">
 					<Text name="EnemiesKilledText" Content="" >
-						<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+						<Font FontName="Resources\\Star Trek_future.ttf" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
 					</Text>
-					<UISprite id="0" />
-				</Button>	
-			</UIObject>
-			<UIObject>
-				<Button name="player1Weapons" PositionX="750" PositionY="750">
-					<Text name="EnemiesKilledText" Content="" >
-						<Font FontName="Calibri" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
-					</Text>
-					<UISprite id="1" />
+					<UISprite id="2" />
 				</Button>
+			</UIObject>
+			<!-- PLAYER 1 UI -->
+			<UIObject>
+				<Button name="Pause" PositionX="450" PositionY="20">
+					<Text name="PlayerBlock1" Content="" >
+						<Font FontName="Resources\\Star Trek_future.ttf" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					</Text>
+					<UISprite id="6" />
+				</Button>
+			</UIObject>
+			<UIObject>
+				<Button name="Pause" PositionX="450" PositionY="20">
+					<Text name="PlayerBlock2" Content="" >
+						<Font FontName="Resources\\Star Trek_future.ttf" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					</Text>
+					<UISprite id="6" />
+				</Button>
+			</UIObject>
+			<UIObject>
+				<Text name="Player1Title" Content="PLAYER 1" PositionX="190" PositionY="10">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="55" Weight="200" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="210"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="Player1PhaserCascadeLabel" Content="Phaser Cascade: OFFLINE" PositionX="195" PositionY="50">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="20" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="210"/>
+				</Text>
+			</UIObject>
+			
+			<!-- PLAYER 2 UI -->
+			<UIObject>
+				<Text name="Player2Title" Content="PLAYER 2" PositionX="465" PositionY="10">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="55" Weight="200" AntiAliasing="true" ColourR="210" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="Player2Title" Content="PLAYER 2" PositionX="465" PositionY="10">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="55" Weight="200" AntiAliasing="true" ColourR="210" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="Player2PhaserCascadeLabel" Content="Phaser Cascade: OFFLINE" PositionX="470" PositionY="50">
+					<Font FontName="Resources\\Star Trek_future.ttf" Size="20" Weight="600" AntiAliasing="true" ColourR="210" ColourG="0" ColourB="0"/>
+				</Text>
+			</UIObject>
+			
+			
+			<!-- PLAYER 3 UI -->
+			<UIObject>
+				<Button name="Pause" PositionX="1450" PositionY="20">
+					<Text name="EnemiesKilledText3" Content="" >
+						<Font FontName="Resources\\Star Trek_future.ttf" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					</Text>
+					<UISprite id="6" />
+				</Button>
+			</UIObject>
+			<UIObject>
+				<Button name="Pause" PositionX="1450" PositionY="20">
+					<Text name="EnemiesKilledText3" Content="" >
+						<Font FontName="Resources\Star Trek_future.ttf" Size="30" Weight="600" AntiAliasing="false" ColourR="0" ColourG="0" ColourB="0"/>
+					</Text>
+					<UISprite id="6" />
+				</Button>
+			</UIObject>
+			<UIObject>
+				<Text name="Player3Title" Content="PLAYER 3" PositionX="1175" PositionY="10">
+					<Font FontName="Resources\Star Trek_future.ttf" Size="55" Weight="200" AntiAliasing="false" ColourR="210" ColourG="0" ColourB="210"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="Player3PhaserCascadeLabel" Content="Phaser Cascade: OFFLINE" PositionX="1185" PositionY="50">
+					<Font FontName="Resources\Star Trek_future.ttf" Size="20" Weight="600" AntiAliasing="true" ColourR="210" ColourG="0" ColourB="210"/>
+				</Text>
+			</UIObject>
+			
+			<!-- PLAYER 4 UI -->
+			<UIObject>
+				<Text name="Player4Title" Content="PLAYER 4" PositionX="1460" PositionY="10">
+					<Font FontName="Resources\Star Trek_future.ttf" Size="55" Weight="200" AntiAliasing="false" ColourR="50" ColourG="50" ColourB="0"/>
+				</Text>
+			</UIObject>
+			<UIObject>
+				<Text name="Player4PhaserCascadeLabel" Content="Phaser Cascade: OFFLINE" PositionX="1470" PositionY="50">
+					<Font FontName="Resources\Star Trek_future.ttf" Size="20" Weight="600" AntiAliasing="true" ColourR="50" ColourG="50" ColourB=""/>
+				</Text>
 			</UIObject>
 		</UIObjects>
 	</UI>
@@ -308,13 +323,15 @@
 		<Sprite id="1"/>
 		<Rigidbody Mass="1"/>
 	</Bullet>
+	<PhaserCascade name="PhaserCascade" Active="false">
+		<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
+		<Sprite id="4"/>
+	</PhaserCascade>
 	<Explosion name="Explosion" tag="ParticleEfects" Active="false">
 		<Transform positionX="0" positionY="0" positionZ="0" scaleX="1" scaleY="1"/>
 		<SpriteSheet id="2"/>
 		<Animator animationSpeed="50" startAnimation="explode">	
-			<Animation name="explode" start="0" end="15"/>
+			<Animation name="explode" start="0" end="49"/>
 		</Animator>	
 	</Explosion>
-	<!-- <Prefabs> 
-	</Prefabs>  -->
 </level>

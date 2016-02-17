@@ -20,6 +20,9 @@ namespace GlassEngine{
 		double DeltaTime() const;
 		double CurrentTime() const;
 
+		void TimeScale(const double scale_){ scale = scale_; };
+		double TimeScale() const { return scale; };
+
 	protected:
 		TimeManager(){};
 
@@ -29,7 +32,7 @@ namespace GlassEngine{
 		
 		DWORD time;
 		DWORD lastTime;
-
+		double scale = 1.0;
 	};
 
 }

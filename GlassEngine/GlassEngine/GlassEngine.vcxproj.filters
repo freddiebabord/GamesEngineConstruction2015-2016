@@ -144,6 +144,18 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObject.cpp">
+      <Filter>Source Files\Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -257,6 +269,18 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\Core\UI</Filter>
     </ClInclude>
+    <ClInclude Include="UISprite.h">
+      <Filter>Header Files\Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="PhaserCascade.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBoss.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\background.jpg">
@@ -274,12 +298,6 @@
     <Image Include="Resources\Shield.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\icon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\icon.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\GlassEngineEditor\Resources\borg cube.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -287,6 +305,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\GlassEngineEditor\Resources\Galaxy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\gameIcon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -26,10 +26,13 @@ namespace GlassEngine{
 	
 	void PhysicsManager::FixedUpdate()
 	{
-		for (auto r : rigidbodies)
-			r->FixedUpdate();
-		for (auto g : gravityAffectors)
-			g->FixedUpdate();
+		if (Game.GetDifficulty() > 2)
+		{
+			for (auto r : rigidbodies)
+				r->FixedUpdate();
+			for (auto g : gravityAffectors)
+				g->FixedUpdate();
+		}
 
 		auto &gameObjects = Game.CurrentLevel()->GetGameObjects();
 		for (int i = 0; i < gameObjects.size(); ++i)
@@ -41,9 +44,12 @@ namespace GlassEngine{
 				auto goPos = gos->GetTransform()->GetPosition();
 				auto gosColRef = gos->ColliderRef();
 				auto gosTag = gos->GetTag();
+				
 				for (int j = i; j < gameObjects.size(); ++j)
 				{
 					auto gos2 = gameObjects[j];
+					if (!gos->isActive())
+						break;
 					if (gosTag != gos2->GetTag() && gos2->ColliderRef() > 0)
 					{
 						if (CheckForCollision(goPos, gosColRef, gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
@@ -53,6 +59,7 @@ namespace GlassEngine{
 								gos->OnCollisionEnter(gos2);
 							else
 								gos->OnCollisionStay(gos2);
+
 							if (!gos2->Collided())
 								gos2->OnCollisionEnter(gos);
 							else
@@ -60,40 +67,11 @@ namespace GlassEngine{
 						}
 					}
 				}
+
 				if (!collided && gos->Collided())
 					gos->Collided(false);
 			}
 		}
-		//for (auto gos : gameObjects)
-		//{
-		//	bool collided = false;
-		//	if (gos->isActive() && gos->ColliderRef() > 0)
-		//	{
-		//		for (auto gos2 : gameObjects)
-		//		{
-		//			if (gos2->isActive() && gos != gos2 && gos2->ColliderRef() > 0)
-		//			{
-		//				if (gos->GetTag() != gos2->GetTag())
-		//				{
-		//					/*if (GetCollider(gos->ColliderRef())->Mask() == GetCollider(gos2->ColliderRef())->Mask())
-		//					{*/
-		//						if (CheckForCollision(gos->GetTransform()->GetPosition(), gos->ColliderRef(), 
-		//							gos2->GetTransform()->GetPosition(), gos2->ColliderRef()))
-		//						{
-		//							collided = true;
-		//							if (!gos->Collided())
-		//								gos->OnCollisionEnter(gos2);
-		//							if (!gos2->Collided())
-		//								gos2->OnCollisionEnter(gos);
-		//						}
-		//					//}
-		//				}
-		//			}
-		//		}
-		//		if (!collided && gos->Collided())
-		//			gos->Collided(false);
-		//	}
-		//}
 	}
 
 
@@ -175,6 +153,8 @@ namespace GlassEngine{
 
 		if (!playerCollisionRect.Intersects(enemyCollisionRect))
 			return false;
+
+		return true;
 
 		playerCollisionRect.ClipTo(enemyCollisionRect);
 		playerCollisionRect.Translate(-finalPos.x, -finalPos.y);

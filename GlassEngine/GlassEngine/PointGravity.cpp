@@ -31,7 +31,7 @@ namespace GlassEngine
 		{
 			try {
 				Vec3d colPos = r->GetParent()->GetTransform()->GetPosition();
-				Vec3d gravityCenter = this->GetParent()->GetTransform()->GetPosition();
+				Vec3d gravityCenter = GetParent()->GetTransform()->GetPosition();
 				Vec2d colPos_(colPos.x, colPos.y);
 				Vec2d gravPos_ = Vec2d(gravityCenter.x, gravityCenter.y);
 				auto d = Distance(gravPos_, colPos_);
@@ -63,7 +63,7 @@ namespace GlassEngine
 		rigidbodies.clear();
 		for (auto r : Physics.GetRigidbodies())
 		{
-			if (Distance(r->GetParent()->GetTransform()->GetPosition(), this->parentObject->GetTransform()->GetPosition()) < range)
+			if (Distance(r->GetParent()->GetTransform()->GetPosition(), parentObject->GetTransform()->GetPosition()) < range)
 			{
 				if (r->GetParent()->GetComponent<Rigidbody>(RigidbodyC))
 					rigidbodies.push_back(r->GetParent()->GetComponent<Rigidbody>(RigidbodyC));

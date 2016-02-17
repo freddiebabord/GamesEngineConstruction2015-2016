@@ -1,16 +1,7 @@
 #if !defined (UIOBJECT)
 #define UIOBJECT
 
-#include "precomp.h"
-
 namespace GlassEngine{
-
-	enum uiObjectType
-	{
-		UI_Text,
-		UI_Sprite,
-		UI_Button
-	};
 
 	class UIObject
 	{
@@ -18,19 +9,30 @@ namespace GlassEngine{
 		UIObject(){};
 		virtual ~UIObject(){};
 
-		std::vector<SmartPtr<UIObject>> GetChildren() const { return childUIObjects; };
-		void AddUIObject(SmartPtr<UIObject> newUIObject){ childUIObjects.push_back(newUIObject); };
-		void SetObjectType(uiObjectType newType){ type = newType; };
+		virtual void Update(){};
+
+		std::vector<SmartPtr<UIObject>> GetChildren() const;
+		void AddUIObject(SmartPtr<UIObject> newUIObject);
 		
-		uiObjectType GetObjectType() const { return type; };
+		Vec2d Position() const;
+		void Position(const Vec2d newPosition);
+
+		Vec2d Offest() const;
+		void Offest(const Vec2d newOffset);
 		
-		Vec2d Position() const { return position; };
-		void Position(const Vec2d newPosition){ position = newPosition; };
+		template <typename T>
+		T Type() const { 
+			return std::dynamic_pointer_cast<T, UIObject>(*this); 
+		};
+		
+		void SetName(std::string name_){ name = name_; };
+		std::string GetName() const { return name; };
 
 	protected:
+		std::string name;
 		std::vector<SmartPtr<UIObject>> childUIObjects;
-		Vec2d position;
-		uiObjectType type;
+		Vec2d position = Vec2d(0.0);
+		Vec2d offset = Vec2d(0.0);
 	};
 
 }

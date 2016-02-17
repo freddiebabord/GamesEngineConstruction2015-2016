@@ -15,7 +15,7 @@ namespace GlassEngine{
 	class GameObject
 	{
 	public:
-		GameObject();
+		GameObject(){};
 		GameObject(int id_);
 		virtual ~GameObject();
 
@@ -44,14 +44,12 @@ namespace GlassEngine{
 		void SetName(const std::string& newName){ name = newName; };
 
 		SmartPtr<Transform>& GetTransform() {	return transform;	};
-
 		SmartPtr<GameObject> GetChildByName(std::string name);
 
 		void SetID(const int id_){ id = id_; };
 		const int GetID() { return id; };
 		const bool isActive(){ return active; };
 		void isActive(bool active_);
-
 
 		void SpriteRef(const int ref){ sprite = ref; };
 		void SpriteSheetRef(const int ref){ spritesheet = ref; };
@@ -81,7 +79,7 @@ namespace GlassEngine{
 		void UpdateChildren(Vec3d parentPos);
 		void DeleteObject();
 		
-		void Explode();
+		virtual void Explode();
 
 		std::vector<SmartPtr<Component>> components;
 		int sprite = -1;

@@ -9,7 +9,7 @@ namespace GlassEngine{
 		HAPI_TColour fontColour = HAPI_TColour(255, 255, 255);
 		int fontSize = 12;
 		int fontWeight = 500;
-		std::string fontName = "Arial";
+		std::string fontName = "Resources\\Federation.ttf";
 		bool antiAliasing = false;
 	};
 }

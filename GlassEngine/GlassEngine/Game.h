@@ -11,12 +11,19 @@
 #include "Text.h"
 #include "Button.h"
 #include "Font.h"
+#include "UISprite.h"
 
 namespace GlassEngine{
 
 #define Game GameManager::Instance()
 
-	class CPlayer;
+	enum Difficulty
+	{
+		Easy = 1,
+		Normal = 2,
+		Hard = 4,
+		Insane = 8
+	};
 
 	class GameManager : public Manager
 	{
@@ -28,30 +35,49 @@ namespace GlassEngine{
 		void FixedUpdate() override;
 		void Update() override;
 		void Stop() override;
-		
+
 		void DeleteLevels();
-		
-		SmartPtr<Level> loadLevel(char* name);
+
+
+		void LoadNewLevel(char* levelFileName);
 		SmartPtr<Level> CurrentLevel();
-		
-		void SpawnBullet(Vec3d position, Vec2d force, Tag tag_);
-		void SpawnExplosion(Vec3d position);
-		
-		void Destroy(SmartPtr<GameObject> gameobject);
 		void ReloadGame();
 
+		SmartPtr<GameObject> SpawnBullet(Vec3d position, Vec2d force, Tag tag_, int bulletID = 1);
+		void SpawnExplosion(Vec3d position, int explosionSpriteID = 2);
+
+		void Destroy(SmartPtr<GameObject> gameobject);
+		void AddLevel(SmartPtr<Level> newLevel);
+
+		void IncreaseKillCount(int amount = 1){ enemiesKilled += amount; };
+		void IncreaseScore(int scoreToAdd = 1){ currentGroupScore += (scoreToAdd * difficulty); };
+
+		int GetScore() const { return currentGroupScore; };
+		int GetKillCount() const { return enemiesKilled; };
+
+		void SetDifficulty(const Difficulty newDifficulty){ difficulty = newDifficulty; };
+		Difficulty GetDifficulty() const { return difficulty; };
+
+		void GameOver(bool hasWon, int score);
+
+		bool IsGameOver() const { return gameShouldEnd; };
+		void SetGameOver(const bool overState) { gameShouldEnd = overState; };
+
+		void Reset();
+	
 	protected:
 		GameManager(){};
 
 	private:
-		
-		SmartPtr<Level> loadLevel();
+		SmartPtr<Level> loadLevel(char* levelFileName);
 		void AddPrefab(SmartPtr<GameObject> prefab_, std::string key_){ prefabs[key_] = prefab_; };
 		void CreateSprite(pugi::xml_node node);
 		void CreateUISprite(pugi::xml_node node);
 		void CreateSpriteSheet(pugi::xml_node node);
 		void CreateBulletPool(int poolSize, int spriteID, pugi::xml_node node, SmartPtr<Level> currentLevel);
 		void CreateExplosionPool(int poolSize, int spriteSheetID, SmartPtr<Level> currentLevel, pugi::xml_node node);
+		void CreateNewUIObject(pugi::xml_node node, int id);
+	
 	private:
 		std::vector<SmartPtr<Level>> levels;
 		std::map<std::string, SmartPtr<GameObject>> prefabs;
@@ -61,6 +87,12 @@ namespace GlassEngine{
 		int currentLevel = 0;
 		std::vector<SmartPtr<GameObject>> bullets;
 		std::vector<SmartPtr<GameObject>> explosions;
+		
+		int enemiesKilled = 0;
+		int currentGroupScore = 0;
+		Difficulty difficulty = Difficulty::Normal;
+
+		bool gameShouldEnd = false;
 
 	private:
 		template <class ClassType>
@@ -76,7 +108,6 @@ namespace GlassEngine{
 			SmartPtr<Health> health = MakeSmartPtr<Health>(newObject);
 
 			newObject->SetName(node.attribute("name").as_string());
-
 			transform->SetPosition(Vec3d(node.child("Transform").attribute("positionX").as_double(), node.child("Transform").attribute("positionY").as_double(), node.child("Transform").attribute("positionZ").as_double()));
 
 			newObject->AddComponent(transform);
@@ -105,27 +136,30 @@ namespace GlassEngine{
 				newObject->AddComponent(animation);
 				Animator.AddAnimation(animation);
 			}
-
-			if (node.child("PointGravity"))
+			if (difficulty == Difficulty::Insane || difficulty == Difficulty::Hard)
 			{
-				pointGravity->Init(node.child("PointGravity").attribute("range").as_float(), node.child("PointGravity").attribute("strength").as_float(), offset);
-				newObject->AddComponent(pointGravity);
-				Physics.AddGravityAffector(pointGravity);
+				if (node.child("PointGravity"))
+				{
+					pointGravity->Init(node.child("PointGravity").attribute("range").as_float(), node.child("PointGravity").attribute("strength").as_float(), offset);
+					newObject->AddComponent(pointGravity);
+					Physics.AddGravityAffector(pointGravity);
+				}
 			}
-
 			if (node.child("Health"))
 			{
 				health->SetHealth(node.child("Health").attribute("maxHealth").as_int());
 				newObject->AddComponent(health);
 			}
 
-			if (node.child("Rigidbody"))
+			if (difficulty == Difficulty::Insane || difficulty == Difficulty::Hard)
 			{
-				rigidBody->setMass(node.child("Rigidbody").attribute("Mass").as_double());
-				newObject->AddComponent(rigidBody);
-				Physics.AddRigidbody(rigidBody);
+				if (node.child("Rigidbody"))
+				{
+					rigidBody->setMass(node.child("Rigidbody").attribute("Mass").as_double());
+					newObject->AddComponent(rigidBody);
+					Physics.AddRigidbody(rigidBody);
+				}
 			}
-
 			for (pugi::xml_node child : node.children("GameObject"))
 			{
 				newObject->AddChild(CreateNewObject<GameObject>(child, id, level));
@@ -136,54 +170,8 @@ namespace GlassEngine{
 
 			return newObject;
 		}
-
-
-		void CreateNewUIObject(pugi::xml_node node, int id)
-		{
-			SmartPtr<Text> text = MakeSmartPtr<Text>();
-			SmartPtr<Button> button = MakeSmartPtr<Button>();
-
-			if (node.child("Text"))
-			{
-				text->Position(Vec2d(node.child("Text").attribute("PositionX").as_double(), node.child("Text").attribute("PositionY").as_double()));
-				text->Content(node.child("Text").attribute("Content").as_string());
-				Font textFont;
-				textFont.antiAliasing = node.child("Text").child("Font").attribute("AntiAliasing").as_bool();
-				textFont.fontSize = node.child("Text").child("Font").attribute("Size").as_int();
-				textFont.fontWeight = node.child("Text").child("Font").attribute("Weight").as_int();
-				textFont.fontColour = HAPI_TColour(node.child("Text").child("Text").attribute("ColourR").as_int(),
-					node.child("Text").child("Font").attribute("ColourG").as_int(),
-					node.child("Text").child("Font").attribute("ColourB").as_int());
-				text->SetFont(textFont);
-				text->SetObjectType(uiObjectType::UI_Text);
-				UI.AddUIElement(text);
-			}
-			if (node.child("Button"))
-			{
-				auto currentNode = node.child("Button");
-				button->Position(Vec2d(currentNode.attribute("PositionX").as_double(), currentNode.attribute("PositionY").as_double()));
-				if (currentNode.child("Text"))
-				{
-					text->Content(currentNode.child("Text").attribute("Content").as_string());
-					Font textFont;
-					textFont.antiAliasing = currentNode.child("Text").attribute("AntiAliasing").as_bool();
-					textFont.fontSize = currentNode.child("Text").attribute("Size").as_int();
-					textFont.fontWeight = currentNode.child("Text").attribute("Weight").as_int();
-					textFont.fontColour = HAPI_TColour(currentNode.child("Text").attribute("ColourR").as_int(),
-														currentNode.child("Text").attribute("ColourG").as_int(),
-														currentNode.child("Text").attribute("ColourB").as_int());
-					text->SetFont(textFont);
-					text->SetObjectType(uiObjectType::UI_Text);
-					button->SetText(text);
-				}
-				if (currentNode.child("UISprite"))
-				{
-					button->SetUISprite(currentNode.child("UISprite").attribute("id").as_int());
-				}
-				button->SetObjectType(uiObjectType::UI_Button);
-				UI.AddUIElement(button);
-			}
-		}
+		
+		
 	};
 
 }

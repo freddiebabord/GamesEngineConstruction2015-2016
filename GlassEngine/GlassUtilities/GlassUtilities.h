@@ -72,12 +72,12 @@ namespace GlassEngine
 		inline Vec2<float> Normalize()
 		{
 			Vec2<float> vector;
-			float length = this->Length();
+			float length = Length();
 
 			if (length != 0)
 			{
-				vector.x = this->x / length;
-				vector.y = this->y / length;
+				vector.x = x / length;
+				vector.y = y / length;
 			}
 
 			return vector;
@@ -86,57 +86,57 @@ namespace GlassEngine
 		//Operator overloads
 		inline Vec2<T> operator=(const Vec2<T>& rhs)
 		{
-			this->x = rhs.x;
-			this->y = rhs.y;
+			x = rhs.x;
+			y = rhs.y;
 			return *this;
 		}
 
 		inline Vec2<T> operator+=(const Vec2<T>& rhs)
 		{
-			this->x += rhs.x;
-			this->y += rhs.y;
+			x += rhs.x;
+			y += rhs.y;
 			return *this;
 		}
 
 		inline Vec2<T> operator-=(const Vec2<T>& rhs)
 		{
-			this->x -= rhs.x;
-			this->y -= rhs.y;
+			x -= rhs.x;
+			y -= rhs.y;
 			return *this;
 		}
 
 		inline Vec2<T> operator*=(const Vec2<T>& rhs)
 		{
-			this->x *= rhs.x;
-			this->y *= rhs.y;
+			x *= rhs.x;
+			y *= rhs.y;
 			return *this;
 		}
 
 		inline Vec2<T> operator/=(const Vec2<T>& rhs)
 		{
-			this->x /= rhs.x;
-			this->y /= rhs.y;
+			x /= rhs.x;
+			y /= rhs.y;
 			return *this;
 		}
 
 		inline Vec2<T> operator-(const Vec2<T>& rhs)
 		{
-			return Vec2<T>(this->x - rhs.x, this->y - rhs.y);
+			return Vec2<T>(x - rhs.x, y - rhs.y);
 		}
 
 		inline Vec2<T> operator+(const Vec2<T>& rhs)
 		{
-			return Vec2<T>(this->x + rhs.x, this->y + rhs.y);
+			return Vec2<T>(x + rhs.x, y + rhs.y);
 		}
 
 		inline Vec2<T> operator*(const Vec2<T>& rhs)
 		{
-			return Vec2<T>(this->x * rhs.x, this->y * rhs.y);
+			return Vec2<T>(x * rhs.x, y * rhs.y);
 		}
 
 		inline Vec2<T> operator/(const Vec2<T>& rhs)
 		{
-			return Vec2<T>(this->x / rhs.x, this->y / rhs.y);
+			return Vec2<T>(x / rhs.x, y / rhs.y);
 		}
 
 		// versions of vec2 variables
@@ -192,13 +192,13 @@ namespace GlassEngine
 		inline Vector3<T> Normalize()
 		{
 			Vector3<T> vector;
-			float length = this->Length();
+			float length = Length();
 
 			if (length != 0)
 			{
-				vector.x = this->x / length;
-				vector.y = this->y / length;
-				vector.z = this->z / length;
+				vector.x = x / length;
+				vector.y = y / length;
+				vector.z = z / length;
 			}
 
 			return vector;
@@ -206,9 +206,9 @@ namespace GlassEngine
 
 		inline Vector3<T> Distance(const Vector3<T>& p2)
 		{
-			float dx = p2.x - this->x;
-			float dy = p2.y - this->y;
-			float dz = p2.z - this->z;
+			float dx = p2.x - x;
+			float dy = p2.y - y;
+			float dz = p2.z - z;
 
 			return sqrt((float)(dx * dx + dy * dy + dz * dz));
 		}
@@ -216,72 +216,72 @@ namespace GlassEngine
 		//Operator overloads
 		inline Vector3<T> operator=(const Vector3<T>& rhs)
 		{
-			this->x = rhs.x;
-			this->y = rhs.y;
-			this->z = rhs.z;
+			x = rhs.x;
+			y = rhs.y;
+			z = rhs.z;
 			return *this;
 		}
 
 		inline Vector3<T> operator+=(const Vector3<T>& rhs)
 		{
-			this->x += rhs.x;
-			this->y += rhs.y;
-			this->z += rhs.z;
+			x += rhs.x;
+			y += rhs.y;
+			z += rhs.z;
 			return *this;
 		}
 
 		inline Vector3<T> operator-=(const Vector3<T>& rhs)
 		{
-			this->x -= rhs.x;
-			this->y -= rhs.y;
-			this->z -= rhs.z;
+			x -= rhs.x;
+			y -= rhs.y;
+			z -= rhs.z;
 			return *this;
 		}
 
 		inline Vector3<T> operator*=(const Vector3<T>& rhs)
 		{
-			this->x *= rhs.x;
-			this->y *= rhs.y;
-			this->z *= rhs.z;
+			x *= rhs.x;
+			y *= rhs.y;
+			z *= rhs.z;
 			return *this;
 		}
 
 		inline Vector3<T> operator/=(const Vector3<T>& rhs)
 		{
-			this->x /= rhs.x;
-			this->y /= rhs.y;
-			this->z /= rhs.z;
+			x /= rhs.x;
+			y /= rhs.y;
+			z /= rhs.z;
 			return *this;
 		}
 
 		inline Vector3<T> operator-(const Vector3<T>& rhs)
 		{
-			return Vector3<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
+			return Vector3<T>(x - rhs.x, y - rhs.y, z - rhs.z);
 		}
 
 		inline Vector3<T> operator+(const Vector3<T>& rhs)
 		{
-			return Vector3<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
+			return Vector3<T>(x + rhs.x, y + rhs.y, z + rhs.z);
 		}
 
 		inline Vector3<T> operator*(const Vector3<T>& rhs)
 		{
-			return Vector3<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z);
+			return Vector3<T>(x * rhs.x, y * rhs.y, z * rhs.z);
 		}
 
 		inline Vector3<T> operator*(const T& rhs)
 		{
-			return Vector3<T>(this->x * rhs, this->y * rhs, this->z * rhs);
+			return Vector3<T>(x * rhs, y * rhs, z * rhs);
 		}
 
 		inline Vector3<T> operator/(const Vector3<T>& rhs)
 		{
-			return Vector3<T>(this->x / rhs.x, this->y / rhs.y, this->z * rhs.z);
+			return Vector3<T>(x / rhs.x, y / rhs.y, z * rhs.z);
 		}
 
 		inline bool operator > (const Vector3<T>& rhs)
 		{
-			if (this->Length() > rhs->Length())
+			if (Length() > rhs->Length())
 				return true;
 
 			return false;
@@ -289,7 +289,7 @@ namespace GlassEngine
 
 		inline bool operator >= (const Vector3<T>& rhs)
 		{
-			if (this->Length() >= rhs->Length())
+			if (Length() >= rhs->Length())
 				return true;
 
 			return false;
@@ -297,7 +297,7 @@ namespace GlassEngine
 
 		inline bool operator < (const Vector3<T>& rhs)
 		{
-			if (this->Length() > rhs->Length())
+			if (Length() > rhs->Length())
 				return true;
 
 			return false;
@@ -305,7 +305,7 @@ namespace GlassEngine
 
 		inline bool operator <= (const Vector3<T>& rhs)
 		{
-			if (this->Length() >= rhs->Length())
+			if (Length() >= rhs->Length())
 				return true;
 
 			return false;
@@ -313,11 +313,11 @@ namespace GlassEngine
 
 		inline bool operator != (const Vector3<T>& rhs)
 		{
-			if (this->x == rhs.x)
+			if (x == rhs.x)
 			{
-				if (this->y == rhs.y)
+				if (y == rhs.y)
 				{
-					if (this->z == rhs.z)
+					if (z == rhs.z)
 					{
 						return true;
 					}
@@ -329,11 +329,11 @@ namespace GlassEngine
 
 		inline bool operator != (const T& rhs)
 		{
-			if (this->x == rhs)
+			if (x == rhs)
 			{
-				if (this->y == rhs)
+				if (y == rhs)
 				{
-					if (this->z == rhs)
+					if (z == rhs)
 					{
 						return true;
 					}
@@ -395,14 +395,14 @@ namespace GlassEngine
 		inline Vector4<T> Normalize()
 		{
 			Vector4<T> vector;
-			float length = this->Length();
+			float length = Length();
 
 			if (length != 0)
 			{
-				vector.x = this->x / length;
-				vector.y = this->y / length;
-				vector.z = this->z / length;
-				vector.w = this->w / length;
+				vector.x = x / length;
+				vector.y = y / length;
+				vector.z = z / length;
+				vector.w = w / length;
 			}
 
 			return vector;
@@ -410,82 +410,82 @@ namespace GlassEngine
 
 		inline Vector4<T> Distance(const Vector4<T>& p2)
 		{
-			float dx = p2.x - this->x;
-			float dy = p2.y - this->y;
-			float dz = p2.z - this->z;
-			float dw = p2.w - this->w;
+			float dx = p2.x - x;
+			float dy = p2.y - y;
+			float dz = p2.z - z;
+			float dw = p2.w - w;
 			return sqrt((float)(dx * dx + dy * dy + dz * dz + dw * dw));
 		}
 
 		//Operator overloads
 		inline Vector4<T> operator=(const Vector4<T>& rhs)
 		{
-			this->x = rhs.x;
-			this->y = rhs.y;
-			this->z = rhs.z;
-			this->w = rhs.w;
+			x = rhs.x;
+			y = rhs.y;
+			z = rhs.z;
+			w = rhs.w;
 			return *this;
 		}
 
 		inline Vector4<T> operator+=(const Vector4<T>& rhs)
 		{
-			this->x += rhs.x;
-			this->y += rhs.y;
-			this->z += rhs.z;
-			this->w += rhs.w;
+			x += rhs.x;
+			y += rhs.y;
+			z += rhs.z;
+			w += rhs.w;
 			return *this;
 		}
 
 		inline Vector4<T> operator-=(const Vector4<T>& rhs)
 		{
-			this->x -= rhs.x;
-			this->y -= rhs.y;
-			this->z -= rhs.z;
-			this->w -= rhs.w;
+			x -= rhs.x;
+			y -= rhs.y;
+			z -= rhs.z;
+			w -= rhs.w;
 			return *this;
 		}
 
 		inline Vector4<T> operator*=(const Vector4<T>& rhs)
 		{
-			this->x *= rhs.x;
-			this->y *= rhs.y;
-			this->z *= rhs.z;
-			this->w *= rhs.w;
+			x *= rhs.x;
+			y *= rhs.y;
+			z *= rhs.z;
+			w *= rhs.w;
 			return *this;
 		}
 
 		inline Vector4<T> operator/=(const Vector4<T>& rhs)
 		{
-			this->x /= rhs.x;
-			this->y /= rhs.y;
-			this->z /= rhs.z;
-			this->w /= rhs.w;
+			x /= rhs.x;
+			y /= rhs.y;
+			z /= rhs.z;
+			w /= rhs.w;
 			return *this;
 		}
 
 		inline Vector4<T> operator-(const Vector4<T>& rhs)
 		{
-			return Vector4<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z, this->w - rhs.w);
+			return Vector4<T>(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
 		}
 
 		inline Vector4<T> operator+(const Vector4<T>& rhs)
 		{
-			return Vector4<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z, this->w + rhs.w);
+			return Vector4<T>(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
 		}
 
 		inline Vector4<T> operator*(const Vector4<T>& rhs)
 		{
-			return Vector4<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z, this->w * rhs.w);
+			return Vector4<T>(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w);
 		}
 
 		inline Vector4<T> operator*(const T& rhs)
 		{
-			return Vector4<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z, this->w * rhs.w);
+			return Vector4<T>(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w);
 		}
 
 		inline Vector4<T> operator/(const Vector4<T>& rhs)
 		{
-			return Vector4<T>(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z, this->w / rhs.w);
+			return Vector4<T>(x / rhs.x, y / rhs.y, z / rhs.z, w / rhs.w);
 		}
 
 
@@ -550,6 +550,16 @@ namespace GlassEngine
 		void Translate(int x, int y);
 		void ClipTo(const Rect &other);
 		bool Intersects(const Rect &other);
+		
+		template<typename T>
+		bool InsideBounds(Vector2<T> point)
+		{
+			if (point.x > left && point.x < right
+				&& point.y > top && point.y < bottom)
+				return true;
+			
+			return false;
+		}
 
 	private:
 		int top, bottom, left, right;

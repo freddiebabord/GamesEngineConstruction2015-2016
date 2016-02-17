@@ -11,5 +11,8 @@ public:
 	EnemyAI() : GameObject(){};
 	virtual ~EnemyAI(){};
 
-	void Update() override;
+	virtual void Start() override;
+	virtual void Update() override;
+
+	virtual void Explode() override;
 };

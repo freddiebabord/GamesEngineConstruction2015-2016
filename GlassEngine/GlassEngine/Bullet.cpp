@@ -1,3 +1,4 @@
+#include "precomp.h"
 #include "Bullet.h"
 
 void Bullet::OnEnable()
@@ -9,18 +10,27 @@ void Bullet::Update()
 {
 	if (timeToDie < Time.CurrentTime())
 		Explode();
+	if (!usePhysics)
+		transform->Translate((force/5) * 0.5f * Time.DeltaTime());
 	GameObject::Update();
 }
 
 void Bullet::OnCollisionEnter(SmartPtr<GameObject> gameObject)
 {
-	if (tag != gameObject->GetTag())
+	if (gameObject->isActive())
 	{
-		if (gameObject->GetComponent<Health>(HealthC))
-			gameObject->GetComponent<Health>(HealthC)->AddToHealth(-strength);
-		Explode();
+		if (tag == Tag::EnemyTag)
+			Game.IncreaseScore();
+
+		if (tag != gameObject->GetTag())
+		{
+			if (gameObject->GetComponent<Health>(HealthC))
+				gameObject->GetComponent<Health>(HealthC)->AddToHealth(-strength);
+			Explode();
+			HAPI->PlayASound(Game.CurrentLevel()->GetAudioID("SmallExplosion"));
+		}
+		else
+			isActive(false);
+		GameObject::OnCollisionEnter(gameObject);
 	}
-	else
-		isActive(false);
-	GameObject::OnCollisionEnter(gameObject);
 }

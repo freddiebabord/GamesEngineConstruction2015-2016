@@ -22,6 +22,7 @@ namespace GlassEngine{
 	private:
 		static Engine *instance;
 		DWORD fixedUpdateTime;
+		DWORD engineUpdateTime;
 		std::vector<SmartPtr<GameObject>> gameObjects_;
 		bool showMask = false;
 	};

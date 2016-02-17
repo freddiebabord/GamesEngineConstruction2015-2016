@@ -605,11 +605,10 @@ namespace GlassEngine{
 	void RenderManager::RenderText(Vec2d position,  SmartPtr<Text> textToRender)
 	{
 		Font font = textToRender->GetFont();
-		if (!HAPI->ChangeFont(font.fontName, font.fontSize, font.fontWeight, font.antiAliasing))
-			HAPI->ChangeFontDirect(font.fontName, font.fontSize, font.fontWeight, font.antiAliasing);
+		HAPI->ChangeFontDirect(font.fontName, font.fontSize, font.fontWeight, font.antiAliasing);
 		HAPI->RenderText((int)position.x, (int)position.y, font.fontColour, textToRender->Content());
 		
-		AddDirtyRectangle(DirtyRectangle(Vec2i(position.x, position.y), Vec2i(350, 100)));
+		AddDirtyRectangle(DirtyRectangle(Vec2i((int)position.x, (int)position.y), Vec2i(350, 100)));
 	}
 
 	void RenderManager::RenderUI(const int& uiSpriteIndex, const Vec2d& renderPos)
@@ -686,6 +685,11 @@ namespace GlassEngine{
 				}
 			}
 		}
-		//AddDirtyRectangle(DirtyRectangle(Vec2i((int)renderPos.x, (int)renderPos.y), spriteDims));
+		AddDirtyRectangle(DirtyRectangle(Vec2i((int)finalRenderPos.x, (int)finalRenderPos.y), spriteDims));
+	}
+
+	Vec2i RenderManager::GetUISprite(int uiSpriteRefrance) const
+	{
+		return uiSprites[uiSpriteRefrance]->GetSpriteDims();
 	}
 }

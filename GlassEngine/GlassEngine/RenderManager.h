@@ -109,6 +109,8 @@ namespace GlassEngine{
 		void RenderText(Vec2d position, SmartPtr<Text> textToRender);
 		void AddUISprite(SmartPtr<Sprite> spriteToAdd){ uiSprites.push_back(spriteToAdd); };
 
+		Vec2i GetUISprite(int uiSpriteRefrance) const;
+
 	protected:
 		RenderManager(){};
 

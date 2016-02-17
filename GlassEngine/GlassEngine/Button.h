@@ -14,15 +14,24 @@ namespace GlassEngine{
 
 		Button() : UIObject(){};
 		virtual ~Button(){};
-	
+
+		virtual void Update() override;
+
 		void SetText(SmartPtr<Text> newText){ text = newText; };
 		SmartPtr<Text> GetText() { return text; };
 	
 		void SetUISprite(const int newUISpriteRefreance){ uiSpriteID = newUISpriteRefreance; };
 		int GetUISprite() const { return uiSpriteID; };
 
-	private:
+		void CreateButtonCollider();
+
+		virtual void OnHover(){};
+		virtual void OnClick(){};
+
+	protected:
 		int uiSpriteID = -1;
+		Rect buttonRectangle;
+		bool hover = false;
 		SmartPtr<Text> text;
 	};
 }

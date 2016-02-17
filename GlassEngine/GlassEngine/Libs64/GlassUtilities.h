@@ -61,12 +61,12 @@ namespace GlassEngine
 	public:
 		//Constructors
 		Vector2<T>() : x(0), y(0){};
-		Vector2<T>(T ix) : x((T)ix), y(ix){};
-		Vector2<T>(T ix, T iy) : x((T)ix), y((T)iy){};
+		Vector2<T>(T ix) : x(ix), y(ix){};
+		Vector2<T>(T ix, T iy) : x(ix), y(iy){};
 
 		inline T Length()
 		{
-			return sqrt(x * x + y * y);
+			return (T)sqrt(x * x + y * y);
 		}
 
 		inline Vec2<T> Normalize()
@@ -186,7 +186,7 @@ namespace GlassEngine
 
 		inline T Length()
 		{
-			return sqrt(x * x + y * y + z * z);
+			return (T)sqrt(x * x + y * y + z * z);
 		}
 
 		inline Vector3<T> Normalize()
@@ -550,6 +550,16 @@ namespace GlassEngine
 		void Translate(int x, int y);
 		void ClipTo(const Rect &other);
 		bool Intersects(const Rect &other);
+		
+		template<typename T>
+		bool InsideBounds(Vector2<T> point)
+		{
+			if (point.x > left && point.x < right
+				&& point.y > top && point.y < bottom)
+				return true;
+			
+			return false;
+		}
 
 	private:
 		int top, bottom, left, right;

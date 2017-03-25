@@ -34,3 +34,4 @@ Glass Engine is a 2D component based game engine written on top of HAPI. There e
 * Hot level reloading
 * Scene model through xml
 * Gameobject heirachy
+* Multiplayer support
